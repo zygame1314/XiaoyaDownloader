@@ -1,8 +1,8 @@
 # 小雅爬爬爬 - 你的小雅课件下载神器 🚀
 
-[![最新版本](https://img.shields.io/github/v/release/你的用户名/仓库名称)](https://github.com/你的用户名/仓库名称/releases)
+[![最新版本](https://img.shields.io/github/v/release/zygame1314/XiaoyaDownloader)](https://github.com/zygame1314/XiaoyaDownloader/releases)
 [![下载量](https://img.shields.io/greasyfork/d/488536)](https://greasyfork.org/zh-CN/scripts/488536)
-[![许可证](https://img.shields.io/github/license/你的用户名/仓库名称)](LICENSE)
+[![许可证](https://img.shields.io/github/license/zygame1314/XiaoyaDownloader)](LICENSE)
 
 ## ✨ 项目简介
 
