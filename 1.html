@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>小雅爬爬爬 - 使用教程</title>
+    <style>
+        body {
+            font-family: 'Microsoft YaHei', Arial, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        h1, h2 {
+            color: #fcbb34;
+        }
+        .section {
+            background-color: white;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .feature {
+            margin-bottom: 15px;
+        }
+        .feature-title {
+            font-weight: bold;
+            color: #e67e22;
+        }
+        code {
+            background-color: #f0f0f0;
+            padding: 2px 4px;
+            border-radius: 4px;
+        }
+        .note {
+            background-color: #fff3cd;
+            border-left: 4px solid #ffc107;
+            padding: 10px;
+            margin-top: 10px;
+        }
+        .download-link {
+          display: inline-block;
+          padding: 8px 16px;
+          background-color: #4CAF50;
+          color: white;
+          text-decoration: none;
+          border-radius: 4px;
+          transition: background-color 0.3s;
+        }
+
+        .download-link:hover {
+          background-color: #45a049;
+        }
+
+        .section ul {
+          list-style-type: disc;
+          margin-left: 20px;
+        }
+
+        .section ul ul {
+          list-style-type: circle;
+          margin-left: 40px;
+        }
+
+        .faq-toggle {
+            font-weight: bold;
+            cursor: pointer;
+            user-select: none;
+          }
+
+          .faq-toggle::before {
+            content: '➕ '
+          }
+
+          details[open] .faq-toggle::before {
+            content: '➖ ';
+          }
+
+          .hidden-text {
+              color: transparent;
+              transition: color 0.3s ease;
+            }
+
+            .hidden-text:hover {
+              color: black;
+            }
+    </style>
+</head>
+<body>
+    <h1><img src="images/logo.png" alt="小雅爬爬爬 Logo" width="37" height="40"> 小雅爬爬爬 - 使用教程</h1>
+
+    <div class="section">
+        <h2>1. 安装油猴插件</h2>
+        <p>如果你的浏览器还没有安装油猴插件，请点击下方链接前往安装：</p>
+        <img src="images/install-tampermonkey.png" alt="安装油猴插件截图" width="600"> <ul>
+            <li><a href="https://www.tampermonkey.net/" target="_blank">Tampermonkey官方网站</a></li>
+            <li>你也可以在浏览器的扩展程序商店中搜索 "Tampermonkey" 进行安装：
+                <ul>
+                    <li><a href="https://chrome.google.com/webstore/detail/tampermonkey/dhdgffkkebhmkfjojejmpbldmpobfkfo?hl=zh-CN" target="_blank">Chrome 扩展地址</a></li>
+                    <li><a href="https://addons.mozilla.org/zh-CN/firefox/addon/tampermonkey/" target="_blank">Firefox 扩展地址</a></li>
+                    <li><a href="https://microsoftedge.microsoft.com/addons/detail/tampermonkey/iikmkjmpaadaobahmlepeloendndfphd" target="_blank">Microsoft Edge 扩展地址（推荐⭐）</a></li>
+                </ul>
+            </li>
+        </ul>
+    </div>
+
+    <div class="section">
+        <h2>2. 安装小雅爬爬爬脚本</h2>
+        <p>点击下方按钮，即可一键安装脚本：</p>
+        <a href="https://greasyfork.org/zh-CN/scripts/488536-%E5%B0%8F%E9%9B%85%E7%88%AC%E7%88%AC%E7%88%AC" target="_blank" class="download-link">安装小雅爬爬爬</a>
+        <p>
+        <img src="images/install-script.png" alt="安装脚本界面截图" width="600">
+        </p>
+    </div>
+
+    <div class="section">
+    <h2>3. 使用方法</h2>
+    <img src="images/xiaoya_usage_demo.gif" alt="使用方法演示" width="600">
+    <ol>
+        <li>访问小雅平台的课程页面。</li>
+        <li>页面会出现下载界面，包含各种组件。</li>
+        <li>使用筛选、搜索或排序等功能找到你需要的文件。</li>
+        <li>选择单个文件下载，或勾选多个文件进行批量下载。</li>
+        <li>可以使用导出功能，将文件列表导出为其他格式。</li>
+    </ol>
+</div>
+
+    <div class="section">
+        <h2>主要功能</h2>
+        <div class="feature">
+            <span class="feature-title">批量下载：</span>
+            选择多个文件，一键下载所有选中的课件。
+        </div>
+        <div class="feature">
+            <span class="feature-title">文件排序：</span>
+            按日期或默认顺序排列文件，方便查找。
+        </div>
+        <div class="feature">
+            <span class="feature-title">文件筛选：</span>
+            使用关键词或文件类型快速筛选所需文件。
+        </div>
+        <div class="feature">
+            <span class="feature-title">导出功能：</span>
+            支持导出文件列表为EF2或TXT格式，方便在其他下载工具中使用。
+        </div>
+    </div>
+
+    <div class="section">
+        <h2>高级技巧</h2>
+        <p>使用 <code>Konami Code<span class="hidden-text">(Fxxk Konami)</span></code> (↑↑↓↓←→←→BA) 激活隐藏功能，包括教师信息查看和用户搜索等。</p>
+        <p>另外，连击5次控制面板中的版本号也可激活隐藏功能。</p>
+        <div class="note">
+            注意：请谨慎使用这些高级功能，确保遵守相关规定和尊重他人隐私。
+        </div>
+    </div>
+
+    <div class="section">
+      <h2>常见问题</h2>
+      <details>
+        <summary>
+          <span class="faq-toggle">展开/折叠</span>
+        </summary>
+        <div class="faq-content">
+          <p><strong>Q: 为什么有些文件无法下载？</strong></p>
+          <p>A: 确保你能正常访问这些文件，并检查网络连接是否正常。</p>
+
+          <p><strong>Q: 如何更新脚本？</strong></p>
+          <p>A: 脚本会自动检查更新，你也可以在油猴扩展中手动检查更新。</p>
+
+          <p><strong>Q: 视频文件怎么下载？</strong></p>
+          <p>A: 脚本本身并不支持视频文件下载，如有需要，可以安装现成的其他插件。</p>
+
+          <p><strong>Q: 为什么我切换到了“用浏览器下载”，还是会唤起IDM？</strong></p>
+          <p>A: IDM会截获大多数下载请求，必要的话可以关闭IDM的浏览器插件。</p>
+
+          <p><strong>Q: 支持哪些学校？</strong></p>
+          <p>A: 只要是使用小雅的学校，理论上都支持。</p>
+
+          <p><strong>Q: 为什么我切换到了“用浏览器下载”，还是会唤起IDM？</strong></p>
+          <p>A: IDM会截获大多数下载请求，必要的话可以关闭IDM的浏览器插件。</p>
+
+          <p><strong>Q:  ef2 和 txt 文件是什么？怎么用？</strong></p>
+          <p>A:  导出文件列表为 ef2 或 txt 格式，可以方便地将下载链接导入到其他下载工具中。
+           <ul>
+            <li> <strong>ef2:</strong>  是一种专门用于存储下载链接的格式，可以被 Internet Download Manager (IDM) 等下载软件识别。</li>
+            <li> <strong>txt:</strong>  纯文本文件，你可以用任何文本编辑器打开它，并将下载链接导入到绝大多数下载工具中。</li>
+           </ul>
+        </div>
+      </details>
+    </div>
+
+    <div class="section">
+        <h2>反馈与支持</h2>
+        <p>如果你遇到任何问题或有改进建议，请在GitHub项目页面提交issue或在油猴脚本页面留言。</p>
+    </div>
+</body>
+</html>
