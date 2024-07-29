@@ -12,6 +12,11 @@
             --background-color: #FFF5E6;
             --text-color: #4A4A4A;
             --section-bg-color: #FFFFFF;
+            --achievement-bg-color: #f0f0f0;
+            --achievement-unlocked-bg-color: #e6ffe6;
+            --achievement-locked-color: #888;
+            --achievement-unlocked-color: #4CAF50;
+            --modal-bg-color: #fefefe;
         }
 
         body {
@@ -25,8 +30,14 @@
         }
 
         body.night-mode {
-            background-color: #333;
-            color: #fff;
+            --background-color: #333;
+            --text-color: #fff;
+            --section-bg-color: #444;
+            --achievement-bg-color: #555;
+            --achievement-unlocked-bg-color: #2a472a;
+            --achievement-locked-color: #aaa;
+            --achievement-unlocked-color: #6FBF73;
+            --modal-bg-color: #222;
         }
 
         body.night-mode .section {
@@ -454,7 +465,7 @@
         }
 
         .close {
-            color: #aaa;
+            color: var(--text-color);
             float: right;
             font-size: 28px;
             font-weight: bold;
@@ -464,7 +475,7 @@
 
         .close:hover,
         .close:focus {
-            color: #000;
+            color: var(--primary-color);
         }
 
         h2 {
@@ -752,12 +763,219 @@
         #achievement-description {
           font-size: 0.9em;
         }
+
+        #view-achievements {
+            position: fixed;
+            bottom: 80px;
+            right: 20px;
+            background-color: var(--primary-color);
+            color: var(--section-bg-color);
+            border: none;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            text-align: center;
+            font-size: 24px;
+            cursor: pointer;
+            transition: background-color 0.3s, transform 0.3s, opacity 0.3s;
+            opacity: 0.7;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        #view-achievements:hover {
+            background-color: var(--secondary-color);
+            transform: translateY(-3px);
+            opacity: 1;
+        }
+
+        #achievements-modal .modal-content {
+            background-color: var(--modal-bg-color);
+            margin: 5% auto;
+            padding: 20px;
+            border: 1px solid var(--primary-color);
+            width: 90%;
+            max-width: 600px;
+            max-height: 80vh;
+            display: flex;
+            flex-direction: column;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+        }
+
+        #achievements-list-container {
+            flex-grow: 1;
+            overflow-y: auto;
+            margin-bottom: 20px;
+            padding-right: 10px;
+        }
+
+        #achievements-list {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .achievement-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+            padding: 10px;
+            border-radius: 5px;
+            color: var(--text-color);
+            background-color: var(--achievement-bg-color);
+        }
+
+        .achievement-item.unlocked {
+            background-color: var(--achievement-unlocked-bg-color);
+        }
+
+        .achievement-item img {
+            width: 40px;
+            height: 40px;
+            margin-right: 10px;
+        }
+
+        .achievement-item .achievement-info {
+            flex-grow: 1;
+        }
+
+        .achievement-item .achievement-status {
+            font-weight: bold;
+        }
+
+        .achievement-item.locked .achievement-status {
+            color: var(--achievement-locked-color);
+        }
+
+        .achievement-item.unlocked .achievement-status {
+            color: var(--achievement-unlocked-color);
+        }
+
+        body, #view-achievements, #achievements-modal .modal-content, .achievement-item {
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        #pagination {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-top: 20px;
+        }
+
+        #pagination button {
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            margin: 0 10px;
+            cursor: pointer;
+            border-radius: 5px;
+            transition: background-color 0.3s;
+        }
+
+        #pagination button:hover {
+            background-color: var(--secondary-color);
+        }
+
+        #pagination button:disabled {
+            background-color: #ccc;
+            cursor: not-allowed;
+        }
+
+        #page-info {
+            font-size: 16px;
+            margin: 0 10px;
+        }
+
+        .sound-prompt {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: rgba(255, 165, 0, 0.9);
+            color: white;
+            padding: 10px 20px;
+            border-radius: 20px;
+            font-size: 14px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+            opacity: 0;
+            transition: opacity 0.3s, transform 0.3s;
+            z-index: 1000;
+            white-space: nowrap;
+        }
+
+        .sound-prompt.show {
+            opacity: 1;
+            transform: translateX(-50%) translateY(0);
+        }
+
+        .sound-prompt.hide {
+            opacity: 0;
+            transform: translateX(-50%) translateY(20px);
+        }
+
+        .sound-prompt i {
+            font-size: 24px;
+        }
+
+        @media (max-width: 600px) {
+            .sound-prompt {
+                font-size: 12px;
+                padding: 8px 15px;
+            }
+            .sound-prompt i {
+                font-size: 20px;
+            }
+        }
+
+        .achievement-progress {
+            width: 100%;
+            background-color: #f0f0f0;
+            border-radius: 5px;
+            margin-top: 5px;
+            position: relative;
+            height: 20px;
+        }
+
+        .progress-bar {
+            height: 100%;
+            background-color: #4CAF50;
+            border-radius: 5px;
+            transition: width 0.5s ease-in-out;
+        }
+
+        .progress-text {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: #000;
+            font-size: 12px;
+        }
+
+        body.night-mode .achievement-progress {
+            background-color: #444;
+        }
+
+        body.night-mode .progress-text {
+            color: #fff;
+        }
     </style>
 </head>
-<audio id="achievement-sound">
+<audio id="achievement-sound" preload="auto">
     <source src="audio/steam_achievement.mp3" type="audio/mpeg">
 </audio>
 <body>
+    <div id="sound-prompt" class="sound-prompt">
+        <i class="material-icons">volume_up</i>
+        <span>点击、触摸屏幕或按任意键以启用声音</span>
+    </div>
     <div id="progress-bar"></div>
     <div id="toc">
             <h3>目录</h3>
@@ -983,7 +1201,309 @@
       </div>
     </div>
 
+    <button id="view-achievements" title="查看成就">
+        <span class="material-icons">emoji_events</span>
+    </button>
+
+    <div id="achievements-modal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>成就列表</h2>
+            <div id="achievements-list-container">
+                <div id="achievements-list"></div>
+            </div>
+            <div id="pagination">
+                <button id="prev-page">上一页</button>
+                <span id="page-info"></span>
+                <button id="next-page">下一页</button>
+            </div>
+        </div>
+    </div>
+
     <script>
+        const viewAchievementsBtn = document.getElementById("view-achievements");
+        const achievementsModal = document.getElementById("achievements-modal");
+        const achievementsList = document.getElementById("achievements-list");
+        const closeBtn = achievementsModal.querySelector(".close");
+
+        viewAchievementsBtn.onclick = function() {
+            updateAchievementsList();
+            achievementsModal.style.display = "block";
+        }
+
+        closeBtn.onclick = function() {
+            achievementsModal.style.display = "none";
+        }
+
+        window.onclick = function(event) {
+            if (event.target === achievementsModal) {
+                achievementsModal.style.display = "none";
+            }
+        }
+
+        const achievementsPerPage = 5;
+        let currentPage = 1;
+
+        function updateAchievementsList() {
+            const startIndex = (currentPage - 1) * achievementsPerPage;
+            const endIndex = startIndex + achievementsPerPage;
+            const pageAchievements = achievements.slice(startIndex, endIndex);
+
+            achievementsList.innerHTML = '';
+            pageAchievements.forEach(achievement => {
+            const isUnlocked = achievementManager.isUnlocked(achievement.id);
+            const achievementElement = document.createElement('div');
+            achievementElement.className = `achievement-item ${isUnlocked ? 'unlocked' : 'locked'}`;
+
+            let progressHTML = '';
+            if (achievement.maxProgress) {
+                const currentProgress = achievementManager.getProgress(achievement.id);
+                const progressPercentage = Math.min((currentProgress / achievement.maxProgress) * 100, 100);
+                progressHTML = `
+                    <div class="achievement-progress">
+                        <div class="progress-bar" style="width: ${progressPercentage}%"></div>
+                        <span class="progress-text">${currentProgress}/${achievement.maxProgress}</span>
+                    </div>
+                `;
+            }
+
+            achievementElement.innerHTML = `
+                <img src="${achievement.icon}" alt="${achievement.title}">
+                <div class="achievement-info">
+                    <h3>${achievement.title}</h3>
+                    <p>${achievement.description}</p>
+                    ${progressHTML}
+                </div>
+                <span class="achievement-status">${isUnlocked ? '已解锁' : '未解锁'}</span>
+            `;
+            achievementsList.appendChild(achievementElement);
+        });
+
+            updatePagination();
+        }
+
+        function updatePagination() {
+            const totalPages = Math.ceil(achievements.length / achievementsPerPage);
+            document.getElementById('page-info').textContent = `${currentPage} / ${totalPages}`;
+            document.getElementById('prev-page').disabled = currentPage === 1;
+            document.getElementById('next-page').disabled = currentPage === totalPages;
+        }
+
+        document.getElementById('prev-page').addEventListener('click', () => {
+            if (currentPage > 1) {
+                currentPage--;
+                updateAchievementsList();
+            }
+        });
+
+        document.getElementById('next-page').addEventListener('click', () => {
+            const totalPages = Math.ceil(achievements.length / achievementsPerPage);
+            if (currentPage < totalPages) {
+                currentPage++;
+                updateAchievementsList();
+            }
+        });
+
+        viewAchievementsBtn.onclick = function() {
+            currentPage = 1;
+            updateAchievementsList();
+            achievementsModal.style.display = "block";
+        }
+
+        const isDarkMode = document.body.classList.contains('night-mode');
+        achievementsModal.style.backgroundColor = isDarkMode ? 'rgba(0,0,0,0.8)' : 'rgba(0,0,0,0.4)';
+
+        const achievements = [
+            {
+                id: 'night_mode',
+                title: '暗夜降临',
+                description: '成功打开夜间模式。',
+                icon: 'images/achievement-icon.png'
+            },
+            {
+                id: 'day_mode',
+                title: '重返光明',
+                description: '成功回到普通模式。',
+                icon: 'images/achievement-icon-light.png'
+            },
+            {
+                id: 'first_visit',
+                title: '初来乍到',
+                description: '首次访问网站',
+                icon: 'images/first-visit-icon.png'
+            },
+            {
+                id: 'explorer',
+                title: '探索者',
+                description: '浏览所有内容',
+                icon: 'images/explorer-icon.png'
+            },
+            {
+                id: 'night_owl',
+                title: '你就熬吧……',
+                description: '在凌晨0点至5点使用夜间模式',
+                icon: 'images/night-owl-icon.png'
+            },
+            {
+                id: 'early_bird',
+                title: '起得早/熬穿了',
+                description: '在早上5点至6点访问网站',
+                icon: 'images/early-bird-icon.png'
+            },
+            {
+                id: 'bookworm',
+                title: '有啥看的',
+                description: '在网站上累计阅读超过1小时',
+                icon: 'images/bookworm-icon.png',
+                maxProgress: 3600
+            },
+            {
+                id: 'problem_solver',
+                title: '勤学好问',
+                description: '阅读完所有FAQ',
+                icon: 'images/problem-solver-icon.png'
+            },
+            {
+                id: 'continuous_learner',
+                title: '有什么值得留恋的吗？',
+                description: '连续7天访问网站',
+                icon: 'images/continuous-learner-icon.png',
+                maxProgress: 7
+            },
+        ];
+
+        function checkEarlyBird() {
+            const now = new Date();
+            const currentHour = now.getHours();
+            const currentMinute = now.getMinutes();
+            const currentSecond = now.getSeconds();
+
+            if (currentHour === 5 && currentMinute >= 0 && currentMinute <= 59 && currentSecond >= 0 && currentSecond <= 59) {
+                achievementManager.unlock('early_bird');
+            }
+        }
+
+        function checkNightOwl() {
+            const now = new Date();
+            const currentHour = now.getHours();
+            const currentMinute = now.getMinutes();
+
+            if ((currentHour === 0 || currentHour === 1 || currentHour === 2 || currentHour === 3 || currentHour === 4) &&
+                currentMinute >= 0 && currentMinute <= 59 &&
+                isNightMode) {
+                achievementManager.unlock('night_owl');
+            }
+        }
+
+        function checkContinuousLearning() {
+            const lastVisit = localStorage.getItem('lastVisit');
+            const today = new Date().toDateString();
+            if (lastVisit !== today) {
+                let streak = parseInt(localStorage.getItem('visitStreak') || '0');
+                streak++;
+                if (streak >= 7) {
+                    achievementManager.unlock('continuous_learner');
+                }
+                localStorage.setItem('visitStreak', streak.toString());
+                localStorage.setItem('lastVisit', today);
+            }
+        }
+
+        function checkBookworm() {
+            if (!achievementManager.isUnlocked('bookworm')) {
+                let currentReadingTime = parseInt(localStorage.getItem('readingTime') || '0');
+                currentReadingTime++;
+
+                if (currentReadingTime >= 3600) {
+                    achievementManager.unlock('bookworm');
+                }
+
+                localStorage.setItem('readingTime', currentReadingTime.toString());
+            }
+        }
+
+        function checkProblemSolver(faqId) {
+            let openedFAQs = JSON.parse(localStorage.getItem('openedFAQs') || '[]');
+            openedFAQs = openedFAQs.filter(id => id && id.trim() !== '');
+            if (!openedFAQs.includes(faqId)) {
+                openedFAQs.push(faqId);
+                localStorage.setItem('openedFAQs', JSON.stringify(openedFAQs));
+            }
+            if (openedFAQs.length === document.querySelectorAll('#faq details').length) {
+                achievementManager.unlock('problem_solver');
+            }
+        }
+
+        function throttle(func, limit) {
+            let inThrottle;
+            return function() {
+                const args = arguments;
+                const context = this;
+                if (!inThrottle) {
+                    func.apply(context, args);
+                    inThrottle = true;
+                    setTimeout(() => inThrottle = false, limit);
+                }
+            }
+        }
+
+        function checkExplorer() {
+            if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight - 100) {
+                setTimeout(() => {
+                    if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight - 100) {
+                        console.log('页面已滚动到底部并停留，解锁探索达人成就！');
+                        achievementManager.unlock('explorer');
+                    }
+                }, 1000);
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+        setTimeout(() => {
+                if (!localStorage.getItem('visited')) {
+                    achievementManager.unlock('first_visit');
+                    localStorage.setItem('visited', 'true');
+                }
+            }, 5000);
+
+            setTimeout(checkEarlyBird, 5000);
+            checkContinuousLearning();
+        });
+
+        const achievementManager = {
+            unlock: function(achievementId) {
+                let unlockedAchievements = JSON.parse(localStorage.getItem('unlockedAchievements') || '[]');
+                if (!unlockedAchievements.includes(achievementId)) {
+                    unlockedAchievements.push(achievementId);
+                    localStorage.setItem('unlockedAchievements', JSON.stringify(unlockedAchievements));
+                    this.showNotification(achievementId);
+                }
+            },
+            isUnlocked: function(achievementId) {
+                let unlockedAchievements = JSON.parse(localStorage.getItem('unlockedAchievements') || '[]');
+                return unlockedAchievements.includes(achievementId);
+            },
+            getProgress: function(achievementId) {
+                switch(achievementId) {
+                    case 'bookworm':
+                        return parseInt(localStorage.getItem('readingTime') || '0');
+                    case 'continuous_learner':
+                        return parseInt(localStorage.getItem('visitStreak') || '0');
+                    default:
+                        return 0;
+                }
+            },
+            showNotification: function(achievementId) {
+                const achievement = achievements.find(a => a.id === achievementId);
+                if (achievement) {
+                    showAchievement(achievement.title, achievement.description, achievement.icon);
+                }
+            }
+        };
+
+        let readingTime;
+        let readingInterval;
+
         document.addEventListener('DOMContentLoaded', function() {
             const canvas = document.getElementById('background-canvas');
             const ctx = canvas.getContext('2d');
@@ -996,6 +1516,14 @@
             const minSize = 3;
             const maxSize = 8;
             const lineDistance = 150;
+
+            readingTime = parseInt(localStorage.getItem('readingTime') || '0');
+
+            if (readingInterval) {
+                clearInterval(readingInterval);
+            }
+
+            readingInterval = setInterval(checkBookworm, 1000);
 
             function resizeCanvas() {
                 canvas.width = window.innerWidth;
@@ -1109,9 +1637,43 @@
             animate();
         });
 
+        let canPlaySound = false;
+        let achievementQueue = [];
+        let isDisplayingAchievement = false;
+
         document.addEventListener('DOMContentLoaded', () => {
             const tocLinks = document.querySelectorAll('.toc-link');
             const sections = document.querySelectorAll('.section');
+            const soundPrompt = document.getElementById('sound-prompt');
+            const interactionEvents = ['click', 'touchend', 'keydown'];
+            let hasInteracted = false;
+
+            setTimeout(() => {
+                soundPrompt.classList.add('show');
+            }, 2000);
+
+            function handleInteraction() {
+                if (!hasInteracted) {
+                    hasInteracted = true;
+                    canPlaySound = true;
+                    soundPrompt.classList.add('hide');
+                    setTimeout(() => {
+                        soundPrompt.style.display = 'none';
+                    }, 300);
+
+                    interactionEvents.forEach(eventType => {
+                        document.removeEventListener(eventType, handleInteraction);
+                    });
+                }
+
+                if (!isDisplayingAchievement && achievementQueue.length > 0) {
+                    displayNextAchievement();
+                }
+            }
+
+            interactionEvents.forEach(eventType => {
+                document.addEventListener(eventType, handleInteraction);
+            });
 
             function highlightTocLink() {
                 let scrollPosition = window.scrollY;
@@ -1124,11 +1686,31 @@
                 });
             }
 
-            window.addEventListener('scroll', highlightTocLink);
+            const throttledScrollHandler = throttle(() => {
+                highlightTocLink();
+                checkExplorer();
+                updateProgressBar();
+            }, 200);
+
+            window.addEventListener('scroll', throttledScrollHandler);
+
+            highlightTocLink();
+            updateProgressBar();
         });
 
         document.addEventListener('DOMContentLoaded', () => {
-            document.querySelectorAll('#faq details').forEach(details => {
+            let openedFAQs = JSON.parse(localStorage.getItem('openedFAQs') || '[]');
+            openedFAQs = openedFAQs.filter(id => id && id.trim() !== '');
+            document.querySelectorAll('#faq details').forEach((details, index) => {
+                    details.id = `faq-${index + 1}`;
+                    if (openedFAQs.includes(details.id)) {
+                        details.open = true;
+                    }
+                    details.addEventListener('toggle', function() {
+                        if (this.open) {
+                            checkProblemSolver(this.id);
+                        }
+                    });
                 const summary = details.querySelector('summary');
                 const content = details.querySelector('.faq-content');
 
@@ -1166,6 +1748,8 @@
                     }
                 });
             });
+        localStorage.setItem('openedFAQs', JSON.stringify(openedFAQs));
+        checkProblemSolver();
         });
 
         const backToTopButton = document.getElementById("back-to-top");
@@ -1211,28 +1795,57 @@
     }
 
     function showAchievement(title, description, iconUrl) {
-      const achievementSound = document.getElementById('achievement-sound');
-      const popup = document.getElementById('achievement-popup');
-      const titleElement = document.getElementById('achievement-title');
-      const descriptionElement = document.getElementById('achievement-description');
-      const iconElement = document.getElementById('achievement-icon');
+        achievementQueue.push({ title, description, iconUrl });
+        if (!isDisplayingAchievement) {
+            displayNextAchievement();
+        }
+    }
 
-      achievementSound.currentTime = 0;
-      achievementSound.play();
+    function displayNextAchievement() {
+        if (achievementQueue.length === 0) {
+            isDisplayingAchievement = false;
+            return;
+        }
 
-      titleElement.textContent = title;
-      descriptionElement.textContent = description;
-      iconElement.src = iconUrl;
+        isDisplayingAchievement = true;
+        const { title, description, iconUrl } = achievementQueue.shift();
+        const achievementSound = document.getElementById('achievement-sound');
+        const popup = document.getElementById('achievement-popup');
+        const titleElement = document.getElementById('achievement-title');
+        const descriptionElement = document.getElementById('achievement-description');
+        const iconElement = document.getElementById('achievement-icon');
 
-      popup.classList.add('show');
-      popup.classList.remove('hide');
+        titleElement.textContent = title || '未知成就';
+        descriptionElement.textContent = description || '恭喜你获得了一个成就！';
+        iconElement.src = iconUrl || 'default-achievement-icon.png';
+        iconElement.alt = title || '成就图标';
 
-      setTimeout(() => {
-        popup.classList.add('hide');
+        if (canPlaySound) {
+            achievementSound.currentTime = 0;
+            achievementSound.play().catch(error => console.warn('无法播放音效:', error));
+        }
+
+        popup.classList.add('show');
+        popup.classList.remove('hide');
+
         setTimeout(() => {
-          popup.classList.remove('show', 'hide');
-        }, 1000);
-      }, 3000);
+            popup.classList.add('hide');
+            setTimeout(() => {
+                popup.classList.remove('show', 'hide');
+                displayNextAchievement();
+            }, 1000);
+        }, 3000);
+
+        logAchievement(title);
+    }
+
+    function logAchievement(achievementTitle) {
+        const achievements = JSON.parse(localStorage.getItem('unlockedAchievements') || '[]');
+        if (!achievements.includes(achievementTitle)) {
+            achievements.push(achievementTitle);
+            localStorage.setItem('unlockedAchievements', JSON.stringify(achievements));
+            console.log(`新成就解锁: ${achievementTitle}`);
+        }
     }
 
     let konamiCode = ['ArrowUp', 'ArrowUp', 'ArrowDown', 'ArrowDown', 'ArrowLeft', 'ArrowRight', 'ArrowLeft', 'ArrowRight', 'b', 'a'];
@@ -1276,29 +1889,23 @@
             const ball = document.getElementById('transition-ball');
             ball.style.display = 'block';
             setTimeout(() => {
-            ball.classList.add('active');
-        }, 10);
+                ball.classList.add('active');
+            }, 10);
 
-        setTimeout(() => {
-            isNightMode = !isNightMode;
-            document.body.classList.toggle('night-mode', isNightMode);
-            ball.classList.remove('active');
             setTimeout(() => {
-              ball.style.display = 'none';
-        }, 500);
+                isNightMode = !isNightMode;
+                document.body.classList.toggle('night-mode', isNightMode);
+                updateAchievementsList();
+                ball.classList.remove('active');
+                setTimeout(() => {
+                    ball.style.display = 'none';
+                }, 500);
 
-        if (isNightMode) {
-          showAchievement(
-            '暗夜降临……',
-            '成功打开夜间模式。',
-            'images/achievement-icon.png'
-          );
-        } else {
-        showAchievement(
-            '重返光明！',
-            '成功回到普通模式。',
-            'images/achievement-icon-light.png'
-          );
+                if (isNightMode) {
+                    achievementManager.unlock('night_mode');
+                    checkNightOwl();
+                } else {
+                    achievementManager.unlock('day_mode');
                 }
             }, 500);
         }
