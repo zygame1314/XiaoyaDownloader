@@ -43,8 +43,9 @@
             color: #f0f0f0;
         }
 
-        body.night-mode #toc a:hover {
-            color: #fff;
+        body.night-mode #toc a:hover,
+        body.night-mode #toc a.active {
+            color: #fda400;
         }
 
         body.night-mode summary {
@@ -229,14 +230,15 @@
         .faq-content {
             max-height: 0;
             overflow: hidden;
-            transition: max-height 0.5s ease-out, opacity 0.5s ease-out, padding 0.5s ease-out;
             opacity: 0;
+            transition: max-height 0.4s ease-out, opacity 0.3s ease-out, padding 0.3s ease-out;
+            visibility: hidden;
         }
 
         details[open] .faq-content {
-            max-height: 1000px;
+            max-height: 5000px;
             opacity: 1;
-            padding: 15px;
+            visibility: visible;
         }
 
         .hidden-text {
@@ -257,9 +259,13 @@
             z-index: -1;
         }
 
-        @media (max-width: 600px) {
+        @media (max-width: 1200px) {
             body {
                 padding: 10px;
+            }
+
+            #toc {
+                display: none;
             }
 
             .section {
@@ -269,6 +275,20 @@
 
         html {
             scroll-behavior: smooth;
+        }
+
+        .badge {
+            background-color: #FFA500;
+            color: white;
+            padding: 3px 6px;
+            border-radius: 6px;
+            font-size: 13px;
+            transition: all 0.2s ease;
+        }
+
+        .badge:hover {
+            transform: scale(1.1);
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
         }
 
         #back-to-top {
@@ -350,7 +370,7 @@
             transition: color 0.3s;
         }
 
-        #toc a:hover {
+        #toc a:hover, #toc a.active {
             color: var(--secondary-color);
         }
 
@@ -515,6 +535,42 @@
             to { opacity: 1; }
         }
 
+        @keyframes blink {
+          0%, 100% {
+            opacity: 1;
+          }
+          50% {
+            opacity: 0.8;
+          }
+        }
+
+        @keyframes pulse {
+            0% { box-shadow: 0 0 50px rgba(0, 0, 0, 0.8); }
+            100% { box-shadow: 0 0 100px rgba(99, 99, 99, 0.8); }
+        }
+
+        @keyframes slideUp {
+          0% {
+            transform: translateY(100px);
+            opacity: 0;
+          }
+          100% {
+            transform: translateY(0);
+            opacity: 1;
+          }
+        }
+
+        @keyframes slideDown {
+          0% {
+            transform: translateY(0);
+            opacity: 1;
+          }
+          100% {
+            transform: translateY(100px);
+            opacity: 0;
+          }
+        }
+
         .modal.show {
             display: block;
             animation: fadeIn 0.3s ease forwards;
@@ -619,28 +675,100 @@
             transition: width 0.5s ease, height 0.5s ease;
         }
 
-        @keyframes pulse {
-            0% { box-shadow: 0 0 50px rgba(0, 0, 0, 0.8); }
-            100% { box-shadow: 0 0 100px rgba(99, 99, 99, 0.8); }
-        }
-
         #transition-ball.active {
             width: 200vw;
             height: 200vh;
         }
+
+        #progress-bar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 4px;
+            background-color: var(--primary-color);
+            width: 0;
+            transition: width 0.3s;
+            z-index: 1000;
+        }
+
+        #easter-egg-trigger {
+          text-decoration: underline;
+          color: var(--primary-color);
+          cursor: pointer;
+        }
+
+        #easter-egg-trigger {
+          text-decoration: underline;
+          color: #d9534f;
+          cursor: pointer;
+          animation: blink 1s infinite;
+        }
+
+        #easter-egg-trigger:hover {
+          background-color: #ddd;
+        }
+
+        #achievement-popup {
+          display: none;
+          position: fixed;
+          bottom: 20px;
+          right: 20px;
+          background-color: rgba(0, 0, 0, 0.8);
+          color: white;
+          padding: 15px 20px;
+          border-radius: 8px;
+          z-index: 1001;
+          animation: slideUp 1s ease-out forwards;
+        }
+
+        #achievement-popup.show {
+          display: block;
+        }
+
+        #achievement-popup.hide {
+          animation: slideDown 1s ease-out forwards;
+        }
+
+        .achievement-content {
+          display: flex;
+          align-items: center;
+        }
+
+        #achievement-icon {
+          width: 64px;
+          height: 64px;
+          margin-right: 15px;
+        }
+
+        .achievement-text {
+          flex: 1;
+        }
+
+        #achievement-title {
+          font-size: 1.2em;
+          margin-bottom: 5px;
+        }
+
+        #achievement-description {
+          font-size: 0.9em;
+        }
     </style>
 </head>
+<audio id="achievement-sound">
+    <source src="audio/steam_achievement.mp3" type="audio/mpeg">
+</audio>
 <body>
+    <div id="progress-bar"></div>
     <div id="toc">
             <h3>目录</h3>
             <ul>
-                <li><a href="#install-tampermonkey">安装油猴插件</a></li>
-                <li><a href="#install-script">安装小雅爬爬爬脚本</a></li>
-                <li><a href="#usage">使用方法</a></li>
-                <li><a href="#features">主要功能</a></li>
-                <li><a href="#advanced-tips">高级技巧</a></li>
-                <li><a href="#faq">常见问题</a></li>
-                <li><a href="#feedback">反馈与支持</a></li>
+                <li><a href="#install-tampermonkey" class="toc-link">安装油猴插件</a></li>
+                <li><a href="#install-script" class="toc-link">安装小雅爬爬爬脚本</a></li>
+                <li><a href="#usage" class="toc-link">使用方法</a></li>
+                <li><a href="#features" class="toc-link">主要功能</a></li>
+                <li><a href="#advanced-tips" class="toc-link">高级技巧</a></li>
+                <li><a href="#faq" class="toc-link">常见问题</a></li>
+                <li><a href="#feedback" class="toc-link">反馈与支持</a></li>
             </ul>
         </div>
     <canvas id="background-canvas"></canvas>
@@ -761,8 +889,8 @@
     <div id="advanced-tips" class="section">
         <h2>高级技巧</h2>
         <p>使用 <code>Konami Code<span class="hidden-text">(Fxxk Konami)</span></code> (↑↑↓↓←→←→BA) 激活隐藏功能。</p>
-        <p>（本页面也有彩蛋哦~）</p>
         <p>另外，连击5次控制面板中的版本号也可激活隐藏功能。</p>
+        <p>（本页面也有<span id="easter-egg-trigger">彩蛋</span><i class="material-icons" style="font-size: 1em; vertical-align: middle; cursor: pointer;">emoji_emotions</i>哦~） <span style="font-size: 0.8em; color: #888;">(并不是所有地方都有版本号……)</span></p>
         <div class="note">
             注意：请谨慎使用这些高级功能，确保遵守相关规定和尊重他人隐私。
         </div>
@@ -799,44 +927,44 @@
             <div class="faq-content">
                 <p>导出文件列表为 ef2 或 txt 格式，可以方便地将下载链接导入到其他下载工具中。
                     <ul>
-                        <li><strong>ef2:</strong> 是一种专门用于存储下载链接的格式，可以被 Internet Download Manager (IDM) 等下载软件识别。</li>
-                        <li><strong>txt:</strong> 纯文本文件，你可以用任何文本编辑器打开它，并将下载链接导入到绝大多数下载工具中。</li>
+                        <li><strong>ef2:</strong> 专门用于存储下载链接的格式，可以被IDM识别。 <strong class="badge">IDM专属</strong></li>
+                        <li><strong>txt:</strong> 纯文本文件，可以导入至绝大多数下载工具中。 <strong class="badge">几乎通用</strong></li>
                     </ul>
             </div>
         </details>
-            </div>
+    </div>
 
     <div id="feedback" class="section">
-    <h2>反馈与支持</h2>
-    <p>如果你遇到任何问题或有改进建议，欢迎通过以下方式留下宝贵意见：</p>
-    <div class="feedback-buttons">
-        <a href="https://github.com/zygame1314/XiaoyaDownloader" target="_blank" class="feedback-button">
-            <i class="material-icons">code</i>
-            <span>GitHub 项目页面</span>
-        </a>
-        <a href="https://greasyfork.org/zh-CN/scripts/488536-%E5%B0%8F%E9%9B%85%E7%88%AC%E7%88%AC%E7%88%AC" target="_blank" class="feedback-button">
-            <i class="material-icons">extension</i>
-            <span>油猴脚本页面</span>
-        </a>
-        <a href="#" class="feedback-button" id="donateButton">
-            <i class="material-icons">favorite</i>
-            <span>打赏作者</span>
-        </a>
-    </div>
-</div>
-
-<div id="donateModal" class="modal">
-    <div class="modal-content">
-        <span class="close">&times;</span>
-        <h2>谢谢你的好意！</h2>
-        <p class="emoji">( ˶ˆ꒳ˆ˵ )</p>
-        <p>打赏就不用啦~</p>
-        <p>你的支持就是我最大的动力！</p>
-        <div class="heart-container">
-            <div class="heart"></div>
+        <h2>反馈与支持</h2>
+        <p>如果你遇到任何问题或有改进建议，欢迎通过以下方式留下宝贵意见：</p>
+        <div class="feedback-buttons">
+            <a href="https://github.com/zygame1314/XiaoyaDownloader" target="_blank" class="feedback-button">
+                <i class="material-icons">code</i>
+                <span>GitHub 项目页面</span>
+            </a>
+            <a href="https://greasyfork.org/zh-CN/scripts/488536-%E5%B0%8F%E9%9B%85%E7%88%AC%E7%88%AC%E7%88%AC" target="_blank" class="feedback-button">
+                <i class="material-icons">extension</i>
+                <span>油猴脚本页面</span>
+            </a>
+            <a href="#" class="feedback-button" id="donateButton">
+                <i class="material-icons">favorite</i>
+                <span>打赏作者</span>
+            </a>
         </div>
     </div>
-</div>
+
+    <div id="donateModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>谢谢你的好意！</h2>
+            <p class="emoji">( ˶ˆ꒳ˆ˵ )</p>
+            <p>打赏就不用啦~</p>
+            <p>你的支持就是我最大的动力！</p>
+            <div class="heart-container">
+                <div class="heart"></div>
+            </div>
+        </div>
+    </div>
 
     <button id="back-to-top" title="返回顶部">
         <span class="material-icons">arrow_upward</span>
@@ -844,6 +972,16 @@
 
     <div id="transition-ball">
         <canvas id="particle-canvas"></canvas>
+    </div>
+
+    <div id="achievement-popup">
+      <div class="achievement-content">
+        <img src="" alt="成就图标" id="achievement-icon">
+        <div class="achievement-text">
+          <h3 id="achievement-title">成就名称</h3>
+          <p id="achievement-description">成就描述</p>
+        </div>
+      </div>
     </div>
 
     <script>
@@ -972,6 +1110,65 @@
             animate();
         });
 
+        document.addEventListener('DOMContentLoaded', () => {
+            const tocLinks = document.querySelectorAll('.toc-link');
+            const sections = document.querySelectorAll('.section');
+
+            function highlightTocLink() {
+                let scrollPosition = window.scrollY;
+
+                sections.forEach((section, index) => {
+                    if (section.offsetTop <= scrollPosition + 100) {
+                        tocLinks.forEach((link) => link.classList.remove('active'));
+                        tocLinks[index].classList.add('active');
+                    }
+                });
+            }
+
+            window.addEventListener('scroll', highlightTocLink);
+        });
+
+        document.addEventListener('DOMContentLoaded', () => {
+            document.querySelectorAll('#faq details').forEach(details => {
+                const summary = details.querySelector('summary');
+                const content = details.querySelector('.faq-content');
+
+                details.open = false;
+                content.style.maxHeight = '0';
+                content.style.opacity = '0';
+                content.style.padding = '0';
+                content.style.visibility = 'hidden';
+
+                summary.addEventListener('click', (e) => {
+                    e.preventDefault();
+
+                    if (!details.open) {
+                        details.open = true;
+                        content.style.visibility = 'visible';
+                        requestAnimationFrame(() => {
+                            requestAnimationFrame(() => {
+                                content.style.maxHeight = content.scrollHeight + 'px';
+                                content.style.opacity = '1';
+                                content.style.padding = '15px';
+                            });
+                        });
+                    } else {
+                            content.style.maxHeight = '0';
+                            content.style.opacity = '0';
+                            content.style.padding = '0';
+
+                        content.addEventListener('transitionend', function closeDetails(e) {
+                            if (e.propertyName === 'opacity') {
+                                details.open = false;
+                                content.style.visibility = 'hidden';
+                                content.removeEventListener('transitionend', closeDetails);
+                            }
+                        });
+                    }
+                });
+            });
+        });
+
         const backToTopButton = document.getElementById("back-to-top");
 
         window.onscroll = function() {
@@ -1014,36 +1211,178 @@
         }
     }
 
+    function showAchievement(title, description, iconUrl) {
+      const achievementSound = document.getElementById('achievement-sound');
+      const popup = document.getElementById('achievement-popup');
+      const titleElement = document.getElementById('achievement-title');
+      const descriptionElement = document.getElementById('achievement-description');
+      const iconElement = document.getElementById('achievement-icon');
+
+      achievementSound.currentTime = 0;
+      achievementSound.play();
+
+      titleElement.textContent = title;
+      descriptionElement.textContent = description;
+      iconElement.src = iconUrl;
+
+      popup.classList.add('show');
+      popup.classList.remove('hide');
+
+      setTimeout(() => {
+        popup.classList.add('hide');
+        setTimeout(() => {
+          popup.classList.remove('show', 'hide');
+        }, 1000);
+      }, 3000);
+    }
+
     let konamiCode = ['ArrowUp', 'ArrowUp', 'ArrowDown', 'ArrowDown', 'ArrowLeft', 'ArrowRight', 'ArrowLeft', 'ArrowRight', 'b', 'a'];
     let konamiIndex = 0;
     let isNightMode = false;
+    let easterEggClickCount = 0;
 
     document.addEventListener('keydown', (event) => {
-    if (event.key === konamiCode[konamiIndex]) {
-        konamiIndex++;
-        if (konamiIndex === konamiCode.length  
-) {
+        handleKonamiInput(event.key);
+    });
+
+        const easterEggTrigger = document.getElementById('easter-egg-trigger');
+        if (easterEggTrigger) {
+            easterEggTrigger.addEventListener('click', () => {
+            easterEggClickCount++;
+        if (easterEggClickCount >= 5) {
+            handleKonamiInput('ClickTrigger');
+            easterEggClickCount = 0;
+            }
+            });
+        }
+
+        function handleKonamiInput(input) {
+            if (input === 'ClickTrigger') {
+            triggerKonamiEffect();
+            return;
+        }
+
+        if (input === konamiCode[konamiIndex]) {
+            konamiIndex++;
+            if (konamiIndex === konamiCode.length) {
+            triggerKonamiEffect();
+            konamiIndex = 0;
+            }
+        } else {
+            konamiIndex = 0;
+            }
+        }
+
+        function triggerKonamiEffect() {
             const ball = document.getElementById('transition-ball');
             ball.style.display = 'block';
             setTimeout(() => {
-                ball.classList.add('active');
-            }, 10);
+            ball.classList.add('active');
+        }, 10);
 
+        setTimeout(() => {
+            isNightMode = !isNightMode;
+            document.body.classList.toggle('night-mode', isNightMode);
+            ball.classList.remove('active');
             setTimeout(() => {
-                isNightMode = !isNightMode;
-                document.body.classList.toggle('night-mode', isNightMode);
-                ball.classList.remove('active');
-                setTimeout(() => {
-                    ball.style.display = 'none';
-                }, 500);
-            }, 500);
+              ball.style.display = 'none';
+        }, 500);
 
-            konamiIndex = 0;
+        if (isNightMode) {
+          showAchievement(
+            '暗夜降临……',
+            '成功打开夜间模式。',
+            'images/achievement-icon.png'
+          );
+        } else {
+        showAchievement(
+            '重返光明！',
+            '成功回到普通模式。',
+            'images/achievement-icon-light.png'
+          );
+                }
+            }, 500);
         }
-    } else {
-        konamiIndex = 0;
+
+    document.querySelectorAll('.section img').forEach(img => {
+        img.addEventListener('click', () => {
+            const modal = document.createElement('div');
+            modal.style.position = 'fixed';
+            modal.style.top = '0';
+            modal.style.left = '0';
+            modal.style.width = '100%';
+            modal.style.height = '100%';
+            modal.style.backgroundColor = 'rgba(0,0,0,0.8)';
+            modal.style.display = 'flex';
+            modal.style.justifyContent = 'center';
+            modal.style.alignItems = 'center';
+            modal.style.zIndex = '1000';
+
+            const largeImg = document.createElement('img');
+            largeImg.src = img.src;
+            largeImg.style.maxWidth = '90%';
+            largeImg.style.maxHeight = '90%';
+            largeImg.style.objectFit = 'contain';
+
+            modal.appendChild(largeImg);
+            document.body.appendChild(modal);
+
+            modal.addEventListener('click', () => {
+                document.body.removeChild(modal);
+            });
+        });
+    });
+
+    document.querySelectorAll('.section').forEach(section => {
+        const content = section.textContent;
+        const wordCount = content.trim().split(/\s+/).length;
+        const readingTimeInSeconds = Math.round(wordCount / (100 / 60));
+
+        let timeEstimate;
+        if (readingTimeInSeconds < 60) {
+            timeEstimate = `${readingTimeInSeconds} 秒`;
+        } else {
+            const minutes = Math.floor(readingTimeInSeconds / 60);
+            const seconds = readingTimeInSeconds % 60;
+            timeEstimate = `${minutes} 分 ${seconds} 秒`;
+        }
+
+        const timeEstimateElement = document.createElement('p');
+        timeEstimateElement.style.fontStyle = 'italic';
+        timeEstimateElement.style.color = '#666';
+        timeEstimateElement.style.marginBottom = '10px';
+        timeEstimateElement.style.display = 'flex';
+        timeEstimateElement.style.alignItems = 'center';
+
+        if (section.id === 'usage') {
+            const videoTimeInSeconds = 259;
+            const totalTimeInSeconds = readingTimeInSeconds + videoTimeInSeconds;
+
+            if (totalTimeInSeconds < 60) {
+                timeEstimate = `${totalTimeInSeconds} 秒`;
+            } else {
+                const minutes = Math.floor(totalTimeInSeconds / 60);
+                const seconds = totalTimeInSeconds % 60;
+                timeEstimate = `${minutes} 分 ${seconds} 秒`;
+            }
+
+            timeEstimateElement.innerHTML = `<i class="material-icons" style="vertical-align: middle; font-size: 1em; margin-right: 5px;">schedule</i>预计阅读时间：<span id="reading-time-usage">${timeEstimate}</span>（包含视频）`;
+        } else {
+            timeEstimateElement.innerHTML = `<i class="material-icons" style="vertical-align: middle; font-size: 1em; margin-right: 5px;">schedule</i>预计阅读时间：${timeEstimate}`;
+        }
+
+        section.insertBefore(timeEstimateElement, section.firstChild);
+    });
+
+    function updateProgressBar() {
+        const scrollPosition = window.scrollY;
+        const totalHeight = document.documentElement.scrollHeight - window.innerHeight;
+        const progress = (scrollPosition / totalHeight) * 100;
+        document.getElementById('progress-bar').style.width = `${progress}%`;
     }
-});
+
+    window.addEventListener('scroll', updateProgressBar);
+    window.addEventListener('resize', updateProgressBar);
 
     </script>
 </body>
