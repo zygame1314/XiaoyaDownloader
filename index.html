@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>小雅爬爬爬 - 使用教程</title>
+    <!--suppress CssUnusedSymbol -->
     <style>
         :root {
             --primary-color: #FFA500;
@@ -850,27 +851,14 @@
             const canvas = document.getElementById('background-canvas');
             const ctx = canvas.getContext('2d');
             const particles = [];
-            const particleCount = 100;
-
-            document.querySelectorAll('details').forEach((detail) => {
-                const content = detail.querySelector('.faq-content');
-                let contentHeight;
-
-                detail.addEventListener('toggle', function() {
-                    if (this.open) {
-                        content.style.maxHeight = '0';
-                        contentHeight = content.scrollHeight;
-                        content.animate([
-                            { maxHeight: '0', opacity: 0 },
-                            { maxHeight: contentHeight + 'px', opacity: 1 }
-                        ], {
-                            duration: 300,
-                            easing: 'ease-out',
-                            fill: 'forwards'
-                        });
-                    }
-                });
-            });
+            const particleCount = 50;
+            const attractionRange = 150;
+            const maxSpeed = 2;
+            const maxAttractedParticles = 3;
+            const colors = ['#FFA500', '#FFD700', '#FF6347', '#FF4500', '#FFA07A'];
+            const minSize = 3;
+            const maxSize = 8;
+            const lineDistance = 150;
 
             function resizeCanvas() {
                 canvas.width = window.innerWidth;
@@ -883,38 +871,77 @@
                     y: Math.random() * canvas.height,
                     vx: Math.random() * 2 - 1,
                     vy: Math.random() * 2 - 1,
-                    radius: Math.random() * 2 + 1
+                    radius: Math.random() * (maxSize - minSize) + minSize,
+                    color: colors[Math.floor(Math.random() * colors.length)],
+                    isAttracted: false,
+                    originalRadius: 0
                 };
             }
 
+            const mouseParticle = { x: 0, y: 0, isMouseParticle: true };
+            particles.push(mouseParticle);
+
             function drawParticles() {
                 ctx.clearRect(0, 0, canvas.width, canvas.height);
-                ctx.fillStyle = 'rgba(255, 165, 0, 0.5)';
+
+                let attractedCount = 0;
+
                 for (let i = 0; i < particles.length; i++) {
                     const p = particles[i];
-                    ctx.beginPath();
-                    ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
-                    ctx.fill();
+                    if (!p.isMouseParticle) {
+                        if (p.originalRadius === 0) {
+                            p.originalRadius = p.radius;
+                        }
 
-                    p.x += p.vx;
-                    p.y += p.vy;
+                        ctx.beginPath();
+                        ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
+                        ctx.fillStyle = p.color;
+                        ctx.fill();
 
-                    if (p.x < 0 || p.x > canvas.width) p.vx = -p.vx;
-                    if (p.y < 0 || p.y > canvas.height) p.vy = -p.vy;
+                        const dx = mouseParticle.x - p.x;
+                        const dy = mouseParticle.y - p.y;
+                        const distance = Math.sqrt(dx * dx + dy * dy);
+
+                        if (distance < attractionRange && attractedCount < maxAttractedParticles) {
+                            const attractionForce = (1 - distance / attractionRange) * 0.05;
+                            p.vx += dx / distance * attractionForce;
+                            p.vy += dy / distance * attractionForce;
+                            p.isAttracted = true;
+                            attractedCount++;
+
+                            p.radius = Math.min(p.radius * 1.05, p.originalRadius * 1.5);
+                        } else {
+                            p.isAttracted = false;
+                            p.radius = Math.max(p.radius * 0.95, p.originalRadius);
+                        }
+
+                        const speed = Math.sqrt(p.vx * p.vx + p.vy * p.vy);
+                        if (speed > maxSpeed) {
+                            p.vx = (p.vx / speed) * maxSpeed;
+                            p.vy = (p.vy / speed) * maxSpeed;
+                        }
+
+                        p.x += p.vx;
+                        p.y += p.vy;
+
+                        if (p.x < 0 || p.x > canvas.width) p.vx = -p.vx;
+                        if (p.y < 0 || p.y > canvas.height) p.vy = -p.vy;
+                    }
                 }
             }
 
             function drawLines() {
-                ctx.strokeStyle = 'rgba(255, 165, 0, 0.5)';
                 for (let i = 0; i < particles.length; i++) {
                     for (let j = i + 1; j < particles.length; j++) {
                         const dx = particles[i].x - particles[j].x;
                         const dy = particles[i].y - particles[j].y;
                         const distance = Math.sqrt(dx * dx + dy * dy);
-                        if (distance < 100) {
+                        if (distance < lineDistance) {
                             ctx.beginPath();
                             ctx.moveTo(particles[i].x, particles[i].y);
                             ctx.lineTo(particles[j].x, particles[j].y);
+                            ctx.strokeStyle = `rgba(255, 165, 0, ${1 - distance / lineDistance})`;
+                            ctx.lineWidth = 2 * (1 - distance / lineDistance);
                             ctx.stroke();
                         }
                     }
@@ -928,19 +955,14 @@
             }
 
             window.addEventListener('resize', resizeCanvas);
-            canvas.addEventListener('mousemove', function(e) {
+
+            document.addEventListener('mousemove', function(e) {
                 const rect = canvas.getBoundingClientRect();
-                const mouseX = e.clientX - rect.left;
-                const mouseY = e.clientY - rect.top;
-                for (let i = 0; i < particles.length; i++) {
-                    const dx = mouseX - particles[i].x;
-                    const dy = mouseY - particles[i].y;
-                    const distance = Math.sqrt(dx * dx + dy * dy);
-                    if (distance < 50) {
-                        particles[i].x -= dx * 0.05;
-                        particles[i].y -= dy * 0.05;
-                    }
-                }
+                const scaleX = canvas.width / rect.width;
+                const scaleY = canvas.height / rect.height;
+
+                mouseParticle.x = (e.clientX - rect.left) * scaleX;
+                mouseParticle.y = (e.clientY - rect.top) * scaleY;
             });
 
             resizeCanvas();
@@ -950,8 +972,6 @@
             animate();
         });
 
-
-        // 添加返回顶部按钮功能
         const backToTopButton = document.getElementById("back-to-top");
 
         window.onscroll = function() {
@@ -963,8 +983,8 @@
         };
 
         backToTopButton.onclick = function() {
-            document.body.scrollTop = 0; // For Safari
-            document.documentElement.scrollTop = 0; // For Chrome, Firefox, IE and Opera
+            document.body.scrollTop = 0;
+            document.documentElement.scrollTop = 0;
         };
         const modal = document.getElementById("donateModal");
         const btn = document.getElementById("donateButton");
@@ -982,7 +1002,6 @@
         modal.classList.remove('show');
         setTimeout(() => {
             modal.style.display = "none";
-            // 重置模态窗口的状态
             modal.classList.remove('show');
         }, 300);
     }
