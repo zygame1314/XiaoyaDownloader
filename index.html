@@ -974,7 +974,7 @@
 <body>
     <div id="sound-prompt" class="sound-prompt">
         <i class="material-icons">volume_up</i>
-        <span>点击、触摸屏幕或按任意键以启用声音</span>
+        <span>点击或按任意键以启用声音</span>
     </div>
     <div id="progress-bar"></div>
     <div id="toc">
@@ -1451,7 +1451,7 @@
             if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight - 100) {
                 setTimeout(() => {
                     if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight - 100) {
-                        console.log('页面已滚动到底部并停留，解锁探索达人成就！');
+                        console.log('页面已滚动到底部并停留，解锁探索者成就！');
                         achievementManager.unlock('explorer');
                     }
                 }, 1000);
@@ -1645,7 +1645,7 @@
             const tocLinks = document.querySelectorAll('.toc-link');
             const sections = document.querySelectorAll('.section');
             const soundPrompt = document.getElementById('sound-prompt');
-            const interactionEvents = ['click', 'touchend', 'keydown'];
+            const interactionEvents = ['click', 'keydown'];
             let hasInteracted = false;
 
             setTimeout(() => {
