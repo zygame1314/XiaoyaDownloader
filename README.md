@@ -73,8 +73,8 @@
 
 欢迎提交 Pull Request 来改进脚本！
 
-* **Bug 反馈:**  请在 [Issues 页面](https://github.com/你的用户名/仓库名称/issues) 提交 bug 报告。
-* **功能建议:**  请在 [Discussions 页面](https://github.com/你的用户名/仓库名称/discussions) 提出你的建议。
+* **Bug 反馈:**  请在 [Issues 页面](https://github.com/zygame1314/XiaoyaDownloader/issues) 提交 bug 报告。
+* **功能建议:**  请在 [Discussions 页面](https://github.com/zygame1314/XiaoyaDownloader/discussions) 提出你的建议。
 * **代码贡献:**  请 fork 本仓库，并在新的分支上进行开发，然后提交 Pull Request。
 
 ## 📄 许可证
