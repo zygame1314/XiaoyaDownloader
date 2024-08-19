@@ -41,7 +41,7 @@
 ## 📸 功能预览
 
 <details>
-<summary>查看截图</summary>
+<summary>查看截图（可能不是最新，以实际界面为准）</summary>
 
 ### 右上角下载按钮
 ![右上角下载按钮](images/右上角下载列表.png)
