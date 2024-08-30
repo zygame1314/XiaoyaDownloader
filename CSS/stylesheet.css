@@ -1,4 +1,4 @@
-:root {
+        :root {
             --primary-color: #FFA500;
             --secondary-color: #FFD700;
             --background-color: #FFF5E6;
@@ -13,6 +13,8 @@
         }
 
         body {
+            position: relative;
+            z-index: 1;
             font-family: 'Microsoft YaHei', Arial, sans-serif;
             line-height: 1.6;
             color: var(--text-color);
@@ -519,6 +521,7 @@
             width: 100%;
             height: 100%;
             background-color: rgba(0,0,0,0.4);
+            transition: opacity 0.3s ease-in-out;
         }
 
         .modal-content {
@@ -653,8 +656,19 @@
         }
 
         .modal.show {
+            opacity: 1;
             display: block;
             animation: fadeIn 0.3s ease forwards;
+        }
+
+        .modal.hide {
+            animation: fadeOut 0.3s;
+            opacity: 0;
+        }
+
+        @keyframes fadeOut {
+          from { opacity: 1; }
+          to { opacity: 0; }
         }
 
         .usage-steps {
@@ -859,6 +873,10 @@
             background-color: var(--secondary-color);
             transform: translateY(-3px);
             opacity: 1;
+        }
+
+        #achievements-modal.hide {
+            animation: fadeOut 0.5s forwards;
         }
 
         #achievements-modal .modal-content {
