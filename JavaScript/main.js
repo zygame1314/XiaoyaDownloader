@@ -320,49 +320,50 @@
             resizeShockwaveCanvas();
 
             function drawShockwave(x, y) {
-                let radius = 0;
-                let opacity = 0.8;
-                let lineWidth = 3;
-                const maxRadius = Math.max(shockwaveCanvas.width, shockwaveCanvas.height) * 0.4;
-                const duration = 1000;
-                const startTime = performance.now();
+                requestAnimationFrame(() => {
+                    let radius = 0;
+                    let opacity = 0.8;
+                    let lineWidth = 3;
+                    const maxRadius = Math.max(shockwaveCanvas.width, shockwaveCanvas.height) * 0.4;
+                    const duration = 1000;
+                    const startTime = performance.now();
 
-                function animate(currentTime) {
-                    const elapsed = currentTime - startTime;
-                    const progress = Math.min(elapsed / duration, 1);
+                    function animate(currentTime) {
+                        const elapsed = currentTime - startTime;
+                        const progress = Math.min(elapsed / duration, 1);
 
-                    shockwaveCtx.clearRect(0, 0, shockwaveCanvas.width, shockwaveCanvas.height);
-
-                    radius = maxRadius * progress;
-                    opacity = 0.8 * (1 - progress);
-
-                    // 添加这个检查来防止负半径
-                    if (radius <= 0 || opacity <= 0) {
                         shockwaveCtx.clearRect(0, 0, shockwaveCanvas.width, shockwaveCanvas.height);
-                        return;
+
+                        radius = maxRadius * progress;
+                        opacity = 0.8 * (1 - progress);
+
+                        if (radius <= 0 || opacity <= 0) {
+                            shockwaveCtx.clearRect(0, 0, shockwaveCanvas.width, shockwaveCanvas.height);
+                            return;
+                        }
+
+                        shockwaveCtx.beginPath();
+                        shockwaveCtx.arc(x, y, radius, 0, Math.PI * 2);
+                        shockwaveCtx.strokeStyle = `rgba(255, 165, 0, ${opacity})`;
+                        shockwaveCtx.lineWidth = lineWidth;
+                        shockwaveCtx.stroke();
+
+                        const innerRadius = radius * 0.8;
+                        shockwaveCtx.beginPath();
+                        shockwaveCtx.arc(x, y, innerRadius, 0, Math.PI * 2);
+                        shockwaveCtx.strokeStyle = `rgba(255, 215, 0, ${opacity * 0.7})`;
+                        shockwaveCtx.lineWidth = lineWidth * 0.7;
+                        shockwaveCtx.stroke();
+
+                        if (progress < 1) {
+                            requestAnimationFrame(animate);
+                        } else {
+                            shockwaveCtx.clearRect(0, 0, shockwaveCanvas.width, shockwaveCanvas.height);
+                        }
                     }
 
-                    shockwaveCtx.beginPath();
-                    shockwaveCtx.arc(x, y, radius, 0, Math.PI * 2);
-                    shockwaveCtx.strokeStyle = `rgba(255, 165, 0, ${opacity})`;
-                    shockwaveCtx.lineWidth = lineWidth;
-                    shockwaveCtx.stroke();
-
-                    const innerRadius = radius * 0.8;
-                    shockwaveCtx.beginPath();
-                    shockwaveCtx.arc(x, y, innerRadius, 0, Math.PI * 2);
-                    shockwaveCtx.strokeStyle = `rgba(255, 215, 0, ${opacity * 0.7})`;
-                    shockwaveCtx.lineWidth = lineWidth * 0.7;
-                    shockwaveCtx.stroke();
-
-                    if (progress < 1) {
-                        requestAnimationFrame(animate);
-                    } else {
-                        shockwaveCtx.clearRect(0, 0, shockwaveCanvas.width, shockwaveCanvas.height);
-                    }
-                }
-
-                setTimeout(() => requestAnimationFrame(animate), 0);
+                    requestAnimationFrame(animate);
+                });
             }
 
             function triggerParticleEffect(x, y) {
@@ -388,11 +389,13 @@
             }
 
             document.addEventListener('click', function(e) {
-                const x = e.clientX;
-                const y = e.clientY;
+                requestAnimationFrame(() => {
+                    const x = e.clientX;
+                    const y = e.clientY;
 
-                triggerParticleEffect(x, y);
-                drawShockwave(x, y);
+                    triggerParticleEffect(x, y);
+                    drawShockwave(x, y);
+                });
             });
 
             readingTime = parseInt(localStorage.getItem('readingTime') || '0');
