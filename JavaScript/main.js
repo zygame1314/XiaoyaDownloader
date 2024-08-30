@@ -9,7 +9,11 @@
         }
 
         closeBtn.onclick = function() {
-            achievementsModal.style.display = "none";
+            achievementsModal.querySelector('.modal-content').classList.add('hide');
+                setTimeout(() => {
+                    achievementsModal.style.display = "none";
+                    achievementsModal.classList.remove('hide');
+                }, 300);
         }
 
         window.onclick = function(event) {
@@ -283,6 +287,7 @@
 
         document.addEventListener('DOMContentLoaded', function() {
             const canvas = document.getElementById('background-canvas');
+            canvas.style.zIndex = '-2';
             const ctx = canvas.getContext('2d');
             const particles = [];
             const particleCount = 50;
@@ -293,6 +298,102 @@
             const minSize = 3;
             const maxSize = 8;
             const lineDistance = 150;
+
+            const shockwaveCanvas = document.createElement('canvas');
+            shockwaveCanvas.style.position = 'fixed';
+            shockwaveCanvas.style.top = '0';
+            shockwaveCanvas.style.left = '0';
+            shockwaveCanvas.style.width = '100%';
+            shockwaveCanvas.style.height = '100%';
+            shockwaveCanvas.style.pointerEvents = 'none';
+            shockwaveCanvas.style.zIndex = '-3';
+            document.body.insertBefore(shockwaveCanvas, document.body.firstChild);
+
+            const shockwaveCtx = shockwaveCanvas.getContext('2d');
+
+            function resizeShockwaveCanvas() {
+                shockwaveCanvas.width = window.innerWidth;
+                shockwaveCanvas.height = window.innerHeight;
+            }
+
+            window.addEventListener('resize', resizeShockwaveCanvas);
+            resizeShockwaveCanvas();
+
+            function drawShockwave(x, y) {
+                let radius = 0;
+                let opacity = 0.8;
+                let lineWidth = 3;
+                const maxRadius = Math.max(shockwaveCanvas.width, shockwaveCanvas.height) * 0.4;
+                const duration = 1000;
+                const startTime = performance.now();
+
+                function animate(currentTime) {
+                    const elapsed = currentTime - startTime;
+                    const progress = Math.min(elapsed / duration, 1);
+
+                    shockwaveCtx.clearRect(0, 0, shockwaveCanvas.width, shockwaveCanvas.height);
+
+                    radius = maxRadius * progress;
+                    opacity = 0.8 * (1 - progress);
+
+                    // 添加这个检查来防止负半径
+                    if (radius <= 0 || opacity <= 0) {
+                        shockwaveCtx.clearRect(0, 0, shockwaveCanvas.width, shockwaveCanvas.height);
+                        return;
+                    }
+
+                    shockwaveCtx.beginPath();
+                    shockwaveCtx.arc(x, y, radius, 0, Math.PI * 2);
+                    shockwaveCtx.strokeStyle = `rgba(255, 165, 0, ${opacity})`;
+                    shockwaveCtx.lineWidth = lineWidth;
+                    shockwaveCtx.stroke();
+
+                    const innerRadius = radius * 0.8;
+                    shockwaveCtx.beginPath();
+                    shockwaveCtx.arc(x, y, innerRadius, 0, Math.PI * 2);
+                    shockwaveCtx.strokeStyle = `rgba(255, 215, 0, ${opacity * 0.7})`;
+                    shockwaveCtx.lineWidth = lineWidth * 0.7;
+                    shockwaveCtx.stroke();
+
+                    if (progress < 1) {
+                        requestAnimationFrame(animate);
+                    } else {
+                        shockwaveCtx.clearRect(0, 0, shockwaveCanvas.width, shockwaveCanvas.height);
+                    }
+                }
+
+                setTimeout(() => requestAnimationFrame(animate), 0);
+            }
+
+            function triggerParticleEffect(x, y) {
+                const rect = canvas.getBoundingClientRect();
+                const scaleX = canvas.width / rect.width;
+                const scaleY = canvas.height / rect.height;
+
+                const canvasX = (x - rect.left) * scaleX;
+                const canvasY = (y - rect.top) * scaleY;
+
+                mouseParticle.x = canvasX;
+                mouseParticle.y = canvasY;
+
+                for (let i = 0; i < particles.length; i++) {
+                    const p = particles[i];
+                    if (!p.isMouseParticle) {
+                        const dx = p.x - mouseParticle.x;
+                        const dy = p.y - mouseParticle.y;
+                        const distance = Math.sqrt(dx * dx + dy * dy);
+                        p.shockwaveForce = 500 / (1 + distance * 0.1);
+                    }
+                }
+            }
+
+            document.addEventListener('click', function(e) {
+                const x = e.clientX;
+                const y = e.clientY;
+
+                triggerParticleEffect(x, y);
+                drawShockwave(x, y);
+            });
 
             readingTime = parseInt(localStorage.getItem('readingTime') || '0');
 
@@ -313,6 +414,8 @@
                     y: Math.random() * canvas.height,
                     vx: Math.random() * 2 - 1,
                     vy: Math.random() * 2 - 1,
+                    repelForce: Math.random() < 0.5 ? -1 : 1,
+                    shockwaveForce: 0,
                     radius: Math.random() * (maxSize - minSize) + minSize,
                     color: colors[Math.floor(Math.random() * colors.length)],
                     isAttracted: false,
@@ -340,21 +443,59 @@
                         ctx.fillStyle = p.color;
                         ctx.fill();
 
+                        if (p.repelForce < 0) {
+                            drawRippleEffect(p);
+                        }
+
+                        if (p.shockwaveForce > 0) {
+                            const dx = p.x - mouseParticle.x;
+                            const dy = p.y - mouseParticle.y;
+                            const distance = Math.sqrt(dx * dx + dy * dy);
+                            const force = p.shockwaveForce / distance;
+                            p.vx += (dx / distance) * force;
+                            p.vy += (dy / distance) * force;
+                            p.shockwaveForce *= 0.9;
+                        }
+
                         const dx = mouseParticle.x - p.x;
                         const dy = mouseParticle.y - p.y;
                         const distance = Math.sqrt(dx * dx + dy * dy);
 
                         if (distance < attractionRange && attractedCount < maxAttractedParticles) {
-                            const attractionForce = (1 - distance / attractionRange) * 0.05;
+                            const force = (1 - distance / attractionRange) * 0.05;
+                            const attractionForce = p.repelForce * force;
                             p.vx += dx / distance * attractionForce;
                             p.vy += dy / distance * attractionForce;
                             p.isAttracted = true;
                             attractedCount++;
 
-                            p.radius = Math.min(p.radius * 1.05, p.originalRadius * 1.5);
+                            if (p.repelForce > 0) {
+                                p.radius = Math.min(p.radius * 1.05, p.originalRadius * 1.5);
+                            } else {
+                                p.radius = Math.max(p.radius * 0.95, p.originalRadius * 0.5);
+                            }
                         } else {
                             p.isAttracted = false;
-                            p.radius = Math.max(p.radius * 0.95, p.originalRadius);
+                            p.radius = Math.max(p.radius * 0.98, p.originalRadius);
+                        }
+
+                        for (let j = i + 1; j < particles.length; j++) {
+                            const p2 = particles[j];
+                            if (!p2.isMouseParticle) {
+                                const dx2 = p.x - p2.x;
+                                const dy2 = p.y - p2.y;
+                                const distance2 = Math.sqrt(dx2 * dx2 + dy2 * dy2);
+
+                                if (distance2 < attractionRange) {
+                                    const force = (1 - distance2 / attractionRange) * 0.01;
+                                    const interactionForce = p.repelForce * p2.repelForce * force;
+
+                                    p.vx += dx2 / distance2 * interactionForce;
+                                    p.vy += dy2 / distance2 * interactionForce;
+                                    p2.vx -= dx2 / distance2 * interactionForce;
+                                    p2.vy -= dy2 / distance2 * interactionForce;
+                                }
+                            }
                         }
 
                         const speed = Math.sqrt(p.vx * p.vx + p.vy * p.vy);
@@ -370,29 +511,70 @@
                         if (p.y < 0 || p.y > canvas.height) p.vy = -p.vy;
                     }
                 }
+                drawLines();
+            }
+
+            function drawRippleEffect(particle) {
+                const rippleCount = 3;
+                const maxRippleRadius = particle.radius * 3;
+
+                for (let i = 0; i < rippleCount; i++) {
+                    const rippleRadius = particle.radius + (maxRippleRadius - particle.radius) * (i + 1) / rippleCount;
+                    const opacity = 1 - (i + 1) / rippleCount;
+
+                    ctx.beginPath();
+                    ctx.arc(particle.x, particle.y, rippleRadius, 0, Math.PI * 2);
+                    ctx.strokeStyle = `rgba(255, 0, 0, ${opacity * 0.5})`;
+                    ctx.lineWidth = 2;
+                    ctx.stroke();
+                }
             }
 
             function drawLines() {
                 for (let i = 0; i < particles.length; i++) {
-                    for (let j = i + 1; j < particles.length; j++) {
-                        const p1 = particles[i];
-                        const p2 = particles[j];
-                        const dx = p1.x - p2.x;
-                        const dy = p1.y - p2.y;
-                        const distance = Math.sqrt(dx * dx + dy * dy);
-                        if (distance < lineDistance) {
-                            ctx.beginPath();
-                            ctx.moveTo(p1.x, p1.y);
-                            ctx.lineTo(p2.x, p2.y);
+                    const p1 = particles[i];
 
-                            if (p1.color && p2.color) {
+                    for (let j = i + 1; j < particles.length; j++) {
+                        const p2 = particles[j];
+
+                        if ((p1.repelForce > 0 && p2.repelForce > 0) ||
+                            (p1.isMouseParticle && p2.repelForce > 0) ||
+                            (p2.isMouseParticle && p1.repelForce > 0)) {
+
+                            const dx = p1.x - p2.x;
+                            const dy = p1.y - p2.y;
+                            const distance = Math.sqrt(dx * dx + dy * dy);
+
+                            if (distance < lineDistance) {
+                                ctx.beginPath();
+                                ctx.moveTo(p1.x, p1.y);
+                                ctx.lineTo(p2.x, p2.y);
+
                                 const gradient = ctx.createLinearGradient(p1.x, p1.y, p2.x, p2.y);
                                 gradient.addColorStop(0, p1.color);
                                 gradient.addColorStop(1, p2.color);
                                 ctx.strokeStyle = gradient;
-                            } else {
-                                ctx.strokeStyle = 'rgba(255, 165, 0, ' + (1 - distance / lineDistance) + ')';
+
+                                ctx.lineWidth = 2 * (1 - distance / lineDistance);
+                                ctx.stroke();
                             }
+                        }
+                    }
+
+                    if (p1.repelForce > 0 && !p1.isMouseParticle) {
+                        const dx = p1.x - mouseParticle.x;
+                        const dy = p1.y - mouseParticle.y;
+                        const distance = Math.sqrt(dx * dx + dy * dy);
+
+                        if (distance < lineDistance) {
+                            ctx.beginPath();
+                            ctx.moveTo(p1.x, p1.y);
+                            ctx.lineTo(mouseParticle.x, mouseParticle.y);
+
+                            const gradient = ctx.createLinearGradient(p1.x, p1.y, mouseParticle.x, mouseParticle.y);
+                            gradient.addColorStop(0, p1.color);
+                            gradient.addColorStop(1, mouseParticle.color);
+                            ctx.strokeStyle = gradient;
 
                             ctx.lineWidth = 2 * (1 - distance / lineDistance);
                             ctx.stroke();
@@ -561,26 +743,26 @@
 
         btn.onclick = function(event) {
         event.preventDefault();
-        modal.style.display = "block";
+        modal.classList.add('show');
         setTimeout(() => {
-            modal.classList.add('show');
+            modal.style.display = "block";
         }, 10);
     }
 
     function closeModal() {
-        modal.classList.remove('show');
-        setTimeout(() => {
-            modal.style.display = "none";
-            modal.classList.remove('show');
-        }, 300);
+      modal.classList.add('hide');
+      setTimeout(() => {
+        modal.style.display = "none";
+        modal.classList.remove('hide');
+      }, 300);
     }
 
     span.onclick = closeModal;
 
     window.onclick = function(event) {
-        if (event.target === modal) {
-            closeModal();
-        }
+      if (event.target === modal) {
+        closeModal();
+      }
     }
 
     function showAchievement(title, description, iconUrl) {
@@ -726,6 +908,17 @@
                 document.body.removeChild(modal);
             });
         });
+    });
+
+    document.querySelectorAll('.close').forEach(closeButton => {
+        closeButton.addEventListener('click', () => {
+        const modal = closeButton.closest('.modal');
+        modal.classList.add('hide');
+        setTimeout(() => {
+          modal.style.display = 'none';
+          modal.classList.remove('hide');
+        }, 500);
+      });
     });
 
     document.querySelectorAll('.section').forEach(section => {
