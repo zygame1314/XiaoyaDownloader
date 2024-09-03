@@ -671,7 +671,7 @@
                 el: '#vcomments',
                 appId: 'TeUg1XSw3uxdmuDaBXreh4KL-MdYXbMMI',
                 appKey: 'wgWNrxvmXDdxRmkmt6ssb3sk',
-                serverURLs: 'https://teug1xsw.api.lncldglobal.com',
+                serverURLs: 'https://api.zygame1314.site',
                 placeholder: '说点什么……',
                 avatar: 'retro',
                 meta: ['nick', 'mail', 'link'],
@@ -1060,7 +1060,7 @@
     AV.init({
       appId: 'TeUg1XSw3uxdmuDaBXreh4KL-MdYXbMMI',
       appKey: 'wgWNrxvmXDdxRmkmt6ssb3sk',
-      serverURLs: 'https://teug1xsw.api.lncldglobal.com'
+      serverURLs: 'https://api.zygame1314.site'
     });
 
     const query = new AV.Query('Counter');
