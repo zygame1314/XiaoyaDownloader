@@ -1024,6 +1024,8 @@
             }
 
             timeEstimateElement.innerHTML = `<i class="material-icons" style="vertical-align: middle; font-size: 1em; margin-right: 5px;">schedule</i>预计阅读时间：<span id="reading-time-usage">${timeEstimate}</span>（包含视频）`;
+        } else if (section.id === 'comments') {
+            timeEstimateElement.innerHTML = `<i class="material-icons" style="vertical-align: middle; font-size: 1em; margin-right: 5px;">schedule</i>预计阅读时间：${timeEstimate}（不包含评论）`;
         } else {
             timeEstimateElement.innerHTML = `<i class="material-icons" style="vertical-align: middle; font-size: 1em; margin-right: 5px;">schedule</i>预计阅读时间：${timeEstimate}`;
         }
@@ -1081,6 +1083,64 @@
     }).then((counter) => {
       updateVisitCount(counter.get('count'));
     }).catch(console.error);
+
+    (function() {
+        let devToolsOpen = false;
+
+        function checkDevTools() {
+            const widthThreshold = window.outerWidth - window.innerWidth > 160;
+            const heightThreshold = window.outerHeight - window.innerHeight > 160;
+
+            if (!devToolsOpen && (widthThreshold || heightThreshold)) {
+                devToolsOpen = true;
+                showMessage();
+            }
+        }
+
+        function showMessage() {
+            let div = document.createElement('div');
+            div.style.cssText = `
+                position: fixed;
+                top: 20px;
+                right: 10px;
+                width: 350px;
+                background: linear-gradient(135deg, #f0ad4e, #d9534f);
+                color: white;
+                text-align: center;
+                padding: 20px;
+                font-size: 20px;
+                box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+                z-index: 9999;
+                transition: all 0.4s ease-in-out;
+                border-radius: 8px 8px 0 0;
+            `;
+
+            let memes = [
+                "不是哥们，这答辩代码也看啊……😅",
+                "检测到嘿客！🕵️‍♂️",
+                "你怎么知道这里有彩蛋的？🥚",
+                "警告：继续查看代码可能导致秃头。本站概不负责！👨‍🦲",
+                "要被看光了，55555……😭",
+                "这么闲？奖励一个彩蛋！🎉",
+            ];
+
+            let meme = memes[Math.floor(Math.random() * memes.length)];
+            div.innerHTML = `<span style="font-weight: bold; font-size: 1.2em;">开发者工具已打开 🛠️</span><br><br>${meme}`; /* 调整文本样式 */
+
+            document.body.appendChild(div);
+
+            setTimeout(() => {
+                div.style.transform = 'translateY(-100%)';
+            }, 6000);
+
+            setTimeout(() => {
+                div.remove();
+            }, 6400);
+        }
+
+        window.addEventListener('resize', checkDevTools);
+        setInterval(checkDevTools, 1000);
+    })();
 
     window.addEventListener('scroll', updateProgressBar);
     window.addEventListener('resize', updateProgressBar);
