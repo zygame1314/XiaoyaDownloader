@@ -732,7 +732,7 @@ document.addEventListener('DOMContentLoaded', () => {
             "黑人问号": "bilibilitv/[tv_黑人问号].png",
             "鼓掌": "bilibilitv/[tv_鼓掌].png"
         },
-        path: 'XiaoyaDownloader' + window.location.pathname
+        url: 'XiaoyaDownloader' + window.location.pathname
     });
     highlightTocLink();
     updateProgressBar();
