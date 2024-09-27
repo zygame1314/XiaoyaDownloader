@@ -731,8 +731,7 @@ document.addEventListener('DOMContentLoaded', () => {
             "鬼脸": "bilibilitv/[tv_鬼脸].png",
             "黑人问号": "bilibilitv/[tv_黑人问号].png",
             "鼓掌": "bilibilitv/[tv_鼓掌].png"
-        },
-        url: 'XiaoyaDownloader' + window.location.pathname
+        }
     });
     highlightTocLink();
     updateProgressBar();
