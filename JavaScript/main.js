@@ -1043,7 +1043,7 @@ function updateProgressBar() {
 function updateVisitCount(count) {
     const pageviews = document.getElementById('pageviews');
     const oldCount = parseInt(pageviews.textContent);
-    const duration = 1000; // 动画持续时间(毫秒)
+    const duration = 1000;
     const start = performance.now();
 
     function animate(currentTime) {
