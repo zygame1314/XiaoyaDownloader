@@ -671,7 +671,7 @@ document.addEventListener('DOMContentLoaded', () => {
         el: '#vcomments',
         appId: 'TeUg1XSw3uxdmuDaBXreh4KL-MdYXbMMI',
         appKey: 'wgWNrxvmXDdxRmkmt6ssb3sk',
-        serverURLs: 'https://api.zygame1314.site',
+        serverURLs: 'https://xiaoyaapi.zygame1314.site',
         placeholder: '说点什么……',
         avatar: 'retro',
         meta: ['nick', 'mail', 'link'],
@@ -1062,7 +1062,7 @@ function updateVisitCount(count) {
 AV.init({
     appId: 'TeUg1XSw3uxdmuDaBXreh4KL-MdYXbMMI',
     appKey: 'wgWNrxvmXDdxRmkmt6ssb3sk',
-    serverURLs: 'https://api.zygame1314.site'
+    serverURLs: 'https://xiaoyaapi.zygame1314.site'
 });
 
 const query = new AV.Query('Counter');
@@ -1125,7 +1125,7 @@ query.first().then((counter) => {
         ];
 
         let meme = memes[Math.floor(Math.random() * memes.length)];
-        div.innerHTML = `<span style="font-weight: bold; font-size: 1.2em;">开发者工具已打开 🛠️</span><br><br>${meme}`; /* 调整文本样式 */
+        div.innerHTML = `<span style="font-weight: bold; font-size: 1.2em;">开发者工具已打开 🛠️</span><br><br>${meme}`;
 
         document.body.appendChild(div);
 
