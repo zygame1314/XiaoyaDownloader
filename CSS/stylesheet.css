@@ -85,9 +85,9 @@ body.night-mode .install-note p {
 }
 
 body.night-mode #advanced-tips .note {
-  background-color: #3e3e3e;
-  border-left-color: #ff9800;
-  color: #f8f9fa;
+    background-color: #3e3e3e;
+    border-left-color: #ff9800;
+    color: #f8f9fa;
 }
 
 body.night-mode .install-option,
@@ -143,7 +143,7 @@ img {
     max-width: 100%;
     height: auto;
     border-radius: 8px;
-    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
 /* 标题样式 */
@@ -152,7 +152,7 @@ h1 {
     text-align: center;
     font-size: 2.5em;
     margin-bottom: 30px;
-    text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
     animation: fadeInDown 1s ease-out;
 }
 
@@ -174,13 +174,13 @@ h1 {
 .tampermonkey-screenshot {
     max-width: 100%;
     border-radius: 10px;
-    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
     transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
 .tampermonkey-screenshot:hover {
     transform: translateY(-5px);
-    box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
 }
 
 .install-options {
@@ -189,7 +189,8 @@ h1 {
     gap: 20px;
 }
 
-.install-option, .browser-option {
+.install-option,
+.browser-option {
     display: inline-flex;
     align-items: center;
     justify-content: center;
@@ -203,18 +204,21 @@ h1 {
     text-align: center;
 }
 
-.install-option:hover, .browser-option:hover {
+.install-option:hover,
+.browser-option:hover {
     background-color: var(--secondary-color);
     transform: translateY(-3px);
-    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
 }
 
-.install-option .material-icons, .browser-option svg {
+.install-option .material-icons,
+.browser-option svg {
     margin-right: 10px;
     flex-shrink: 0;
 }
 
-.install-option span, .browser-option span {
+.install-option span,
+.browser-option span {
     flex: 1;
     text-align: center;
 }
@@ -353,6 +357,7 @@ body.night-mode .tooltip-trigger:hover::after {
         opacity: 0;
         transform: translateY(-20px);
     }
+
     to {
         opacity: 1;
         transform: translateY(0);
@@ -365,14 +370,14 @@ body.night-mode .tooltip-trigger:hover::after {
     border-radius: 8px;
     padding: 20px;
     margin-bottom: 30px;
-    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     transition: transform 0.3s ease, box-shadow 0.3s ease;
     border-left: 4px solid var(--primary-color);
 }
 
 .section:hover {
     transform: translateY(-5px);
-    box-shadow: 0 6px 12px rgba(0,0,0,0.15);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
 }
 
 .section h2 {
@@ -419,12 +424,12 @@ code {
 
 /* 高级技巧部分 */
 #advanced-tips .note {
-  background-color: #fff8e5;
-  border-left: 4px solid #ffa500;
-  padding: 15px;
-  margin-top: 20px;
-  border-radius: 8px;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    background-color: #fff8e5;
+    border-left: 4px solid #ffa500;
+    padding: 15px;
+    margin-top: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
 
 /* 安装脚本部分样式 */
@@ -446,13 +451,13 @@ code {
 .install-screenshot {
     max-width: 100%;
     border-radius: 10px;
-    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
     transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
 .install-screenshot:hover {
     transform: translateY(-5px);
-    box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
 }
 
 .install-button {
@@ -471,7 +476,7 @@ code {
 .install-button:hover {
     background-color: var(--secondary-color);
     transform: translateY(-3px);
-    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
 }
 
 .install-button .material-icons {
@@ -610,7 +615,8 @@ html {
     position: fixed;
     bottom: 20px;
     right: 20px;
-    background-color: var(--primary-color);;
+    background-color: var(--primary-color);
+    ;
     color: var(--icon-color);
     border: none;
     border-radius: 50%;
@@ -621,7 +627,7 @@ html {
     cursor: pointer;
     transition: background-color 0.3s, transform 0.3s, opacity 0.3s;
     opacity: 0.7;
-    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
     display: none;
     justify-content: center;
     align-items: center;
@@ -659,6 +665,7 @@ html {
     word-wrap: normal;
     direction: ltr;
     -webkit-font-feature-settings: 'liga';
+    font-feature-settings: 'liga';
     -webkit-font-smoothing: antialiased;
 }
 
@@ -670,7 +677,7 @@ html {
     background-color: white;
     padding: 15px;
     border-radius: 8px;
-    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
     max-width: 250px;
     display: none;
 }
@@ -690,7 +697,8 @@ html {
     transition: color 0.3s;
 }
 
-#toc a:hover, #toc a.active {
+#toc a:hover,
+#toc a.active {
     color: var(--secondary-color);
 }
 
@@ -740,13 +748,13 @@ pre {
     text-decoration: none;
     border-radius: 25px;
     transition: background-color 0.3s, transform 0.3s;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
 }
 
 .feedback-button:hover {
     background-color: var(--secondary-color);
     transform: translateY(-3px);
-    box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
 }
 
 /* 模态框样式 */
@@ -758,7 +766,7 @@ pre {
     top: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba(0,0,0,0.4);
+    background-color: rgba(0, 0, 0, 0.4);
     transition: opacity 0.3s ease-in-out;
 }
 
@@ -771,7 +779,7 @@ pre {
     max-width: 400px;
     border-radius: 15px;
     text-align: center;
-    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
     animation: zoomIn 0.3s ease forwards;
 }
 
@@ -839,58 +847,97 @@ p {
 }
 
 @keyframes heartbeat {
-    0% { transform: rotate(45deg) scale(0.8); }
-    5% { transform: rotate(45deg) scale(0.9); }
-    10% { transform: rotate(45deg) scale(0.8); }
-    15% { transform: rotate(45deg) scale(1); }
-    50% { transform: rotate(45deg) scale(0.8); }
-    100% { transform: rotate(45deg) scale(0.8); }
+    0% {
+        transform: rotate(45deg) scale(0.8);
+    }
+
+    5% {
+        transform: rotate(45deg) scale(0.9);
+    }
+
+    10% {
+        transform: rotate(45deg) scale(0.8);
+    }
+
+    15% {
+        transform: rotate(45deg) scale(1);
+    }
+
+    50% {
+        transform: rotate(45deg) scale(0.8);
+    }
+
+    100% {
+        transform: rotate(45deg) scale(0.8);
+    }
 }
 
 @keyframes zoomIn {
-    from { transform: scale(0.5); opacity: 0; }
-    to { transform: scale(1); opacity: 1; }
+    from {
+        transform: scale(0.5);
+        opacity: 0;
+    }
+
+    to {
+        transform: scale(1);
+        opacity: 1;
+    }
 }
 
 @keyframes fadeIn {
-    from { opacity: 0; }
-    to { opacity: 1; }
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
 }
 
 @keyframes blink {
-  0%, 100% {
-    opacity: 1;
-  }
-  50% {
-    opacity: 0.8;
-  }
+
+    0%,
+    100% {
+        opacity: 1;
+    }
+
+    50% {
+        opacity: 0.8;
+    }
 }
 
 @keyframes pulse {
-    0% { box-shadow: 0 0 50px rgba(0, 0, 0, 0.8); }
-    100% { box-shadow: 0 0 100px rgba(99, 99, 99, 0.8); }
+    0% {
+        box-shadow: 0 0 50px rgba(0, 0, 0, 0.8);
+    }
+
+    100% {
+        box-shadow: 0 0 100px rgba(99, 99, 99, 0.8);
+    }
 }
 
 @keyframes slideUp {
-  0% {
-    transform: translateY(100px);
-    opacity: 0;
-  }
-  100% {
-    transform: translateY(0);
-    opacity: 1;
-  }
+    0% {
+        transform: translateY(100px);
+        opacity: 0;
+    }
+
+    100% {
+        transform: translateY(0);
+        opacity: 1;
+    }
 }
 
 @keyframes slideDown {
-  0% {
-    transform: translateY(0);
-    opacity: 1;
-  }
-  100% {
-    transform: translateY(100px);
-    opacity: 0;
-  }
+    0% {
+        transform: translateY(0);
+        opacity: 1;
+    }
+
+    100% {
+        transform: translateY(100px);
+        opacity: 0;
+    }
 }
 
 .modal.show {
@@ -905,8 +952,13 @@ p {
 }
 
 @keyframes fadeOut {
-  from { opacity: 1; }
-  to { opacity: 0; }
+    from {
+        opacity: 1;
+    }
+
+    to {
+        opacity: 0;
+    }
 }
 
 /* 使用方法步骤样式 */
@@ -923,12 +975,12 @@ p {
     padding: 20px;
     background-color: rgba(255, 215, 0, 0.1);
     transition: transform 0.3s ease, box-shadow 0.3s ease;
-    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
 .step:hover {
     transform: translateY(-5px);
-    box-shadow: 0 6px 12px rgba(0,0,0,0.15);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
 }
 
 .step-number {
@@ -955,23 +1007,23 @@ p {
 
 /* 视频容器样式 */
 .video-container {
-  position: relative;
-  padding-bottom: 56.25%;
-  height: 0;
-  overflow: hidden;
-  max-width: 100%;
-  border-radius: 8px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  margin-top: 30px;
+    position: relative;
+    padding-bottom: 56.25%;
+    height: 0;
+    overflow: hidden;
+    max-width: 100%;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    margin-top: 30px;
 }
 
 .video-container iframe {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  border: none;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border: none;
 }
 
 /* 视频来源说明样式 */
@@ -1031,60 +1083,60 @@ p {
 
 /* 彩蛋触发器样式 */
 #easter-egg-trigger {
-  text-decoration: underline;
-  color: #d9534f;
-  cursor: pointer;
-  animation: blink 1s infinite;
+    text-decoration: underline;
+    color: #d9534f;
+    cursor: pointer;
+    animation: blink 1s infinite;
 }
 
 #easter-egg-trigger:hover {
-  background-color: #ddd;
+    background-color: #ddd;
 }
 
 /* 成就弹窗样式 */
 #achievement-popup {
-  display: none;
-  position: fixed;
-  bottom: 20px;
-  right: 20px;
-  background-color: rgba(0, 0, 0, 0.8);
-  color: white;
-  padding: 15px 20px;
-  border-radius: 8px;
-  z-index: 1001;
-  animation: slideUp 1s ease-out forwards;
+    display: none;
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background-color: rgba(0, 0, 0, 0.8);
+    color: white;
+    padding: 15px 20px;
+    border-radius: 8px;
+    z-index: 1001;
+    animation: slideUp 1s ease-out forwards;
 }
 
 #achievement-popup.show {
-  display: block;
+    display: block;
 }
 
 #achievement-popup.hide {
-  animation: slideDown 1s ease-out forwards;
+    animation: slideDown 1s ease-out forwards;
 }
 
 .achievement-content {
-  display: flex;
-  align-items: center;
+    display: flex;
+    align-items: center;
 }
 
 #achievement-icon {
-  width: 64px;
-  height: 64px;
-  margin-right: 15px;
+    width: 64px;
+    height: 64px;
+    margin-right: 15px;
 }
 
 .achievement-text {
-  flex: 1;
+    flex: 1;
 }
 
 #achievement-title {
-  font-size: 1.2em;
-  margin-bottom: 5px;
+    font-size: 1.2em;
+    margin-bottom: 5px;
 }
 
 #achievement-description {
-  font-size: 0.9em;
+    font-size: 0.9em;
 }
 
 /* 查看成就按钮样式 */
@@ -1103,7 +1155,7 @@ p {
     cursor: pointer;
     transition: background-color 0.3s, transform 0.3s, opacity 0.3s;
     opacity: 0.7;
-    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
     display: flex;
     justify-content: center;
     align-items: center;
@@ -1131,7 +1183,7 @@ p {
     display: flex;
     flex-direction: column;
     border-radius: 15px;
-    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
 }
 
 #achievements-list-container {
@@ -1183,7 +1235,10 @@ p {
     color: var(--achievement-unlocked-color);
 }
 
-body, #view-achievements, #achievements-modal .modal-content, .achievement-item {
+body,
+#view-achievements,
+#achievements-modal .modal-content,
+.achievement-item {
     transition: background-color 0.3s, color 0.3s;
 }
 
@@ -1234,7 +1289,7 @@ body, #view-achievements, #achievements-modal .modal-content, .achievement-item 
     display: flex;
     align-items: center;
     gap: 10px;
-    box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
     opacity: 0;
     transition: opacity 0.3s, transform 0.3s;
     z-index: 1000;
@@ -1260,6 +1315,7 @@ body, #view-achievements, #achievements-modal .modal-content, .achievement-item 
         font-size: 12px;
         padding: 8px 15px;
     }
+
     .sound-prompt i {
         font-size: 20px;
     }
@@ -1317,7 +1373,7 @@ body.night-mode .progress-text {
     left: -50%;
     width: 200%;
     height: 200%;
-    background: radial-gradient(circle, rgba(255,255,255,0.2) 0%, rgba(255,255,255,0) 70%);
+    background: radial-gradient(circle, rgba(255, 255, 255, 0.2) 0%, rgba(255, 255, 255, 0) 70%);
     opacity: 0;
     transition: opacity 0.6s;
 }
@@ -1333,7 +1389,7 @@ body.night-mode .progress-text {
 
 #vcomments .vwrap {
     border: none;
-    background: linear-gradient(145deg, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0) 100%);
+    background: linear-gradient(145deg, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0) 100%);
     border-radius: 15px;
     padding: 20px;
 }
@@ -1367,12 +1423,12 @@ body.night-mode .progress-text {
     border-radius: 12px;
     padding: 15px;
     transition: all 0.3s ease;
-    box-shadow: inset 0 2px 4px rgba(0,0,0,0.05);
+    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.05);
 }
 
 #vcomments .vinput:focus {
     border-color: var(--primary-color);
-    box-shadow: 0 0 0 3px rgba(var(--primary-color), 0.2), inset 0 2px 4px rgba(0,0,0,0.05);
+    box-shadow: 0 0 0 3px rgba(var(--primary-color), 0.2), inset 0 2px 4px rgba(0, 0, 0, 0.05);
     transform: translateY(-2px);
 }
 
@@ -1398,7 +1454,7 @@ body.night-mode .progress-text {
     left: 50%;
     width: 0;
     height: 0;
-    background-color: rgba(255,255,255,0.2);
+    background-color: rgba(255, 255, 255, 0.2);
     border-radius: 50%;
     transform: translate(-50%, -50%);
     transition: width 0.6s, height 0.6s;
@@ -1407,7 +1463,7 @@ body.night-mode .progress-text {
 #vcomments .vbtn:hover {
     background-color: var(--secondary-color);
     transform: translateY(-3px);
-    box-shadow: 0 6px 12px rgba(0,0,0,0.1);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
 }
 
 #vcomments .vbtn:hover::before {
@@ -1518,14 +1574,14 @@ body.night-mode #vcomments .vlist .vcard::before {
     display: flex;
     align-items: center;
     gap: 5px;
-    box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
     transition: all 0.3s ease;
     z-index: 1000;
 }
 
 #visit-counter:hover {
     transform: translateY(-3px);
-    box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
 }
 
 #visit-counter .material-icons {
