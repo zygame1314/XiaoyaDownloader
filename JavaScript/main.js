@@ -99,56 +99,56 @@ const achievements = [
         id: 'night_mode',
         title: '暗夜降临',
         description: '成功打开夜间模式。',
-        icon: 'https://jsd.onmicrosoft.cn/gh/zygame1314/XiaoyaDownloader@1.4.8/images/achievement-icon.png'
+        icon: 'https://jsd.onmicrosoft.cn/gh/zygame1314/XiaoyaDownloader@1.4.9/images/achievement-icon.png'
     },
     {
         id: 'day_mode',
         title: '重返光明',
         description: '成功回到普通模式。',
-        icon: 'https://jsd.onmicrosoft.cn/gh/zygame1314/XiaoyaDownloader@1.4.8/images/achievement-icon-light.png'
+        icon: 'https://jsd.onmicrosoft.cn/gh/zygame1314/XiaoyaDownloader@1.4.9/images/achievement-icon-light.png'
     },
     {
         id: 'first_visit',
         title: '初来乍到',
         description: '首次访问网站',
-        icon: 'https://jsd.onmicrosoft.cn/gh/zygame1314/XiaoyaDownloader@1.4.8/images/first-visit-icon.png'
+        icon: 'https://jsd.onmicrosoft.cn/gh/zygame1314/XiaoyaDownloader@1.4.9/images/first-visit-icon.png'
     },
     {
         id: 'explorer',
         title: '探索者',
         description: '浏览所有内容',
-        icon: 'https://jsd.onmicrosoft.cn/gh/zygame1314/XiaoyaDownloader@1.4.8/images/explorer-icon.png'
+        icon: 'https://jsd.onmicrosoft.cn/gh/zygame1314/XiaoyaDownloader@1.4.9/images/explorer-icon.png'
     },
     {
         id: 'night_owl',
         title: '你就熬吧……',
         description: '在凌晨0点至5点使用夜间模式',
-        icon: 'https://jsd.onmicrosoft.cn/gh/zygame1314/XiaoyaDownloader@1.4.8/images/night-owl-icon.png'
+        icon: 'https://jsd.onmicrosoft.cn/gh/zygame1314/XiaoyaDownloader@1.4.9/images/night-owl-icon.png'
     },
     {
         id: 'early_bird',
         title: '起得早/熬穿了',
         description: '在早上5点至6点访问网站',
-        icon: 'https://jsd.onmicrosoft.cn/gh/zygame1314/XiaoyaDownloader@1.4.8/images/early-bird-icon.png'
+        icon: 'https://jsd.onmicrosoft.cn/gh/zygame1314/XiaoyaDownloader@1.4.9/images/early-bird-icon.png'
     },
     {
         id: 'bookworm',
         title: '有啥看的',
         description: '在网站上累计阅读超过1小时',
-        icon: 'https://jsd.onmicrosoft.cn/gh/zygame1314/XiaoyaDownloader@1.4.8/images/bookworm-icon.png',
+        icon: 'https://jsd.onmicrosoft.cn/gh/zygame1314/XiaoyaDownloader@1.4.9/images/bookworm-icon.png',
         maxProgress: 3600
     },
     {
         id: 'problem_solver',
         title: '勤学好问',
         description: '阅读完所有FAQ',
-        icon: 'https://jsd.onmicrosoft.cn/gh/zygame1314/XiaoyaDownloader@1.4.8/images/problem-solver-icon.png'
+        icon: 'https://jsd.onmicrosoft.cn/gh/zygame1314/XiaoyaDownloader@1.4.9/images/problem-solver-icon.png'
     },
     {
         id: 'continuous_learner',
         title: '有什么值得留恋的吗？',
         description: '连续7天访问网站',
-        icon: 'https://jsd.onmicrosoft.cn/gh/zygame1314/XiaoyaDownloader@1.4.8/images/continuous-learner-icon.png',
+        icon: 'https://jsd.onmicrosoft.cn/gh/zygame1314/XiaoyaDownloader@1.4.9/images/continuous-learner-icon.png',
         maxProgress: 7
     },
 ];
