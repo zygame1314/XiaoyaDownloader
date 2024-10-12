@@ -1603,3 +1603,38 @@ body.night-mode #visit-counter:hover {
     background-color: #444;
     border-color: #666;
 }
+
+/* 页脚样式 */
+.custom-footer {
+    background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+    padding: 20px;
+    text-align: center;
+    font-family: 'Microsoft YaHei', Arial, sans-serif;
+    font-weight: bold;
+    color: white;
+    border-top: 3px solid var(--primary-color);
+    box-shadow: 0 -4px 8px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+}
+
+.custom-footer:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 -6px 12px rgba(0, 0, 0, 0.15);
+}
+
+.custom-footer p {
+    margin: 0;
+    font-size: 14px;
+}
+
+.custom-footer .beian-link {
+    color: var(--icon-color);
+    text-decoration: none;
+    border-bottom: 1px dashed rgba(255, 255, 255, 0.8);
+    transition: color 0.3s, border-color 0.3s;
+}
+
+.custom-footer .beian-link:hover {
+    color: var(--secondary-color);
+    border-bottom-color: white;
+}
