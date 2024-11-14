@@ -5,14 +5,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>小雅爬爬爬 - 使用教程</title>
-    <link rel="stylesheet" type="text/css"
-        href="CSS/xiaoyastylesheet.css">
+    <link rel="stylesheet" type="text/css" href="CSS/xiaoyastylesheet.css">
     <script src="https://jsd.onmicrosoft.cn/npm/leancloud-storage@latest/dist/av-min.js"></script>
     <script src='https://npm.onmicrosoft.cn/valine@latest/dist/Valine.min.js'></script>
 </head>
 <audio id="achievement-sound" preload="auto">
-    <source src="audio/steam_achievement.mp3"
-        type="audio/mpeg">
+    <source src="audio/steam_achievement.mp3" type="audio/mpeg">
 </audio>
 
 <body>
@@ -25,6 +23,7 @@
         <h3>目录</h3>
         <ul>
             <li><a href="#install-tampermonkey" class="toc-link">安装油猴插件</a></li>
+            <li><a href="#enable-developer-mode" class="toc-link">启用开发者模式</a></li>
             <li><a href="#install-script" class="toc-link">安装小雅爬爬爬脚本</a></li>
             <li><a href="#usage" class="toc-link">使用方法</a></li>
             <li><a href="#features" class="toc-link">主要功能</a></li>
@@ -88,13 +87,51 @@
                 </div>
             </div>
             <div class="install-tampermonkey-image">
-                <img src="images/install-tampermonkey.png"
-                    alt="安装油猴插件截图" class="tampermonkey-screenshot">
+                <img src="images/install-tampermonkey.png" alt="安装油猴插件截图" class="tampermonkey-screenshot">
             </div>
         </div>
         <div class="install-note">
             <i class="material-icons">info</i>
             <p>在非特殊网络环境下，Edge扩展商店可以直接访问，方便安装插件。</p>
+        </div>
+    </div>
+
+    </div>
+
+    <div id="enable-developer-mode" class="section">
+        <h2>2. 启用浏览器扩展开发者模式</h2>
+        <div class="developer-mode-container">
+            <div class="developer-mode-text">
+                <p class="important-note">
+                    <i class="material-icons">warning</i>
+                    <strong>重要提示：</strong> 使用脚本前，需要先启用扩展的开发者模式。
+                </p>
+                <ol class="setup-steps">
+                    <li>
+                        <i class="material-icons">settings</i>
+                        <span>打开浏览器的扩展管理页面</span>
+                    </li>
+                    <li>
+                        <i class="material-icons">dashboard</i>
+                        <span>在页面左侧找到"开发者模式"开关（因浏览器而异）</span>
+                    </li>
+                    <li>
+                        <i class="material-icons">build</i>
+                        <span>点击开关启用开发者模式</span>
+                    </li>
+                    <li>
+                        <i class="material-icons">check_circle</i>
+                        <span>确认开关已经处于打开状态</span>
+                    </li>
+                </ol>
+                <div class="additional-info">
+                    <i class="material-icons">info</i>
+                    <p>完成以上步骤后，请重启浏览器以确保设置生效。</p>
+                </div>
+            </div>
+            <div class="developer-mode-image">
+                <img src="images/enable-developer-mode.png" alt="启用浏览器扩展开发者模式步骤截图" class="setup-screenshot">
+            </div>
         </div>
     </div>
 
@@ -110,8 +147,7 @@
                 </a>
             </div>
             <div class="install-image">
-                <img src="images/install-script.png"
-                    alt="安装脚本界面截图" class="install-screenshot">
+                <img src="images/install-script.png" alt="安装脚本界面截图" class="install-screenshot">
             </div>
         </div>
         <div class="install-note">

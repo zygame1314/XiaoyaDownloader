@@ -301,6 +301,204 @@ h1 {
     }
 }
 
+/* 开发者模式部分样式 */
+.developer-mode-container {
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 15px 20px;
+}
+
+.developer-mode-text {
+    background: rgba(255, 255, 255, 0.95);
+    border-radius: 20px;
+    padding: 25px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+    order: 1;
+}
+
+.developer-mode-image {
+    width: 100%;
+    order: 2;
+    margin-top: 20px;
+    position: relative;
+}
+
+.important-note {
+    background: linear-gradient(135deg, #fffbf2, #fff8e5);
+    border: 1px solid rgba(255, 193, 7, 0.15);
+    border-left: 5px solid #ffc107;
+    padding: 15px 20px;
+    margin: 20px 0;
+    border-radius: 16px;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    box-shadow:
+        0 4px 15px rgba(255, 193, 7, 0.06),
+        0 1px 3px rgba(0, 0, 0, 0.02);
+    transition: all 0.3s ease;
+}
+
+.important-note:hover {
+    transform: translateY(-2px);
+    box-shadow:
+        0 6px 20px rgba(255, 193, 7, 0.1),
+        0 2px 5px rgba(0, 0, 0, 0.03);
+}
+
+.important-note .material-icons {
+    color: #ffc107;
+    font-size: 22px;
+    padding: 10px;
+    background: rgba(255, 193, 7, 0.08);
+    border-radius: 12px;
+    transition: transform 0.3s ease;
+}
+
+.important-note:hover .material-icons {
+    transform: scale(1.1);
+}
+
+.setup-steps {
+    list-style: none;
+    padding: 0;
+    counter-reset: step;
+}
+
+.setup-steps li {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+    padding: 15px 20px;
+    background: linear-gradient(120deg, #fff, #f8f9fa);
+    border: 1px solid rgba(0, 0, 0, 0.05);
+    border-radius: 15px;
+    transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+    position: relative;
+}
+
+.setup-steps li::before {
+    counter-increment: step;
+    content: "0" counter(step);
+    position: absolute;
+    right: 20px;
+    font-size: 48px;
+    font-weight: 700;
+    color: rgba(0, 0, 0, 0.03);
+    transition: all 0.3s ease;
+}
+
+.setup-steps li:hover {
+    transform: translateY(-5px);
+    background: linear-gradient(120deg, #fff, #fff5e6);
+    box-shadow: 0 10px 20px rgba(255, 165, 0, 0.08);
+    border-color: rgba(255, 165, 0, 0.2);
+}
+
+.setup-steps li:hover::before {
+    color: rgba(255, 165, 0, 0.1);
+    transform: scale(1.2);
+}
+
+.setup-steps li .material-icons {
+    color: var(--primary-color);
+    font-size: 22px;
+    margin-right: 20px;
+    padding: 10px;
+    background: rgba(255, 165, 0, 0.1);
+    border-radius: 12px;
+    transition: all 0.3s ease;
+}
+
+.setup-steps li:hover .material-icons {
+    transform: scale(1.1) rotate(-10deg);
+    background: rgba(255, 165, 0, 0.2);
+}
+
+.setup-screenshot {
+    width: 100%;
+    border-radius: 20px;
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.12);
+    transition: all 0.5s cubic-bezier(0.165, 0.84, 0.44, 1);
+    border: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+.setup-screenshot:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.15);
+}
+
+.additional-info {
+    margin-top: 25px;
+    padding: 15px 20px;
+    background: linear-gradient(120deg, #e3f2fd, #e8f5e9);
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.additional-info .material-icons {
+    color: #2196f3;
+    font-size: 22px;
+    padding: 8px;
+    background: rgba(33, 150, 243, 0.1);
+    border-radius: 50%;
+}
+
+body.night-mode .developer-mode-text {
+    background: rgba(30, 30, 30, 0.95);
+}
+
+body.night-mode .important-note {
+    background: linear-gradient(120deg, #2c2c2c, #333);
+    border-color: rgba(255, 193, 7, 0.5);
+}
+
+body.night-mode .setup-steps li {
+    background: linear-gradient(120deg, #1a1a1a, #242424);
+    border-color: rgba(255, 255, 255, 0.05);
+}
+
+body.night-mode .setup-steps li:hover {
+    background: linear-gradient(120deg, #242424, #2c2c2c);
+    border-color: rgba(255, 165, 0, 0.3);
+}
+
+body.night-mode .additional-info {
+    background: linear-gradient(120deg, #1a237e, #1b5e20);
+}
+
+@media (max-width: 768px) {
+    .developer-mode-container {
+        gap: 20px;
+        padding: 15px;
+    }
+
+    .developer-mode-text {
+        padding: 20px;
+    }
+
+    .important-note {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 15px;
+        padding: 15px 20px;
+    }
+
+    .important-note .material-icons {
+        padding: 8px;
+        font-size: 20px;
+    }
+
+    .setup-screenshot {
+        margin-top: 20px;
+    }
+}
+
 /* 问号提示样式 */
 .question-mark {
     display: inline-block;
