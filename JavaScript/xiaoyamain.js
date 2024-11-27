@@ -1060,9 +1060,9 @@ function updateVisitCount(count) {
 }
 
 AV.init({
-    appId: 'TeUg1XSw3uxdmuDaBXreh4KL-MdYXbMMI',
-    appKey: 'wgWNrxvmXDdxRmkmt6ssb3sk',
-    serverURLs: 'https://xiaoyaapi.zygame1314.site'
+    appId: 'Kxs9nZvGyeJrTeoNzOrzAYJt-gzGzoHsz',
+    appKey: 'oWDNWiMgGphR4waWf3bzbCHz',
+    serverURLs: 'https://downloaderapi.zygame1314.site'
 });
 
 const query = new AV.Query('Counter');
