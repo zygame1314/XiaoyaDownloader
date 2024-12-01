@@ -667,72 +667,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
     window.addEventListener('scroll', throttledScrollHandler);
 
-    new Valine({
-        el: '#vcomments',
-        appId: 'TeUg1XSw3uxdmuDaBXreh4KL-MdYXbMMI',
-        appKey: 'wgWNrxvmXDdxRmkmt6ssb3sk',
-        serverURLs: 'https://xiaoyaapi.zygame1314.site',
-        placeholder: '说点什么……',
-        avatar: 'retro',
-        meta: ['nick', 'mail', 'link'],
-        pageSize: 10,
-        lang: 'zh-CN',
-        highlight: true,
-        recordIP: true,
-        emojiCDN: 'https://valine-emoji.bili33.top/',
-        emojiMaps: {
-            "doge": "bilibilitv/[tv_doge].png",
-            "亲亲": "bilibilitv/[tv_亲亲].png",
-            "偷笑": "bilibilitv/[tv_偷笑].png",
-            "再见": "bilibilitv/[tv_再见].png",
-            "冷漠": "bilibilitv/[tv_冷漠].png",
-            "发怒": "bilibilitv/[tv_发怒].png",
-            "发财": "bilibilitv/[tv_发财].png",
-            "可爱": "bilibilitv/[tv_可爱].png",
-            "吐血": "bilibilitv/[tv_吐血].png",
-            "呆": "bilibilitv/[tv_呆].png",
-            "呕吐": "bilibilitv/[tv_呕吐].png",
-            "困": "bilibilitv/[tv_困].png",
-            "坏笑": "bilibilitv/[tv_坏笑].png",
-            "大佬": "bilibilitv/[tv_大佬].png",
-            "大哭": "bilibilitv/[tv_大哭].png",
-            "委屈": "bilibilitv/[tv_委屈].png",
-            "害羞": "bilibilitv/[tv_害羞].png",
-            "尴尬": "bilibilitv/[tv_尴尬].png",
-            "微笑": "bilibilitv/[tv_微笑].png",
-            "思考": "bilibilitv/[tv_思考].png",
-            "惊吓": "bilibilitv/[tv_惊吓].png",
-            "打脸": "bilibilitv/[tv_打脸].png",
-            "抓狂": "bilibilitv/[tv_抓狂].png",
-            "抠鼻": "bilibilitv/[tv_抠鼻].png",
-            "斜眼笑": "bilibilitv/[tv_斜眼笑].png",
-            "无奈": "bilibilitv/[tv_无奈].png",
-            "晕": "bilibilitv/[tv_晕].png",
-            "流汗": "bilibilitv/[tv_流汗].png",
-            "流泪": "bilibilitv/[tv_流泪].png",
-            "流鼻血": "bilibilitv/[tv_流鼻血].png",
-            "点赞": "bilibilitv/[tv_点赞].png",
-            "生气": "bilibilitv/[tv_生气].png",
-            "生病": "bilibilitv/[tv_生病].png",
-            "疑问": "bilibilitv/[tv_疑问].png",
-            "白眼": "bilibilitv/[tv_白眼].png",
-            "皱眉": "bilibilitv/[tv_皱眉].png",
-            "目瞪口呆": "bilibilitv/[tv_目瞪口呆].png",
-            "睡着": "bilibilitv/[tv_睡着].png",
-            "笑哭": "bilibilitv/[tv_笑哭].png",
-            "腼腆": "bilibilitv/[tv_腼腆].png",
-            "色": "bilibilitv/[tv_色].png",
-            "调侃": "bilibilitv/[tv_调侃].png",
-            "调皮": "bilibilitv/[tv_调皮].png",
-            "鄙视": "bilibilitv/[tv_鄙视].png",
-            "闭嘴": "bilibilitv/[tv_闭嘴].png",
-            "难过": "bilibilitv/[tv_难过].png",
-            "馋": "bilibilitv/[tv_馋].png",
-            "鬼脸": "bilibilitv/[tv_鬼脸].png",
-            "黑人问号": "bilibilitv/[tv_黑人问号].png",
-            "鼓掌": "bilibilitv/[tv_鼓掌].png"
-        }
-    });
     highlightTocLink();
     updateProgressBar();
 });
@@ -1059,30 +993,43 @@ function updateVisitCount(count) {
     requestAnimationFrame(animate);
 }
 
-AV.init({
-    appId: 'Kxs9nZvGyeJrTeoNzOrzAYJt-gzGzoHsz',
-    appKey: 'oWDNWiMgGphR4waWf3bzbCHz',
-    serverURLs: 'https://downloaderapi.zygame1314.site'
-});
+function animateCounter(target, duration = 2500) {
+    const counter = document.querySelector('.waline-pageview-count');
+    const startValue = 0;
+    const increment = target / (duration / 16);
+    let currentValue = startValue;
 
-const query = new AV.Query('Counter');
-query.equalTo('name', 'pageviews_new');
-query.first().then((counter) => {
-    if (!counter) {
-        counter = new AV.Object('Counter');
-        counter.set('name', 'pageviews_new');
-        counter.set('count', 0);
-
-        const acl = new AV.ACL();
-        acl.setPublicReadAccess(true);
-        acl.setPublicWriteAccess(true);
-        counter.setACL(acl);
+    function updateCounter() {
+        currentValue += increment;
+        if (currentValue >= target) {
+            counter.textContent = Math.round(target);
+            return;
+        }
+        counter.textContent = Math.round(currentValue);
+        requestAnimationFrame(updateCounter);
     }
-    counter.increment('count');
-    return counter.save();
-}).then((counter) => {
-    updateVisitCount(counter.get('count'));
-}).catch(console.error);
+
+    updateCounter();
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+    const observer = new MutationObserver((mutations) => {
+        mutations.forEach((mutation) => {
+            if (mutation.target.className === 'waline-pageview-count' &&
+                mutation.target.textContent !== '0') {
+                const targetValue = parseInt(mutation.target.textContent);
+                animateCounter(targetValue);
+                observer.disconnect();
+            }
+        });
+    });
+
+    observer.observe(document.querySelector('.waline-pageview-count'), {
+        childList: true,
+        characterData: true,
+        subtree: true
+    });
+});
 
 (function () {
     let devToolsOpen = false;

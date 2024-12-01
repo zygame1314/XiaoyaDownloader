@@ -6,8 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>小雅爬爬爬 - 使用教程</title>
     <link rel="stylesheet" type="text/css" href="CSS/xiaoyastylesheet.css">
-    <script src="https://jsd.onmicrosoft.cn/npm/leancloud-storage@latest/dist/av-min.js"></script>
-    <script src='https://npm.onmicrosoft.cn/valine@latest/dist/Valine.min.js'></script>
+    <link rel="stylesheet" href="https://npm.onmicrosoft.cn/@waline/client@v3/dist/waline.css" />
 </head>
 <audio id="achievement-sound" preload="auto">
     <source src="audio/steam_achievement.mp3" type="audio/mpeg">
@@ -327,12 +326,12 @@
 
     <div id="visit-counter">
         <i class="material-icons">visibility</i>
-        <span id="pageviews">0</span> 次访问
+        <span class="waline-pageview-count">0</span> 次访问
     </div>
 
     <div id="comments" class="section">
         <h2>评论</h2>
-        <div id="vcomments"></div>
+        <div id="waline"></div>
     </div>
 
     <div id="donateModal" class="modal">
@@ -386,12 +385,14 @@
         </div>
     </div>
 
-    <script src="JavaScript/xiaoyamain.js"></script>
     <footer class="custom-footer">
         <p>© 2024 zygame1314 - 版权所有 | <a href="https://beian.miit.gov.cn/" target="_blank"
                 class="beian-link">陇ICP备2024013799号</a></p>
     </footer>
 
+
+    <script src="JavaScript/xiaoyamain.js"></script>
+    <script type="module" src="JavaScript/comment.js"></script>
 </body>
 
 </html>
