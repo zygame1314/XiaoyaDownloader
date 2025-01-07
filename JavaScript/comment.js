@@ -1,4 +1,4 @@
-import { init } from 'https://npm.onmicrosoft.cn/@waline/client@v3/dist/waline.js';
+import { init } from 'https://cdn.jsdmirror.com/npm/@waline/client@v3/dist/waline.js';
 
 init({
     el: '#waline',
