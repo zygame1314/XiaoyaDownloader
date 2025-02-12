@@ -21,7 +21,7 @@
 ## 🛠️ 使用方法
 
 1. 📥 安装用户脚本管理器（推荐 [Tampermonkey](https://www.tampermonkey.net/)）
-2. 💻 通过 [此链接](https://greasyfork.org/zh-CN/scripts/488536) 安装脚本
+2. 💻 通过 [此链接](https://scriptcat.org/zh-CN/script-show-page/2771) 安装脚本
 3. 🏫 访问小雅平台课程页面
 4. 🖱️ 点击页面右上角或右下角的下载按钮
 5. ✅ 选择所需课件并下载
