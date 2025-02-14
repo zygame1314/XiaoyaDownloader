@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>小雅爬爬爬 - 使用教程</title>
+    <link rel="stylesheet" type="text/css" href="CSS/xiaoyastylesheet.css">
+    <link rel="stylesheet" href="https://cdn.jsdmirror.com/npm/@waline/client@v3/dist/waline.css" />
+</head>
+<audio id="achievement-sound" preload="auto">
+    <source src="audio/steam_achievement.mp3" type="audio/mpeg">
+</audio>
+
+<body>
+    <div id="sound-prompt" class="sound-prompt">
+        <i class="material-icons">volume_up</i>
+        <span>点击或按任意键以启用声音</span>
+    </div>
+    <div id="progress-bar"></div>
+    <div id="toc">
+        <h3>目录</h3>
+        <ul>
+            <li><a href="#install-tampermonkey" class="toc-link">安装油猴插件</a></li>
+            <li><a href="#enable-developer-mode" class="toc-link">启用开发者模式</a></li>
+            <li><a href="#install-script" class="toc-link">安装小雅爬爬爬脚本</a></li>
+            <li><a href="#usage" class="toc-link">使用方法</a></li>
+            <li><a href="#features" class="toc-link">主要功能</a></li>
+            <li><a href="#advanced-tips" class="toc-link">高级技巧</a></li>
+            <li><a href="#faq" class="toc-link">常见问题</a></li>
+            <li><a href="#feedback" class="toc-link">反馈与支持</a></li>
+            <li><a href="#comments" class="toc-link">评论</a></li>
+        </ul>
+    </div>
+    <canvas id="background-canvas"></canvas>
+    <h1><i class="material-icons" style="font-size: 1.2em; vertical-align: bottom;">auto_stories</i> 小雅爬爬爬 - 使用教程
+    </h1>
+
+    <div id="install-tampermonkey" class="section">
+        <h2>1. 安装油猴插件</h2>
+        <p>如果你的浏览器还没有安装油猴插件，请按照以下步骤操作：</p>
+        <div class="install-tampermonkey-container">
+            <div class="install-tampermonkey-text">
+                <div class="install-options">
+                    <a href="https://www.tampermonkey.net/" target="_blank" class="install-option">
+                        <i class="material-icons">language</i>
+                        访问 Tampermonkey 官方网站
+                    </a>
+                    <div class="or-divider">或</div>
+                    <div class="browser-options">
+                        <a href="https://chrome.google.com/webstore/detail/tampermonkey/dhdgffkkebhmkfjojejmpbldmpobfkfo?hl=zh-CN"
+                            target="_blank" class="browser-option">
+                            <svg class="icon" viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg" width="24"
+                                height="24">
+                                <path
+                                    d="M371.8 512c0 77.5 62.7 140.2 140.2 140.2S652.2 589.5 652.2 512 589.5 371.8 512 371.8 371.8 434.4 371.8 512z"
+                                    fill="#ffffff"></path>
+                                <path
+                                    d="M900 362.4l-234.3 12.1c63.6 74.3 64.6 181.5 11.1 263.7l-188 289.2c78 4.2 158.4-12.9 231.2-55.2 180-104 253-322.1 180-509.8zM320.3 591.9L163.8 284.1C121 349.5 96 428 96 512c0 208 152.3 380.3 351.4 410.8l106.9-209.4c-96.6 18.2-189.9-34.8-234-121.5zM538.8 306.4l344.4 18.1C848 254.7 792.6 194 719.8 151.7 653.9 113.6 581.5 95.5 510.5 96c-122.5 0.5-242.2 55.2-322.1 154.5l128.2 196.9c32-91.9 124.8-146.7 222.2-141z"
+                                    fill="#ffffff"></path>
+                            </svg>
+                            Chrome
+                        </a>
+                        <a href="https://addons.mozilla.org/zh-CN/firefox/addon/tampermonkey/" target="_blank"
+                            class="browser-option">
+                            <svg class="icon" viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg" width="24"
+                                height="24">
+                                <path
+                                    d="M516 1024q-161.714286 0-288.285714-86T39.428571 710.285714Q6.285714 635.428571 1.142857 538.285714t14.857143-190 63.428571-178.285714T181.714286 31.428571l-6.285715 160.571429q6.285714-8 38.857143-8.857143t40 8.857143q24-46.285714 91.714286-78.857143T480 79.428571q-30.857143 25.714286-68.285714 84.857143T378.285714 257.714286q14.285714 4.571429 35.714286 7.714285t36 4.285715 38.857143 2.285714 28.857143 1.714286q8.571429 2.857143 5.428571 26T505.714286 342.857143q-2.857143 4-9.428572 10.571428T464 373.714286t-57.714286 19.428571l8.571429 108-79.428572-38.285714q-10.285714 24.571429-4.285714 46.571428t20.571429 38 37.428571 23.714286 46.285714 3.714286q29.142857-5.142857 56-19.714286t47.714286-25.714286T581.142857 519.428571q34.857143 2.285714 51.142857 18.857143t11.142857 37.142857q-0.571429 1.142857-1.428571 3.142858t-4.857143 7.142857-10.285714 8.857143-18 6-26.571429 0.571428q-34.285714 54.285714-82.571428 77.428572T380 695.428571q42.285714 34.857143 92.857143 47.142858t96.285714 3.428571 88.285714-29.714286 73.142858-50 46-59.428571q24.571429-52 22.285714-110T777.428571 389.142857 732.571429 317.714286q49.714286 21.714286 78.285714 45.428571t44 64.285714q8.571429-97.142857-32.857143-196T702.285714 69.142857q151.428571 44 235.428572 159.714286T1024 524.571429q1.142857 72.571429-23.142857 145.714285T930.285714 806.285714t-108 112-141.428571 77.428572T516 1024z"
+                                    fill="#ffffff" />
+                            </svg>
+                            Firefox
+                        </a>
+                        <a href="https://microsoftedge.microsoft.com/addons/detail/tampermonkey/iikmkjmpaadaobahmlepeloendndfphd"
+                            target="_blank" class="browser-option recommended">
+                            <svg class="icon" viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg" width="24"
+                                height="24">
+                                <path
+                                    d="M39.428571 454.285714h0.571429q9.142857-72 33.428571-138t65.714286-124 95.714286-100.571428T362.571429 24.571429 520.571429 0q132 0 236.571428 60.285714T925.142857 233.714286q59.428571 106.857143 59.428572 252.571428v107.428572H341.714286q0.571429 63.428571 30.571428 110T450.285714 773.714286t108.285715 32.571428 121.714285 1.714286 118.857143-26.571429T898.285714 733.142857v215.428572q-52.571429 31.428571-131.142857 52.571428t-178.571428 21.714286-180.571429-30.285714q-108-41.714286-178-142.285715T158.857143 637.714286q-1.714286-138.285714 63.428571-235.428572t185.714286-153.142857q-27.428571 34.285714-44.571429 71.714286T337.142857 412h362.857143q4.571429-44-4.571429-80t-26.857142-58-40.285715-38-46-23.428571-42.857143-11.714286-32-4.857143l-12.571428-0.571429q-77.142857 2.857143-148.285714 25.428572T218.857143 280.571429 118.285714 360.857143 39.428571 454.285714z"
+                                    fill="#ffffff" />
+                            </svg>
+                            Microsoft Edge
+                            <span class="recommended-badge">推荐 ※</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="install-tampermonkey-image">
+                <img src="images/install-tampermonkey.png" alt="安装油猴插件截图" class="tampermonkey-screenshot">
+            </div>
+        </div>
+        <div class="install-note">
+            <i class="material-icons">info</i>
+            <p>在非特殊网络环境下，Edge扩展商店可以直接访问，方便安装插件。</p>
+        </div>
+    </div>
+
+    </div>
+
+    <div id="enable-developer-mode" class="section">
+        <h2>2. 启用浏览器扩展开发者模式</h2>
+        <div class="developer-mode-container">
+            <div class="developer-mode-text">
+                <p class="important-note">
+                    <i class="material-icons">warning</i>
+                    <strong>重要提示：</strong> 使用脚本前，需要先启用扩展的开发者模式。
+                </p>
+                <ol class="setup-steps">
+                    <li>
+                        <i class="material-icons">settings</i>
+                        <span>打开浏览器的扩展管理页面</span>
+                    </li>
+                    <li>
+                        <i class="material-icons">dashboard</i>
+                        <span>在页面左侧找到"开发者模式"开关（因浏览器而异）</span>
+                    </li>
+                    <li>
+                        <i class="material-icons">build</i>
+                        <span>点击开关启用开发者模式</span>
+                    </li>
+                    <li>
+                        <i class="material-icons">check_circle</i>
+                        <span>确认开关已经处于打开状态</span>
+                    </li>
+                </ol>
+                <div class="additional-info">
+                    <i class="material-icons">info</i>
+                    <p>完成以上步骤后，请重启浏览器以确保设置生效。</p>
+                </div>
+            </div>
+            <div class="developer-mode-image">
+                <img src="images/enable-developer-mode.png" alt="启用浏览器扩展开发者模式步骤截图" class="setup-screenshot">
+            </div>
+        </div>
+    </div>
+
+    <div id="install-script" class="section">
+        <h2>3. 安装小雅爬爬爬脚本</h2>
+        <div class="install-container">
+            <div class="install-text">
+                <p>只需点击下方按钮，即可一键安装脚本:</p>
+                <a href="https://scriptcat.org/zh-CN/script-show-page/2771"
+                    target="_blank" class="install-button">
+                    <i class="material-icons">get_app</i>
+                    安装小雅爬爬爬
+                </a>
+            </div>
+            <div class="install-image">
+                <img src="images/install-script.png" alt="安装脚本界面截图" class="install-screenshot">
+            </div>
+        </div>
+        <div class="install-note">
+            <i class="material-icons">info</i>
+            <p>安装完成后，请刷新页面以激活脚本。</p>
+        </div>
+    </div>
+
+    <div id="usage" class="section">
+        <h2>4. 使用方法</h2>
+        <div class="usage-steps">
+            <div class="step">
+                <div class="step-number">1</div>
+                <div class="step-content">
+                    <h4>访问课程页面</h4>
+                    <p>打开小雅平台，进入你想要下载课件的课程页面。</p>
+                </div>
+            </div>
+            <div class="step">
+                <div class="step-number">2</div>
+                <div class="step-content">
+                    <h4>找到下载界面</h4>
+                    <p>安装脚本后，课程页面会出现下载界面，包含各种组件。</p>
+                </div>
+            </div>
+            <div class="step">
+                <div class="step-number">3</div>
+                <div class="step-content">
+                    <h4>筛选所需文件</h4>
+                    <p>使用筛选、搜索或排序等功能找到你需要的文件。</p>
+                </div>
+            </div>
+            <div class="step">
+                <div class="step-number">4</div>
+                <div class="step-content">
+                    <h4>下载文件</h4>
+                    <p>选择单个文件下载，或勾选多个文件进行批量下载。</p>
+                </div>
+            </div>
+            <div class="step">
+                <div class="step-number">5</div>
+                <div class="step-content">
+                    <h4>导出文件列表（可选）</h4>
+                    <p>可以使用导出功能，将文件列表导出为其他格式。</p>
+                </div>
+            </div>
+            <div class="step">
+                <div class="step-number">6</div>
+                <div class="step-content">
+                    <h4>导入下载工具（可选）</h4>
+                    <p>将导出的文件导入第三方工具。</p>
+                </div>
+            </div>
+        </div>
+        <div class="video-wrapper">
+            <p class="video-credit">
+                <span class="material-icons pulse">favorite</span>
+                感谢 <a href="https://space.bilibili.com/447984324" target="_blank">@毫厘之寻</a> 制作的教学视频！
+            </p>
+            <div class="video-container">
+                <iframe
+                    src="//player.bilibili.com/player.html?isOutside=true&aid=112854359345642&bvid=BV192ereHEfa&cid=500001628619331&p=1&autoplay=0"
+                    allowfullscreen></iframe>
+            </div>
+        </div>
+    </div>
+
+    <div id="features" class="section">
+        <h2>主要功能</h2>
+        <div class="feature">
+            <i class="material-icons feature-icon">file_download</i>
+            <div class="feature-content">
+                <div class="feature-title">批量下载</div>
+                <div>选择多个文件，一键下载所有选中的课件。</div>
+            </div>
+        </div>
+        <div class="feature">
+            <i class="material-icons feature-icon">sort</i>
+            <div class="feature-content">
+                <div class="feature-title">文件排序</div>
+                <div>按日期或默认顺序排列文件，方便查找。</div>
+            </div>
+        </div>
+        <div class="feature">
+            <i class="material-icons feature-icon">filter_list</i>
+            <div class="feature-content">
+                <div class="feature-title">文件筛选</div>
+                <div>使用关键词或文件类型快速筛选所需文件。</div>
+            </div>
+        </div>
+        <div class="feature">
+            <i class="material-icons feature-icon">import_export</i>
+            <div class="feature-content">
+                <div class="feature-title">导出功能</div>
+                <div>支持导出文件列表为 EF2、TXT、JSON、CSV 或 ZIP 格式，方便在其他下载工具中使用。</div>
+            </div>
+        </div>
+    </div>
+
+
+    <div id="advanced-tips" class="section">
+        <h2>高级技巧</h2>
+        <p>使用 <code>Konami Code<span class="hidden-text">(Fxxk Konami)</span></code> (↑↑↓↓←→←→BA) 激活隐藏功能。</p>
+        <p>另外，连击5次控制面板中的版本号也可激活隐藏功能。</p>
+        <p>（本页面也有<span id="easter-egg-trigger">彩蛋</span><i class="material-icons"
+                style="font-size: 1em; vertical-align: middle; cursor: pointer;">emoji_emotions</i>哦~）
+            <span style="font-size: 0.8em; color: #888;">(并不是所有地方都有版本号……)</span>
+        </p>
+        <div class="note">
+            注意：请谨慎使用这些高级功能，确保遵守相关规定和尊重他人隐私。
+        </div>
+    </div>
+
+    <div id="faq" class="section">
+        <h2>常见问题</h2>
+        <details>
+            <summary class="faq-toggle">为什么有些文件无法下载？</summary>
+            <div class="faq-content">
+                <p>确保你能正常访问这些文件，并检查网络连接是否正常。</p>
+            </div>
+        </details>
+        <details>
+            <summary class="faq-toggle">如何更新脚本？</summary>
+            <div class="faq-content">
+                <p>脚本会自动检查更新，你也可以在油猴扩展中手动检查更新。</p>
+            </div>
+        </details>
+        <details>
+            <summary class="faq-toggle">视频文件怎么下载？</summary>
+            <div class="faq-content">
+                <p>脚本支持抓取视频链接，可以复制或直接打开下载。</p>
+            </div>
+        </details>
+        <details>
+            <summary class="faq-toggle">为什么我切换到了"用浏览器下载"，还是会唤起IDM？</summary>
+            <div class="faq-content">
+                <p>IDM会截获大多数下载请求，必要的话可以关闭IDM的浏览器插件。</p>
+            </div>
+        </details>
+        <details>
+            <summary class="faq-toggle">EF2 和 TXT 等文件是什么？怎么用？</summary>
+            <div class="faq-content">
+                <p>导出文件列表为 EF2、TXT、JSON、CSV 或 ZIP 格式，可以方便地将下载链接导入到其他下载工具或软件中。
+                <ul>
+                    <li><strong>EF2:</strong> 专门用于存储下载链接的格式，可以被IDM识别。 <strong class="badge">IDM专属</strong></li>
+                    <li><strong>TXT:</strong> 纯文本文件，可以导入至绝大多数下载工具中。 <strong class="badge">几乎通用</strong></li>
+                    <li><strong>JSON:</strong> 轻量级的数据交换格式，可以被许多编程语言解析。 <strong class="badge">结构化数据</strong></li>
+                    <li><strong>CSV:</strong> 以逗号分隔值的表格数据格式，可以被电子表格软件打开。 <strong class="badge">电子表格</strong></li>
+                    <li><strong>ZIP:</strong> 压缩文件格式，可以将多个文件打包成一个文件。 <strong class="badge">压缩文件</strong></li>
+                </ul>
+            </div>
+        </details>
+    </div>
+
+    <div id="feedback" class="section">
+        <h2>反馈与支持</h2>
+        <p>如果你遇到任何问题或有改进建议，欢迎通过以下方式留下宝贵意见：</p>
+        <div class="feedback-buttons">
+            <a href="https://github.com/zygame1314/XiaoyaDownloader" target="_blank" class="feedback-button">
+                <i class="material-icons">code</i>
+                <span>GitHub 项目页面</span>
+            </a>
+            <a href="https://scriptcat.org/zh-CN/script-show-page/2771"
+                target="_blank" class="feedback-button">
+                <i class="material-icons">extension</i>
+                <span>油猴脚本页面</span>
+            </a>
+            <a href="#" class="feedback-button" id="donateButton">
+                <i class="material-icons">favorite</i>
+                <span>打赏作者</span>
+            </a>
+            <a href="https://zygame1314.site" target="_blank" class="feedback-button">
+                <i class="material-icons">home</i> 访问我的主页
+            </a>
+        </div>
+    </div>
+
+    <div id="visit-counter">
+        <i class="material-icons">visibility</i>
+        <span class="waline-pageview-count">0</span> 次访问
+    </div>
+
+    <div id="comments" class="section">
+        <h2>评论</h2>
+        <div id="waline"></div>
+    </div>
+
+    <div id="donateModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>谢谢你的好意！</h2>
+            <p class="emoji">( ˶ˆ꒳ˆ˵ )</p>
+            <p>打赏就不用啦~</p>
+            <p>你的支持就是我最大的动力！</p>
+            <div class="heart-container">
+                <div class="heart"></div>
+            </div>
+            <p>如果一定要赞助，请移步我的主页以支持<br>( •̀ ω •́ )✧：<a href="https://zygame1314.site" target="_blank">点击直达～</a></p>
+        </div>
+    </div>
+
+    <button id="back-to-top" title="返回顶部">
+        <span class="material-icons">arrow_upward</span>
+    </button>
+
+    <div id="transition-ball">
+        <canvas id="particle-canvas"></canvas>
+    </div>
+
+    <div id="achievement-popup">
+        <div class="achievement-content">
+            <img src="" alt="成就图标" id="achievement-icon">
+            <div class="achievement-text">
+                <h3 id="achievement-title">成就名称</h3>
+                <p id="achievement-description">成就描述</p>
+            </div>
+        </div>
+    </div>
+
+    <button id="view-achievements" title="查看成就">
+        <span class="material-icons">emoji_events</span>
+    </button>
+
+    <div id="achievements-modal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>成就列表</h2>
+            <div id="achievements-list-container">
+                <div id="achievements-list"></div>
+            </div>
+            <div id="pagination">
+                <button id="prev-page">上一页</button>
+                <span id="page-info"></span>
+                <button id="next-page">下一页</button>
+            </div>
+        </div>
+    </div>
+
+    <footer class="custom-footer">
+        <p>© 2024 zygame1314 - 版权所有 | <a href="https://beian.miit.gov.cn/" target="_blank"
+                class="beian-link">陇ICP备2024013799号</a></p>
+    </footer>
+
+
+    <script src="JavaScript/xiaoyamain.js"></script>
+    <script type="module" src="JavaScript/comment.js"></script>
+</body>
+
+</html>
