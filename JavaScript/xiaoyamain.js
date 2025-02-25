@@ -719,21 +719,34 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     function highlightTocLink() {
-        let scrollPosition = window.scrollY;
+        const scrollPosition = window.scrollY + 100;
+        let currentSection = null;
 
-        sections.forEach((section, index) => {
-            if (section.offsetTop <= scrollPosition + 100) {
-                tocLinks.forEach((link) => link.classList.remove('active'));
-                tocLinks[index].classList.add('active');
+        for (let i = sections.length - 1; i >= 0; i--) {
+            if (sections[i].offsetTop <= scrollPosition) {
+                currentSection = sections[i];
+                break;
             }
-        });
+        }
+
+        if (currentSection) {
+            tocLinks.forEach(link => link.classList.remove('active'));
+
+            const targetId = currentSection.id;
+            const targetLink = document.querySelector(`.toc-link[href="#${targetId}"]`);
+            if (targetLink) {
+                targetLink.classList.add('active');
+            }
+        }
     }
 
     const throttledScrollHandler = throttle(() => {
-        highlightTocLink();
-        checkExplorer();
-        updateProgressBar();
-    }, 200);
+        requestAnimationFrame(() => {
+            highlightTocLink();
+            checkExplorer();
+            updateProgressBar();
+        });
+    }, 100);
 
     window.addEventListener('scroll', throttledScrollHandler);
 
