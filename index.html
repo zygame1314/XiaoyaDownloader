@@ -3,8 +3,8 @@
 
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>小雅爬爬爬 - 使用教程</title>
+    <meta name="viewport" content="width=device-width， initial-scale=1.0">
+    <title>小雅系列脚本 - 使用教程</title>
     <link rel="stylesheet" type="text/css" href="CSS/xiaoyastylesheet.css">
     <link rel="stylesheet" href="https://cdn.jsdmirror.com/npm/@waline/client@v3/dist/waline.css" />
 </head>
@@ -13,6 +13,12 @@
 </audio>
 
 <body>
+    <div id="script-selector">
+        <div class="script-option active" data-script="xiaoya-crawl">小雅爬爬爬</div>
+        <div class="script-option" data-script="xiaoya-do">小雅做做做</div>
+        <div class="script-option" data-script="xiaoya-answer">小雅答答答</div>
+    </div>
+
     <div id="sound-prompt" class="sound-prompt">
         <i class="material-icons">volume_up</i>
         <span>点击或按任意键以启用声音</span>
@@ -23,7 +29,15 @@
         <ul>
             <li><a href="#install-tampermonkey" class="toc-link">安装油猴插件</a></li>
             <li><a href="#enable-developer-mode" class="toc-link">启用开发者模式</a></li>
-            <li><a href="#install-script" class="toc-link">安装小雅爬爬爬脚本</a></li>
+            <div class="content-section visible" data-script="xiaoya-crawl">
+                <li><a href="#install-script" class="toc-link">安装小雅爬爬爬脚本</a></li>
+            </div>
+            <div class="content-section hidden" data-script="xiaoya-do">
+                <li><a href="#install-script" class="toc-link">安装小雅做做做脚本</a></li>
+            </div>
+            <div class="content-section hidden" data-script="xiaoya-answer">
+                <li><a href="#install-script" class="toc-link">安装小雅答答答脚本</a></li>
+            </div>
             <li><a href="#usage" class="toc-link">使用方法</a></li>
             <li><a href="#features" class="toc-link">主要功能</a></li>
             <li><a href="#advanced-tips" class="toc-link">高级技巧</a></li>
@@ -33,8 +47,48 @@
         </ul>
     </div>
     <canvas id="background-canvas"></canvas>
-    <h1><i class="material-icons" style="font-size: 1.2em; vertical-align: bottom;">auto_stories</i> 小雅爬爬爬 - 使用教程
+    <h1><i class="material-icons" style="font-size: 1.2em; vertical-align: bottom;">auto_stories</i>
+        <span id="page-title">小雅系列脚本 - 使用教程</span>
     </h1>
+
+    <div id="script-description" class="section">
+        <div class="content-section visible" data-script="xiaoya-crawl">
+            <div class="script-intro">
+                <i class="material-icons">download</i>
+                <h3>小雅爬爬爬</h3>
+                <p>智能下载助手，让你的学习资料管理更轻松。</p>
+                <ul class="feature-list">
+                    <li><i class="material-icons">speed</i> 提升学习效率</li>
+                    <li><i class="material-icons">library_books</i> 智能整理资料</li>
+                    <li><i class="material-icons">schedule</i> 节省学习时间</li>
+                </ul>
+            </div>
+        </div>
+        <div class="content-section hidden" data-script="xiaoya-do">
+            <div class="script-intro">
+                <i class="material-icons">send</i>
+                <h3>小雅做做做</h3>
+                <p>智能任务助手，让学习过程更高效自动。</p>
+                <ul class="feature-list">
+                    <li><i class="material-icons">task_alt</i> 自动完成任务</li>
+                    <li><i class="material-icons">trending_up</i> 提高学习效率</li>
+                    <li><i class="material-icons">schedule</i> 智能时间管理</li>
+                </ul>
+            </div>
+        </div>
+        <div class="content-section hidden" data-script="xiaoya-answer">
+            <div class="script-intro">
+                <i class="material-icons">auto_awesome</i>
+                <h3>小雅答答答</h3>
+                <p>智能答案助手，让回答更精准专业。</p>
+                <ul class="feature-list">
+                    <li><i class="material-icons">analytics</i> 获取标准答案</li>
+                    <li><i class="material-icons">precision_manufacturing</i> 智能答案生成</li>
+                    <li><i class="material-icons">verified</i> 准确度更高</li>
+                </ul>
+            </div>
+        </div>
+    </div>
 
     <div id="install-tampermonkey" class="section">
         <h2>1. 安装油猴插件</h2>
@@ -86,7 +140,7 @@
                 </div>
             </div>
             <div class="install-tampermonkey-image">
-                <img src="images/install-tampermonkey.png" alt="安装油猴插件截图" class="tampermonkey-screenshot">
+                <img src="images/install-tampermonkey.webp" alt="安装油猴插件截图" class="tampermonkey-screenshot">
             </div>
         </div>
         <div class="install-note">
@@ -129,24 +183,50 @@
                 </div>
             </div>
             <div class="developer-mode-image">
-                <img src="images/enable-developer-mode.png" alt="启用浏览器扩展开发者模式步骤截图" class="setup-screenshot">
+                <img src="images/enable-developer-mode.webp" alt="启用浏览器扩展开发者模式步骤截图" class="setup-screenshot">
             </div>
         </div>
     </div>
 
     <div id="install-script" class="section">
-        <h2>3. 安装小雅爬爬爬脚本</h2>
-        <div class="install-container">
-            <div class="install-text">
-                <p>只需点击下方按钮，即可一键安装脚本:</p>
-                <a href="https://scriptcat.org/zh-CN/script-show-page/2771"
-                    target="_blank" class="install-button">
-                    <i class="material-icons">get_app</i>
-                    安装小雅爬爬爬
-                </a>
+        <h2>3. 安装脚本</h2>
+        <div class="content-section visible" data-script="xiaoya-crawl">
+            <div class="install-container">
+                <div class="install-text">
+                    <h3>安装小雅爬爬爬脚本</h3>
+                    <p>点击下方按钮，打开小雅爬爬爬的安装页面：</p>
+                    <a href="https://scriptcat.org/zh-CN/script-show-page/2771" class="install-button"><i
+                            class="material-icons">get_app</i> 安装小雅爬爬爬</a>
+                </div>
+                <div class="install-image">
+                    <img src="images/爬爬爬下载.webp" alt="安装小雅爬爬爬截图">
+                </div>
             </div>
-            <div class="install-image">
-                <img src="images/install-script.png" alt="安装脚本界面截图" class="install-screenshot">
+        </div>
+        <div class="content-section hidden" data-script="xiaoya-do">
+            <div class="install-container">
+                <div class="install-text">
+                    <h3>安装小雅做做做脚本</h3>
+                    <p>点击下方按钮，打开小雅做做做的安装页面：</p>
+                    <a href="https://scriptcat.org/zh-CN/script-show-page/2772" class="install-button"><i
+                            class="material-icons">get_app</i> 安装小雅做做做</a>
+                </div>
+                <div class="install-image">
+                    <img src="images/做做做下载.webp" alt="安装小雅做做做截图">
+                </div>
+            </div>
+        </div>
+        <div class="content-section hidden" data-script="xiaoya-answer">
+            <div class="install-container">
+                <div class="install-text">
+                    <h3>安装小雅答答答脚本</h3>
+                    <p>点击下方按钮，打开小雅答答答的安装页面：</p>
+                    <a href="https://scriptcat.org/zh-CN/script-show-page/2773" class="install-button"><i
+                            class="material-icons">get_app</i> 安装小雅答答答</a>
+                </div>
+                <div class="install-image">
+                    <img src="images/答答答下载.webp" alt="安装小雅答答答截图">
+                </div>
             </div>
         </div>
         <div class="install-note">
@@ -157,170 +237,503 @@
 
     <div id="usage" class="section">
         <h2>4. 使用方法</h2>
-        <div class="usage-steps">
-            <div class="step">
-                <div class="step-number">1</div>
-                <div class="step-content">
-                    <h4>访问课程页面</h4>
-                    <p>打开小雅平台，进入你想要下载课件的课程页面。</p>
+
+        <div class="content-section visible" data-script="xiaoya-crawl">
+            <div class="usage-steps">
+                <div class="step">
+                    <div class="step-number">1</div>
+                    <div class="step-content">
+                        <h4>进入课程页面</h4>
+                        <p>打开小雅平台，进入你想要下载课件的课程页面。</p>
+                    </div>
                 </div>
-            </div>
-            <div class="step">
-                <div class="step-number">2</div>
-                <div class="step-content">
-                    <h4>找到下载界面</h4>
-                    <p>安装脚本后，课程页面会出现下载界面，包含各种组件。</p>
+                <div class="step">
+                    <div class="step-number">2</div>
+                    <div class="step-content">
+                        <h4>打开下载面板</h4>
+                        <p>点击页面右侧悬浮的下载按钮，打开下载管理面板。</p>
+                    </div>
                 </div>
-            </div>
-            <div class="step">
-                <div class="step-number">3</div>
-                <div class="step-content">
-                    <h4>筛选所需文件</h4>
-                    <p>使用筛选、搜索或排序等功能找到你需要的文件。</p>
+                <div class="step">
+                    <div class="step-number">3</div>
+                    <div class="step-content">
+                        <h4>选择文件</h4>
+                        <p>在文件列表中勾选需要下载的文件，支持批量选择。</p>
+                    </div>
                 </div>
-            </div>
-            <div class="step">
-                <div class="step-number">4</div>
-                <div class="step-content">
-                    <h4>下载文件</h4>
-                    <p>选择单个文件下载，或勾选多个文件进行批量下载。</p>
-                </div>
-            </div>
-            <div class="step">
-                <div class="step-number">5</div>
-                <div class="step-content">
-                    <h4>导出文件列表（可选）</h4>
-                    <p>可以使用导出功能，将文件列表导出为其他格式。</p>
-                </div>
-            </div>
-            <div class="step">
-                <div class="step-number">6</div>
-                <div class="step-content">
-                    <h4>导入下载工具（可选）</h4>
-                    <p>将导出的文件导入第三方工具。</p>
+                <div class="step">
+                    <div class="step-number">4</div>
+                    <div class="step-content">
+                        <h4>开始下载</h4>
+                        <p>点击按钮开始下载，或使用导出功能保存下载链接。</p>
+                    </div>
                 </div>
             </div>
         </div>
+
+        <div class="content-section hidden" data-script="xiaoya-do">
+            <div class="usage-steps">
+                <div class="step">
+                    <div class="step-number">1</div>
+                    <div class="step-content">
+                        <h4>查看任务列表</h4>
+                        <p>进入课程空间后，脚本会自动显示待完成的任务列表。</p>
+                    </div>
+                </div>
+                <div class="step">
+                    <div class="step-number">2</div>
+                    <div class="step-content">
+                        <h4>选择任务</h4>
+                        <p>在任务列表中选择要完成的任务，可以查看详细信息。</p>
+                    </div>
+                </div>
+                <div class="step">
+                    <div class="step-number">3</div>
+                    <div class="step-content">
+                        <h4>记录学习时长</h4>
+                        <p>点击开始按钮记录学习时间，完成后点击结束。</p>
+                    </div>
+                </div>
+                <div class="step">
+                    <div class="step-number">4</div>
+                    <div class="step-content">
+                        <h4>提交任务</h4>
+                        <p>勾选任务后，点击提交按钮自动提交。</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="content-section hidden" data-script="xiaoya-answer">
+            <div class="usage-steps">
+                <div class="step">
+                    <div class="step-number">1</div>
+                    <div class="step-content">
+                        <h4>打开作业页面</h4>
+                        <p>进入需要完成的作业页面，脚本会自动识别。</p>
+                    </div>
+                </div>
+                <div class="step">
+                    <div class="step-number">2</div>
+                    <div class="step-content">
+                        <h4>获取答案</h4>
+                        <p>使用快捷键Ctrl+Shift+A或点击工具栏按钮获取答案。</p>
+                    </div>
+                </div>
+                <div class="step">
+                    <div class="step-number">3</div>
+                    <div class="step-content">
+                        <h4>填写答案</h4>
+                        <p>使用快捷键Ctrl+Shift+F或点击填充按钮自动填写答案。</p>
+                    </div>
+                </div>
+                <div class="step">
+                    <div class="step-number">4</div>
+                    <div class="step-content">
+                        <h4>检查并提交</h4>
+                        <p>检查答案无误后，点击提交按钮完成答题。</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
         <div class="video-wrapper">
-            <p class="video-credit">
-                <span class="material-icons pulse">favorite</span>
-                感谢 <a href="https://space.bilibili.com/447984324" target="_blank">@毫厘之寻</a> 制作的教学视频！
-            </p>
-            <div class="video-container">
-                <iframe
-                    src="//player.bilibili.com/player.html?isOutside=true&aid=114059601052077&bvid=BV1vEPteuEUY&cid=28559740700&p=1&autoplay=0"
-                    allowfullscreen></iframe>
+            <div class="content-section visible" data-script="xiaoya-crawl">
+                <p class="video-credit">
+                    <span class="material-icons pulse">favorite</span>
+                    感谢 <a href="https://space.bilibili.com/447984324" target="_blank">@毫厘之寻</a> 的视频教程！
+                </p>
+                <div class="video-container">
+                    <iframe
+                        src="//player.bilibili.com/player.html?isOutside=true&aid=114059601052077&bvid=BV1vEPteuEUY&cid=28559740700&p=1&autoplay=0"
+                        allowfullscreen></iframe>
+                </div>
+            </div>
+
+            <div class="content-section hidden" data-script="xiaoya-do">
+                <p class="video-credit">
+                    <span class="material-icons pulse">favorite</span>
+                    感谢 <a href="https://space.bilibili.com/447984324" target="_blank">@毫厘之寻</a> 的视频教程！
+                </p>
+                <div class="video-container">
+                    <iframe
+                        src="//player.bilibili.com/player.html?isOutside=true&aid=114065322084957&bvid=BV1XoPvexEYw&cid=28576646175&p=1&autoplay=0"
+                        allowfullscreen></iframe>
+                </div>
+            </div>
+
+            <div class="content-section hidden" data-script="xiaoya-answer">
+                <p class="video-credit">
+                    <span class="material-icons pulse">favorite</span>
+                    感谢 <a href="https://space.bilibili.com/447984324" target="_blank">@毫厘之寻</a> 的视频教程！
+                </p>
+                <div class="video-container">
+                    <iframe
+                        src="//player.bilibili.com/player.html?isOutside=true&aid=114064818768486&bvid=BV1HcPqekEWt&cid=28574484296&p=1&autoplay=0"
+                        allowfullscreen></iframe>
+                </div>
             </div>
         </div>
     </div>
 
     <div id="features" class="section">
         <h2>主要功能</h2>
-        <div class="feature">
-            <i class="material-icons feature-icon">file_download</i>
-            <div class="feature-content">
-                <div class="feature-title">批量下载</div>
-                <div>选择多个文件，一键下载所有选中的课件。</div>
+
+        <div class="content-section visible" data-script="xiaoya-crawl">
+            <div class="feature">
+                <i class="material-icons feature-icon">file_download</i>
+                <div class="feature-content">
+                    <div class="feature-title">批量下载</div>
+                    <div>选择多个文件，一键下载所有选中的课件。</div>
+                </div>
+            </div>
+            <div class="feature">
+                <i class="material-icons feature-icon">sort</i>
+                <div class="feature-content">
+                    <div class="feature-title">文件排序</div>
+                    <div>按日期或默认顺序排列文件，方便查找。</div>
+                </div>
+            </div>
+            <div class="feature">
+                <i class="material-icons feature-icon">filter_list</i>
+                <div class="feature-content">
+                    <div class="feature-title">文件筛选</div>
+                    <div>使用关键词或文件类型快速筛选所需文件。</div>
+                </div>
+            </div>
+            <div class="feature">
+                <i class="material-icons feature-icon">import_export</i>
+                <div class="feature-content">
+                    <div class="feature-title">导出功能</div>
+                    <div>支持导出文件列表为 EF2、TXT、JSON、CSV 或 ZIP 格式，方便在其他下载工具中使用。</div>
+                </div>
             </div>
         </div>
-        <div class="feature">
-            <i class="material-icons feature-icon">sort</i>
-            <div class="feature-content">
-                <div class="feature-title">文件排序</div>
-                <div>按日期或默认顺序排列文件，方便查找。</div>
+
+        <div class="content-section hidden" data-script="xiaoya-do">
+            <div class="feature">
+                <i class="material-icons feature-icon">task_alt</i>
+                <div class="feature-content">
+                    <div class="feature-title">任务状态展示</div>
+                    <div>提供任务状态的清晰展示，用户可以实时掌握任务的进度。</div>
+                </div>
+            </div>
+            <div class="feature">
+                <i class="material-icons feature-icon">category</i>
+                <div class="feature-content">
+                    <div class="feature-title">分类显示和统计</div>
+                    <div>任务按类型分类，显示已完成、进行中和即将到期的状态，帮助用户轻松管理学习进度。</div>
+                </div>
+            </div>
+            <div class="feature">
+                <i class="material-icons feature-icon">send</i>
+                <div class="feature-content">
+                    <div class="feature-title">便捷提交功能</div>
+                    <div>支持一键提交符合条件的任务，简化操作流程。</div>
+                </div>
+            </div>
+            <div class="feature">
+                <i class="material-icons feature-icon">dashboard_customize</i>
+                <div class="feature-content">
+                    <div class="feature-title">浮动按钮控制面板</div>
+                    <div>任务面板可随时展开，便于快速访问和管理所有任务。</div>
+                </div>
+            </div>
+            <div class="feature">
+                <i class="material-icons feature-icon">timer</i>
+                <div class="feature-content">
+                    <div class="feature-title">时长记录功能</div>
+                    <div>用户可以自由记录学习时间，系统不做时间限制。</div>
+                </div>
             </div>
         </div>
-        <div class="feature">
-            <i class="material-icons feature-icon">filter_list</i>
-            <div class="feature-content">
-                <div class="feature-title">文件筛选</div>
-                <div>使用关键词或文件类型快速筛选所需文件。</div>
+
+        <div class="content-section hidden" data-script="xiaoya-answer">
+            <div class="feature">
+                <i class="material-icons feature-icon">auto_stories</i>
+                <div class="feature-content">
+                    <div class="feature-title">自动获取学习资料</div>
+                    <div>智能获取课程答案资料，帮助用户高效整理学习内容。</div>
+                </div>
             </div>
-        </div>
-        <div class="feature">
-            <i class="material-icons feature-icon">import_export</i>
-            <div class="feature-content">
-                <div class="feature-title">导出功能</div>
-                <div>支持导出文件列表为 EF2、TXT、JSON、CSV 或 ZIP 格式，方便在其他下载工具中使用。</div>
+            <div class="feature">
+                <i class="material-icons feature-icon">edit_note</i>
+                <div class="feature-content">
+                    <div class="feature-title">自动填写作业</div>
+                    <div>通过智能填写功能，快速应用已获取的答案，减少重复操作。</div>
+                </div>
+            </div>
+            <div class="feature">
+                <i class="material-icons feature-icon">edit</i>
+                <div class="feature-content">
+                    <div class="feature-title">查看与编辑答案</div>
+                    <div>提供答案查看和编辑功能，让用户可以根据需要调整内容。</div>
+                </div>
+            </div>
+            <div class="feature">
+                <i class="material-icons feature-icon">description</i>
+                <div class="feature-content">
+                    <div class="feature-title">导出作业</div>
+                    <div>支持一键导出答案资料，生成便于查阅和保存的文档。</div>
+                </div>
+            </div>
+            <div class="feature">
+                <i class="material-icons feature-icon">keyboard</i>
+                <div class="feature-content">
+                    <div class="feature-title">快捷键支持</div>
+                    <div>提供多种快捷键操作，如Ctrl+Shift+A获取答案，Ctrl+Shift+F自动填写。</div>
+                </div>
             </div>
         </div>
     </div>
 
-
     <div id="advanced-tips" class="section">
         <h2>高级技巧</h2>
-        <p>使用 <code>Konami Code<span class="hidden-text">(Fxxk Konami)</span></code> (↑↑↓↓←→←→BA) 激活隐藏功能。</p>
-        <p>另外，连击5次控制面板中的版本号也可激活隐藏功能。</p>
+
+        <div class="content-section visible" data-script="xiaoya-crawl">
+            <div class="advanced-tip">
+                <h3>小雅爬爬爬高级功能</h3>
+                <ul>
+                    <li>使用 <code>Konami Code<span class="hidden-text">(Fxxk Konami)</span></code> (↑↑↓↓←→←→BA) 激活隐藏功能。
+                    </li>
+                    <li>另外，连击5次控制面板中的版本号也可激活隐藏功能。</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="content-section hidden" data-script="xiaoya-do">
+            <div class="advanced-tip">
+                <h3>小雅做做做高级功能</h3>
+                <ul>
+                    <li>可以激活自由模式，解除勾选限制</li>
+                    <li>自由模式下可随意选择内容，但可能带来任务状态异常的风险</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="content-section hidden" data-script="xiaoya-answer">
+            <div class="advanced-tip">
+                <h3>小雅答答答高级功能</h3>
+                <ul>
+                    <li>在页面中输入 <code>ILOVEXIAOYA</code> 激活补交模式</li>
+                    <li>补交可以用来完成部分已截止的作业，前提是教师允许补交</li>
+                </ul>
+            </div>
+        </div>
+
         <p>（本页面也有<span id="easter-egg-trigger">彩蛋</span><i class="material-icons"
-                style="font-size: 1em; vertical-align: middle; cursor: pointer;">emoji_emotions</i>哦~）
-            <span style="font-size: 0.8em; color: #888;">(并不是所有地方都有版本号……)</span>
-        </p>
+                style="font-size: 1em; vertical-align: middle; cursor: pointer;">emoji_emotions</i>哦~）</p>
+
         <div class="note">
-            注意：请谨慎使用这些高级功能，确保遵守相关规定和尊重他人隐私。
+            <p>注意：请谨慎使用这些高级功能，确保遵守相关规定和尊重他人隐私。</p>
         </div>
     </div>
 
     <div id="faq" class="section">
         <h2>常见问题</h2>
-        <details>
-            <summary class="faq-toggle">为什么有些文件无法下载？</summary>
-            <div class="faq-content">
-                <p>确保你能正常访问这些文件，并检查网络连接是否正常。</p>
-            </div>
-        </details>
-        <details>
-            <summary class="faq-toggle">如何更新脚本？</summary>
-            <div class="faq-content">
-                <p>脚本会自动检查更新，你也可以在油猴扩展中手动检查更新。</p>
-            </div>
-        </details>
-        <details>
-            <summary class="faq-toggle">视频文件怎么下载？</summary>
-            <div class="faq-content">
-                <p>脚本支持抓取视频链接，可以复制或直接打开下载。</p>
-            </div>
-        </details>
-        <details>
-            <summary class="faq-toggle">为什么我切换到了"用浏览器下载"，还是会唤起IDM？</summary>
-            <div class="faq-content">
-                <p>IDM会截获大多数下载请求，必要的话可以关闭IDM的浏览器插件。</p>
-            </div>
-        </details>
-        <details>
-            <summary class="faq-toggle">EF2 和 TXT 等文件是什么？怎么用？</summary>
-            <div class="faq-content">
-                <p>导出文件列表为 EF2、TXT、JSON、CSV 或 ZIP 格式，可以方便地将下载链接导入到其他下载工具或软件中。
-                <ul>
-                    <li><strong>EF2:</strong> 专门用于存储下载链接的格式，可以被IDM识别。 <strong class="badge">IDM专属</strong></li>
-                    <li><strong>TXT:</strong> 纯文本文件，可以导入至绝大多数下载工具中。 <strong class="badge">几乎通用</strong></li>
-                    <li><strong>JSON:</strong> 轻量级的数据交换格式，可以被许多编程语言解析。 <strong class="badge">结构化数据</strong></li>
-                    <li><strong>CSV:</strong> 以逗号分隔值的表格数据格式，可以被电子表格软件打开。 <strong class="badge">电子表格</strong></li>
-                    <li><strong>ZIP:</strong> 压缩文件格式，可以将多个文件打包成一个文件。 <strong class="badge">压缩文件</strong></li>
-                </ul>
-            </div>
-        </details>
+
+        <div class="content-section visible" data-script="xiaoya-crawl">
+            <details>
+                <summary class="faq-toggle">为什么有些文件无法下载？</summary>
+                <div class="faq-content">
+                    <p>确保你能正常访问这些文件，并检查网络连接是否正常。</p>
+                </div>
+            </details>
+            <details>
+                <summary class="faq-toggle">如何更新脚本？</summary>
+                <div class="faq-content">
+                    <p>脚本会自动检查更新，你也可以在油猴扩展中手动检查更新。点击油猴图标 -> 检查更新。</p>
+                </div>
+            </details>
+            <details>
+                <summary class="faq-toggle">视频文件怎么下载？</summary>
+                <div class="faq-content">
+                    <p>脚本有专门的小组件，能抓取基本信息。不过推荐使用专门的视频下载扩展来处理视频，比如:
+                    <ul>
+                        <li><a href="https://microsoftedge.microsoft.com/addons/detail/video-downloader-plus/cnbnfjhmdaflilgadocmfindhmcfpfnc"
+                                target="_blank">Video Downloader Plus</a></li>
+                        <li><a href="https://microsoftedge.microsoft.com/addons/detail/video-downloader-professi/okbameiopeedemhpgneephimkndciagi"
+                                target="_blank">Video Downloader Professional</a></li>
+                    </ul>
+                    这些专业工具功能更强大，支持更多格式和更高清晰度。</p>
+                </div>
+            </details>
+            <details>
+                <summary class="faq-toggle">为什么我切换到了"用浏览器下载"，还是会唤起IDM？</summary>
+                <div class="faq-content">
+                    <p>IDM会截获大多数下载请求，必要的话可以关闭IDM的浏览器插件。方法是在IDM选项中取消勾选"使用浏览器集成"。</p>
+                </div>
+            </details>
+            <details>
+                <summary class="faq-toggle">不同格式的导出文件有什么区别？</summary>
+                <div class="faq-content">
+                    <p>支持多种导出格式，各有特点:
+                    <ul>
+                        <li><strong>EF2:</strong> 专门用于IDM的下载链接格式。 <strong class="badge">IDM专属</strong></li>
+                        <li><strong>TXT:</strong> 通用的纯文本格式，支持大部分下载工具。 <strong class="badge">几乎通用</strong></li>
+                        <li><strong>JSON:</strong> 结构化的数据格式，便于程序处理。 <strong class="badge">结构化数据</strong></li>
+                        <li><strong>CSV:</strong> 可用Excel等软件打开的表格格式。 <strong class="badge">电子表格</strong></li>
+                        <li><strong>ZIP:</strong> 将所有文件信息打包成压缩文件。 <strong class="badge">压缩文件</strong></li>
+                    </ul>
+                    </p>
+                </div>
+            </details>
+        </div>
+
+        <div class="content-section hidden" data-script="xiaoya-do">
+            <details>
+                <summary class="faq-toggle">任务完成后为什么没有立即更新状态？</summary>
+                <div class="faq-content">
+                    <p>脚本会自动刷新页面以同步状态，如果长时间未更新，请检查是否满足提交条件。</p>
+                </div>
+            </details>
+            <details>
+                <summary class="faq-toggle">如何正确记录学习时长？</summary>
+                <div class="faq-content">
+                    <p>定位到你想要记录时长的资源。点击开始按钮开始计时，完成学习后点击结束，每30秒产生一次有效时长。</p>
+                </div>
+            </details>
+            <details>
+                <summary class="faq-toggle">为什么有些任务无法勾选？</summary>
+                <div class="faq-content">
+                    <p>可能的原因：
+                    <ul>
+                        <li>任务需要手动完成</li>
+                        <li>任务已完成或过期</li>
+                    </ul>
+                    </p>
+                </div>
+            </details>
+            <details>
+                <summary class="faq-toggle">如何查看任务完成进度？</summary>
+                <div class="faq-content">
+                    <p>点击顶部的总状态栏即可查看细节:
+                    <ul>
+                        <li>总体完成进度</li>
+                        <li>各类任务的布置情况</li>
+                        <li>剩余待完成任务数量</li>
+                    </ul>
+                    </p>
+                </div>
+            </details>
+        </div>
+
+        <div class="content-section hidden" data-script="xiaoya-answer">
+            <details>
+                <summary class="faq-toggle">为什么有些答案不准确？</summary>
+                <div class="faq-content">
+                    <p>答案来源于题目标准答案，可能存在以下情况：
+                    <ul>
+                        <li>题目过于远古，标准答案也是错的</li>
+                        <li>题目有过更新，需要重新获取答案</li>
+                        <li>教师手动批改，用的不是同一份答案</li>
+                    </ul>
+                    建议检查答案的合理性。</p>
+                </div>
+            </details>
+            <details>
+                <summary class="faq-toggle">快捷键不起作用怎么办？</summary>
+                <div class="faq-content">
+                    <p>请检查：
+                    <ul>
+                        <li>是否在正确的页面（作业页面）</li>
+                        <li>是否有其他插件占用快捷键</li>
+                        <li>浏览器快捷键设置是否有冲突</li>
+                    </ul>
+                    也可以使用工具栏按钮作为替代。</p>
+                </div>
+            </details>
+            <details>
+                <summary class="faq-toggle">补交功能怎么使用？</summary>
+                <div class="faq-content">
+                    <p>首先确认教师是否允许补交，然后：
+                    <ul>
+                        <li>在页面输入特殊激活码</li>
+                        <li>等待补交模式启动</li>
+                        <li>创建补交记录，检查无误后在脚本提交</li>
+                    </ul>
+                    注意：高风险功能，有可能让你的作业处于完成和未完成的量子叠加态。</p>
+                </div>
+            </details>
+            <details>
+                <summary class="faq-toggle">答案如何导出？</summary>
+                <div class="faq-content">
+                    <p>在作业页面获取答案后即可导出，导出速度取决于：
+                    <ul>
+                        <li>题目数量、类型和长度</li>
+                        <li>题目内图片等资源的数量</li>
+                    </ul>
+                    请注意遵守相关规定使用。</p>
+                </div>
+            </details>
+        </div>
     </div>
 
     <div id="feedback" class="section">
         <h2>反馈与支持</h2>
         <p>如果你遇到任何问题或有改进建议，欢迎通过以下方式留下宝贵意见：</p>
-        <div class="feedback-buttons">
-            <a href="https://github.com/zygame1314/XiaoyaDownloader" target="_blank" class="feedback-button">
-                <i class="material-icons">code</i>
-                <span>GitHub 项目页面</span>
-            </a>
-            <a href="https://scriptcat.org/zh-CN/script-show-page/2771"
-                target="_blank" class="feedback-button">
-                <i class="material-icons">extension</i>
-                <span>油猴脚本页面</span>
-            </a>
-            <a href="#" class="feedback-button" id="donateButton">
-                <i class="material-icons">favorite</i>
-                <span>打赏作者</span>
-            </a>
-            <a href="https://zygame1314.site" target="_blank" class="feedback-button">
-                <i class="material-icons">home</i> 访问我的主页
-            </a>
+
+        <div class="content-section visible" data-script="xiaoya-crawl">
+            <div class="feedback-buttons">
+                <a href="https://github.com/zygame1314/XiaoyaDownloader" target="_blank" class="feedback-button">
+                    <i class="material-icons">code</i>
+                    <span>GitHub 项目页面</span>
+                </a>
+                <a href="https://scriptcat.org/zh-CN/script-show-page/2771" target="_blank" class="feedback-button">
+                    <i class="material-icons">extension</i>
+                    <span>脚本页面</span>
+                </a>
+                <a href="#" class="feedback-button" id="donateButton">
+                    <i class="material-icons">favorite</i>
+                    <span>打赏作者</span>
+                </a>
+                <a href="https://zygame1314.site" target="_blank" class="feedback-button">
+                    <i class="material-icons">home</i>
+                    <span>访问我的主页</span>
+                </a>
+            </div>
+        </div>
+
+        <div class="content-section hidden" data-script="xiaoya-do">
+            <div class="feedback-buttons">
+                <a href="https://github.com/zygame1314/XiaoYaEasyTasks" target="_blank" class="feedback-button">
+                    <i class="material-icons">code</i>
+                    <span>GitHub 项目页面</span>
+                </a>
+                <a href="https://scriptcat.org/zh-CN/script-show-page/2772" target="_blank" class="feedback-button">
+                    <i class="material-icons">extension</i>
+                    <span>脚本页面</span>
+                </a>
+                <a href="#" class="feedback-button" id="donateButton">
+                    <i class="material-icons">favorite</i>
+                    <span>打赏作者</span>
+                </a>
+                <a href="https://zygame1314.site" target="_blank" class="feedback-button">
+                    <i class="material-icons">home</i>
+                    <span>访问我的主页</span>
+                </a>
+            </div>
+        </div>
+
+        <div class="content-section hidden" data-script="xiaoya-answer">
+            <div class="feedback-buttons">
+                <a href="https://github.com/zygame1314/XiaoyaAnswer" target="_blank" class="feedback-button">
+                    <i class="material-icons">code</i>
+                    <span>GitHub 项目页面</span>
+                </a>
+                <a href="https://scriptcat.org/zh-CN/script-show-page/2773" target="_blank" class="feedback-button">
+                    <i class="material-icons">extension</i>
+                    <span>脚本页面</span>
+                </a>
+                <a href="#" class="feedback-button" id="donateButton">
+                    <i class="material-icons">favorite</i>
+                    <span>打赏作者</span>
+                </a>
+                <a href="https://zygame1314.site" target="_blank" class="feedback-button">
+                    <i class="material-icons">home</i>
+                    <span>访问我的主页</span>
+                </a>
+            </div>
         </div>
     </div>
 

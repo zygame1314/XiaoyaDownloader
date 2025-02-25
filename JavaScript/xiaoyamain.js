@@ -99,58 +99,70 @@ const achievements = [
         id: 'night_mode',
         title: '暗夜降临',
         description: '成功打开夜间模式。',
-        icon: 'images/achievement-icon.png'
+        icon: 'images/achievement-icon.webp'
     },
     {
         id: 'day_mode',
         title: '重返光明',
         description: '成功回到普通模式。',
-        icon: 'images/achievement-icon-light.png'
+        icon: 'images/achievement-icon-light.webp'
     },
     {
         id: 'first_visit',
         title: '初来乍到',
         description: '首次访问网站',
-        icon: 'images/first-visit-icon.png'
+        icon: 'images/first-visit-icon.webp'
     },
     {
         id: 'explorer',
         title: '探索者',
         description: '浏览所有内容',
-        icon: 'images/explorer-icon.png'
+        icon: 'images/explorer-icon.webp'
     },
     {
         id: 'night_owl',
         title: '你就熬吧……',
         description: '在凌晨0点至5点使用夜间模式',
-        icon: 'images/night-owl-icon.png'
+        icon: 'images/night-owl-icon.webp'
     },
     {
         id: 'early_bird',
         title: '起得早/熬穿了',
         description: '在早上5点至6点访问网站',
-        icon: 'images/early-bird-icon.png'
+        icon: 'images/early-bird-icon.webp'
     },
     {
         id: 'bookworm',
         title: '有啥看的',
         description: '在网站上累计阅读超过1小时',
-        icon: 'images/bookworm-icon.png',
+        icon: 'images/bookworm-icon.webp',
         maxProgress: 3600
     },
     {
         id: 'problem_solver',
         title: '勤学好问',
         description: '阅读完所有FAQ',
-        icon: 'images/problem-solver-icon.png'
+        icon: 'images/problem-solver-icon.webp'
     },
     {
         id: 'continuous_learner',
         title: '有什么值得留恋的吗？',
         description: '连续7天访问网站',
-        icon: 'images/continuous-learner-icon.png',
+        icon: 'images/continuous-learner-icon.webp',
         maxProgress: 7
     },
+    {
+        id: 'script_switcher',
+        title: '多面手',
+        description: '尝试切换不同的小雅脚本',
+        icon: 'images/switcher-icon.webp'
+    },
+    {
+        id: 'all_scripts',
+        title: '收集控',
+        description: '查看所有三种小雅脚本的详情',
+        icon: 'images/collector-icon.webp'
+    }
 ];
 
 function checkEarlyBird() {
@@ -289,15 +301,14 @@ document.addEventListener('DOMContentLoaded', function () {
     const canvas = document.getElementById('background-canvas');
     canvas.style.zIndex = '-2';
     const ctx = canvas.getContext('2d');
-    const particles = [];
+    let particles = [];
     const particleCount = 50;
     const attractionRange = 150;
-    const maxSpeed = 2;
+    let maxSpeed = 2;
     const maxAttractedParticles = 3;
-    const colors = ['#FFA500', '#FFD700', '#FF6347', '#FF4500', '#FFA07A'];
     const minSize = 3;
     const maxSize = 8;
-    const lineDistance = 150;
+    let lineDistance = 150;
 
     const shockwaveCanvas = document.createElement('canvas');
     shockwaveCanvas.style.position = 'fixed';
@@ -411,7 +422,61 @@ document.addEventListener('DOMContentLoaded', function () {
         canvas.height = window.innerHeight;
     }
 
-    function createParticle() {
+    const mouseParticle = {
+        x: 0,
+        y: 0,
+        isMouseParticle: true,
+        color: 'rgb(253,164,0)'
+    };
+
+    function getThemeColors() {
+        const body = document.body;
+        if (body.classList.contains('theme-xiaoya-crawl')) {
+            return {
+                colors: ['#FFA500', '#FFD700', '#FF6347', '#FF4500', '#FFA07A'],
+                particleCount: 50,
+                maxSpeed: 2,
+                lineDistance: 150
+            };
+        } else if (body.classList.contains('theme-xiaoya-do')) {
+            return {
+                colors: ['#2196F3', '#64B5F6', '#1E88E5', '#42A5F5', '#90CAF9'],
+                particleCount: 60,
+                maxSpeed: 1.5,
+                lineDistance: 120
+            };
+        } else if (body.classList.contains('theme-xiaoya-answer')) {
+            return {
+                colors: ['#9C27B0', '#BA68C8', '#8E24AA', '#AB47BC', '#E1BEE7'],
+                particleCount: 40,
+                maxSpeed: 1.8,
+                lineDistance: 180
+            };
+        }
+        return {
+            colors: ['#FFA500', '#FFD700', '#FF6347', '#FF4500', '#FFA07A'],
+            particleCount: 50,
+            maxSpeed: 2,
+            lineDistance: 150
+        };
+    }
+
+    function updateParticles() {
+        const themeConfig = getThemeColors();
+        particles = [mouseParticle];
+
+        maxSpeed = themeConfig.maxSpeed;
+        lineDistance = themeConfig.lineDistance;
+
+        for (let i = 0; i < themeConfig.particleCount; i++) {
+            particles.push(createParticle(themeConfig.colors));
+        }
+    }
+
+    function createParticle(themeColors) {
+        if (!themeColors || !themeColors.length) {
+            themeColors = ['#FFA500', '#FFD700', '#FF6347', '#FF4500', '#FFA07A'];
+        }
         return {
             x: Math.random() * canvas.width,
             y: Math.random() * canvas.height,
@@ -420,14 +485,19 @@ document.addEventListener('DOMContentLoaded', function () {
             repelForce: Math.random() < 0.5 ? -1 : 1,
             shockwaveForce: 0,
             radius: Math.random() * (maxSize - minSize) + minSize,
-            color: colors[Math.floor(Math.random() * colors.length)],
+            color: themeColors[Math.floor(Math.random() * themeColors.length)],
             isAttracted: false,
-            originalRadius: 0
+            originalRadius: Math.random() * (maxSize - minSize) + minSize
         };
     }
 
-    const mouseParticle = { x: 0, y: 0, isMouseParticle: true, color: 'rgb(253,164,0)' };
+    const initialConfig = getThemeColors();
     particles.push(mouseParticle);
+    for (let i = 0; i < initialConfig.particleCount; i++) {
+        particles.push(createParticle(initialConfig.colors));
+    }
+
+    document.addEventListener('scriptChanged', updateParticles);
 
     function drawParticles() {
         ctx.clearRect(0, 0, canvas.width, canvas.height);
@@ -791,7 +861,7 @@ function displayNextAchievement() {
 
     titleElement.textContent = title || '未知成就';
     descriptionElement.textContent = description || '恭喜你获得了一个成就！';
-    iconElement.src = iconUrl || 'default-achievement-icon.png';
+    iconElement.src = iconUrl || 'default-achievement-icon.webp';
     iconElement.alt = title || '成就图标';
 
     if (canPlaySound) {
@@ -924,10 +994,30 @@ document.querySelectorAll('.close').forEach(closeButton => {
     });
 });
 
-document.querySelectorAll('.section').forEach(section => {
-    const content = section.textContent;
-    const wordCount = content.trim().split(/\s+/).length;
-    const readingTimeInSeconds = Math.round(wordCount / (100 / 60));
+function calculateReadingTime(section) {
+    const contentClone = section.cloneNode(true);
+
+    contentClone.querySelectorAll('.content-section.hidden').forEach(el => el.remove());
+    contentClone.querySelectorAll('pre, code, script, style').forEach(el => el.remove());
+
+    let content = contentClone.textContent;
+
+    const chineseChars = (content.match(/[\u4e00-\u9fa5]/g) || []).length;
+    const englishWords = (content.match(/[a-zA-Z]+/g) || []).length;
+    const numbers = (content.match(/\d+/g) || []).length;
+    const punctuation = (content.match(/[,.!?;:'"，。！？；：、]/g) || []).length;
+
+    const chineseReadingSpeed = 300;
+    const englishReadingSpeed = 200;
+    const numberReadingSpeed = 400;
+    const punctuationPause = 0.1;
+
+    const readingTimeInSeconds = Math.round(
+        (chineseChars / chineseReadingSpeed) * 60 +
+        (englishWords / englishReadingSpeed) * 60 +
+        (numbers / numberReadingSpeed) * 60 +
+        punctuation * punctuationPause
+    );
 
     let timeEstimate;
     if (readingTimeInSeconds < 60) {
@@ -935,7 +1025,9 @@ document.querySelectorAll('.section').forEach(section => {
     } else {
         const minutes = Math.floor(readingTimeInSeconds / 60);
         const seconds = readingTimeInSeconds % 60;
-        timeEstimate = `${minutes} 分 ${seconds} 秒`;
+        timeEstimate = seconds > 0 ?
+            `${minutes} 分 ${seconds} 秒` :
+            `${minutes} 分钟`;
     }
 
     const timeEstimateElement = document.createElement('p');
@@ -945,26 +1037,31 @@ document.querySelectorAll('.section').forEach(section => {
     timeEstimateElement.style.display = 'flex';
     timeEstimateElement.style.alignItems = 'center';
 
-    if (section.id === 'usage') {
-        const videoTimeInSeconds = 259;
-        const totalTimeInSeconds = readingTimeInSeconds + videoTimeInSeconds;
+    timeEstimateElement.innerHTML = `
+        <i class="material-icons" style="vertical-align: middle; font-size: 1em; margin-right: 5px;">schedule</i>
+        预计阅读时间：${timeEstimate}${section.id === 'comments' ? '（不包含评论）' : ''}
+        <span style="margin-left: 10px; font-size: 0.9em; color: #999;">
+            (约 ${chineseChars + englishWords} 字)
+        </span>
+    `;
 
-        if (totalTimeInSeconds < 60) {
-            timeEstimate = `${totalTimeInSeconds} 秒`;
-        } else {
-            const minutes = Math.floor(totalTimeInSeconds / 60);
-            const seconds = totalTimeInSeconds % 60;
-            timeEstimate = `${minutes} 分 ${seconds} 秒`;
+    return timeEstimateElement;
+}
+
+document.querySelectorAll('.section').forEach(section => {
+    section.insertBefore(calculateReadingTime(section), section.firstChild);
+});
+
+document.addEventListener('scriptChanged', function () {
+    document.querySelectorAll('.section > p').forEach(p => {
+        if (p.innerHTML.includes('预计阅读时间')) {
+            p.remove();
         }
+    });
 
-        timeEstimateElement.innerHTML = `<i class="material-icons" style="vertical-align: middle; font-size: 1em; margin-right: 5px;">schedule</i>预计阅读时间：<span id="reading-time-usage">${timeEstimate}</span>（包含视频）`;
-    } else if (section.id === 'comments') {
-        timeEstimateElement.innerHTML = `<i class="material-icons" style="vertical-align: middle; font-size: 1em; margin-right: 5px;">schedule</i>预计阅读时间：${timeEstimate}（不包含评论）`;
-    } else {
-        timeEstimateElement.innerHTML = `<i class="material-icons" style="vertical-align: middle; font-size: 1em; margin-right: 5px;">schedule</i>预计阅读时间：${timeEstimate}`;
-    }
-
-    section.insertBefore(timeEstimateElement, section.firstChild);
+    document.querySelectorAll('.section').forEach(section => {
+        section.insertBefore(calculateReadingTime(section), section.firstChild);
+    });
 });
 
 function updateProgressBar() {
@@ -1088,6 +1185,75 @@ document.addEventListener('DOMContentLoaded', () => {
     window.addEventListener('resize', checkDevTools);
     setInterval(checkDevTools, 1000);
 })();
+
+
+document.addEventListener('DOMContentLoaded', function () {
+    document.body.classList.add('theme-xiaoya-crawl');
+
+    const scriptOptions = document.querySelectorAll('.script-option');
+
+    scriptOptions.forEach(option => {
+        option.addEventListener('click', function () {
+            const scriptType = this.getAttribute('data-script');
+
+            scriptOptions.forEach(opt => opt.classList.remove('active'));
+            this.classList.add('active');
+
+            document.body.className = document.body.className.replace(/theme-xiaoya-\w+/g, '');
+            document.body.classList.add(`theme-${scriptType}`);
+
+            const titleMap = {
+                'xiaoya-crawl': '小雅爬爬爬',
+                'xiaoya-do': '小雅做做做',
+                'xiaoya-answer': '小雅答答答'
+            };
+            document.getElementById('page-title').textContent = `${titleMap[scriptType]} - 使用教程`;
+            document.title = `${titleMap[scriptType]} - 使用教程`;
+
+            const allContentSections = document.querySelectorAll('.content-section');
+            allContentSections.forEach(section => {
+                if (section.getAttribute('data-script') === scriptType) {
+                    section.classList.remove('hidden');
+                    section.classList.add('visible');
+                } else {
+                    section.classList.remove('visible');
+                    section.classList.add('hidden');
+                }
+            });
+
+            localStorage.setItem('preferredScript', scriptType);
+
+            const event = new CustomEvent('scriptChanged', { detail: { script: scriptType } });
+            document.dispatchEvent(event);
+
+            if (achievementManager && typeof achievementManager.unlock === 'function') {
+                achievementManager.unlock('script_switcher');
+            }
+        });
+    });
+
+    const savedScript = localStorage.getItem('preferredScript');
+    if (savedScript) {
+        const savedOption = document.querySelector(`.script-option[data-script="${savedScript}"]`);
+        if (savedOption) {
+            savedOption.click();
+        }
+    }
+
+    const viewedScripts = JSON.parse(localStorage.getItem('viewedScripts') || '{}');
+
+    document.addEventListener('scriptChanged', function (e) {
+        const scriptType = e.detail.script;
+        viewedScripts[scriptType] = true;
+        localStorage.setItem('viewedScripts', JSON.stringify(viewedScripts));
+
+        if (Object.keys(viewedScripts).length >= 3) {
+            if (achievementManager && typeof achievementManager.unlock === 'function') {
+                achievementManager.unlock('all_scripts');
+            }
+        }
+    });
+});
 
 window.addEventListener('scroll', updateProgressBar);
 window.addEventListener('resize', updateProgressBar);

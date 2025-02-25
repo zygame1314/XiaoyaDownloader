@@ -10,6 +10,15 @@
     --achievement-unlocked-color: #4CAF50;
     --modal-bg-color: #fefefe;
     --icon-color: white;
+    --border-color: rgba(0, 0, 0, 0.1);
+    --shadow-color: rgba(0, 0, 0, 0.1);
+    --hover-shadow-color: rgba(0, 0, 0, 0.15);
+    --gradient-start: rgba(255, 255, 255, 0.9);
+    --gradient-end: rgba(255, 255, 255, 0.7);
+    --code-bg-color: #FFF0D4;
+    --success-color: #4CAF50;
+    --warning-color: #ffc107;
+    --error-color: #ff4b4b;
 }
 
 body {
@@ -24,6 +33,168 @@ body {
     background-color: var(--background-color);
 }
 
+/* 小雅爬爬爬主题 - 橙色主题 */
+body.theme-xiaoya-crawl {
+    --primary-color: #FF9800;
+    --secondary-color: #FFB74D;
+    --accent-color: #F57C00;
+    --highlight-color: #FFE0B2;
+    --gradient-start: rgba(255, 251, 242, 0.95);
+    --gradient-end: rgba(255, 248, 229, 0.85);
+}
+
+body.theme-xiaoya-crawl .script-option.active {
+    background-color: #FF9800;
+}
+
+/* 小雅做做做主题 - 蓝色主题 */
+body.theme-xiaoya-do {
+    --primary-color: #2196F3;
+    --secondary-color: #64B5F6;
+    --accent-color: #1565C0;
+    --highlight-color: #BBDEFB;
+    --gradient-start: rgba(227, 242, 253, 0.95);
+    --gradient-end: rgba(187, 222, 251, 0.85);
+}
+
+body.theme-xiaoya-do .script-option.active {
+    background-color: #2196F3;
+}
+
+/* 小雅答答答主题 - 紫色主题 */
+body.theme-xiaoya-answer {
+    --primary-color: #9C27B0;
+    --secondary-color: #BA68C8;
+    --accent-color: #7B1FA2;
+    --highlight-color: #E1BEE7;
+    --gradient-start: rgba(243, 229, 245, 0.95);
+    --gradient-end: rgba(225, 190, 231, 0.85);
+}
+
+body.theme-xiaoya-answer .script-option.active {
+    background-color: #9C27B0;
+}
+
+/* 脚本切换器样式 */
+#script-selector {
+    display: flex;
+    justify-content: center;
+    margin: 20px auto;
+    max-width: 600px;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+    background: var(--section-bg-color);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.script-option {
+    flex: 1;
+    padding: 12px 20px;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    background-color: #f5f5f5;
+    position: relative;
+    overflow: hidden;
+    user-select: none;
+}
+
+.script-option:hover {
+    background-color: #e9e9e9;
+}
+
+.script-option.active {
+    background-color: #4CAF50;
+    color: white;
+    font-weight: bold;
+}
+
+.section:hover {
+    border-color: var(--primary-color);
+}
+
+a,
+.toc a:hover,
+.toc a.active {
+    color: var(--accent-color);
+}
+
+.badge,
+.recommended-badge {
+    background-color: var(--secondary-color);
+}
+
+/* 脚本介绍部分样式 */
+.script-intro {
+    text-align: center;
+    padding: 30px;
+    background: linear-gradient(145deg, var(--gradient-start), var(--gradient-end));
+    border-radius: 15px;
+    backdrop-filter: blur(5px);
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 6px var(--shadow-color);
+}
+
+.script-intro:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 12px 40px var(--hover-shadow-color);
+}
+
+.script-intro>.material-icons {
+    font-size: 48px;
+    color: var(--primary-color);
+    margin-bottom: 20px;
+    padding: 15px;
+    background: rgba(255, 255, 255, 0.8);
+    border-radius: 50%;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.script-intro h3 {
+    color: var(--primary-color);
+    font-size: 24px;
+    margin: 15px 0;
+    font-weight: 600;
+}
+
+.script-intro p {
+    color: var(--text-color);
+    font-size: 18px;
+    margin-bottom: 25px;
+    line-height: 1.6;
+}
+
+.feature-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: row;
+    gap: 15px;
+    justify-content: center;
+}
+
+.feature-list li {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 15px;
+    border-radius: 8px;
+    transition: all 0.2s ease;
+}
+
+.feature-list li:hover {
+    background: rgba(255, 255, 255, 0.9);
+    transform: translateX(5px);
+}
+
+.feature-list .material-icons {
+    color: var(--primary-color);
+    font-size: 20px;
+}
+
 /* 夜间模式样式 */
 body.night-mode {
     --background-color: #333;
@@ -35,10 +206,92 @@ body.night-mode {
     --achievement-unlocked-color: #6FBF73;
     --modal-bg-color: #222;
     --icon-color: #555;
+    --border-color: rgba(255, 255, 255, 0.1);
+    --shadow-color: rgba(0, 0, 0, 0.3);
+    --hover-shadow-color: rgba(0, 0, 0, 0.4);
+    --gradient-start: rgba(40, 40, 40, 0.9);
+    --gradient-end: rgba(30, 30, 30, 0.7);
+    --code-bg-color: #2d2d2d;
+}
+
+body.night-mode.theme-xiaoya-crawl {
+    --primary-color: #E65100;
+    --secondary-color: #FB8C00;
+    --accent-color: #EF6C00;
+    --highlight-color: #b08d69;
+    --gradient-start: rgba(55, 40, 30, 0.95);
+    --gradient-end: rgba(50, 35, 25, 0.85);
+}
+
+body.night-mode.theme-xiaoya-crawl .script-option.active {
+    background-color: #E65100;
+}
+
+body.night-mode.theme-xiaoya-do {
+    --primary-color: #1976D2;
+    --secondary-color: #42A5F5;
+    --accent-color: #0D47A1;
+    --highlight-color: #6aa8c6;
+    --gradient-start: rgba(25, 35, 50, 0.95);
+    --gradient-end: rgba(20, 30, 45, 0.85);
+}
+
+body.night-mode.theme-xiaoya-do .script-option.active {
+    background-color: #1976D2;
+}
+
+body.night-mode.theme-xiaoya-answer {
+    --primary-color: #8E24AA;
+    --secondary-color: #AB47BC;
+    --accent-color: #6A1B9A;
+    --highlight-color: #cd8ed8;
+    --gradient-start: rgba(45, 25, 50, 0.95);
+    --gradient-end: rgba(40, 20, 45, 0.85);
+}
+
+body.night-mode.theme-xiaoya-answer .script-option.active {
+    background-color: #8E24AA;
+}
+
+body.night-mode #script-selector {
+    background: linear-gradient(145deg, #2a2a2a, #333);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+    border-color: rgba(255, 255, 255, 0.05);
+}
+
+body.night-mode .script-option {
+    background-color: #2a2a2a;
+    color: #e0e0e0;
+    border-right: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+body.night-mode .script-option:last-child {
+    border-right: none;
+}
+
+body.night-mode .script-option:hover {
+    background-color: #383838;
+}
+
+body.night-mode .script-option.active {
+    background-color: var(--primary-color);
+    color: #ffffff;
+}
+
+body.night-mode .script-intro {
+    background: linear-gradient(145deg, rgba(40, 40, 40, 0.9), rgba(30, 30, 30, 0.7));
+}
+
+body.night-mode .script-intro>.material-icons {
+    background: rgba(50, 50, 50, 0.8);
+}
+
+body.night-mode .feature-list li:hover {
+    background: rgba(50, 50, 50, 0.9);
 }
 
 body.night-mode .badge {
-    background-color: #FFD700;
+    background-color: var(--secondary-color);
     color: black;
 }
 
@@ -58,7 +311,7 @@ body.night-mode #toc a {
 
 body.night-mode #toc a:hover,
 body.night-mode #toc a.active {
-    color: #fda400;
+    color: var(--primary-color);
 }
 
 body.night-mode summary {
@@ -67,8 +320,14 @@ body.night-mode summary {
 }
 
 body.night-mode .recommended-badge {
-    background-color: #ffc107;
+    background-color: var(--secondary-color);
     color: #343a40;
+}
+
+body.night-mode .important-note {
+    background: linear-gradient(135deg,
+            rgba(44, 44, 44, 0.95),
+            rgba(51, 51, 51, 0.85));
 }
 
 body.night-mode .install-note {
@@ -86,7 +345,7 @@ body.night-mode .install-note p {
 
 body.night-mode #advanced-tips .note {
     background-color: #3e3e3e;
-    border-left-color: #ff9800;
+    border-left-color: var(--primary-color);
     color: #f8f9fa;
 }
 
@@ -120,6 +379,54 @@ body.night-mode .install-button:hover {
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
 }
 
+body.night-mode #advanced-tips h3 {
+    color: var(--primary-color);
+}
+
+body.night-mode #advanced-tips code {
+    background-color: #444;
+    color: #fff;
+    border: 1px solid rgba(255, 165, 0, 0.2);
+}
+
+body.night-mode #advanced-tips .hidden-text {
+    color: transparent;
+}
+
+body.night-mode #advanced-tips .hidden-text:hover {
+    color: #fff;
+}
+
+body.night-mode #easter-egg-trigger {
+    color: #ff6b6b;
+}
+
+body.night-mode #easter-egg-trigger:hover {
+    background-color: #444;
+}
+
+body.night-mode #advanced-tips .note {
+    background-color: #2c2c2c;
+    border-left: 4px solid var(--primary-color);
+    color: #f0f0f0;
+}
+
+body.night-mode #advanced-tips .material-icons {
+    color: var(--primary-color);
+}
+
+body.night-mode #advanced-tips ul li {
+    color: #f0f0f0;
+}
+
+body.night-mode #advanced-tips ul li:last-child {
+    border-bottom: none;
+}
+
+body.night-mode #advanced-tips ul li::before {
+    color: var(--primary-color);
+}
+
 body.night-mode #feedback {
     background-color: #222;
     color: #eee;
@@ -136,6 +443,21 @@ body.night-mode .feedback-button {
 
 body.night-mode .feedback-button:hover {
     background-color: #777;
+}
+
+/* 内容切换的淡入淡出动画 */
+.content-section {
+    transition: opacity 0.3s ease;
+}
+
+.content-section.hidden {
+    display: none;
+    opacity: 0;
+}
+
+.content-section.visible {
+    display: block;
+    opacity: 1;
 }
 
 /* 图片样式 */
@@ -274,6 +596,8 @@ h1 {
     padding: 15px;
     margin-top: 20px;
     border-radius: 5px;
+    border: 1px solid var(--border-color);
+    box-shadow: 0 2px 4px var(--shadow-color);
 }
 
 .install-note .material-icons {
@@ -327,9 +651,11 @@ h1 {
 }
 
 .important-note {
-    background: linear-gradient(135deg, #fffbf2, #fff8e5);
-    border: 1px solid rgba(255, 193, 7, 0.15);
-    border-left: 5px solid #ffc107;
+    background: linear-gradient(135deg,
+            var(--gradient-start),
+            var(--gradient-end));
+    border: 1px solid var(--highlight-color);
+    border-left: 5px solid var(--primary-color);
     padding: 15px 20px;
     margin: 20px 0;
     border-radius: 16px;
@@ -337,23 +663,23 @@ h1 {
     align-items: center;
     gap: 15px;
     box-shadow:
-        0 4px 15px rgba(255, 193, 7, 0.06),
-        0 1px 3px rgba(0, 0, 0, 0.02);
+        0 4px 15px var(--hover-shadow-color),
+        0 1px 3px var(--shadow-color);
     transition: all 0.3s ease;
 }
 
 .important-note:hover {
     transform: translateY(-2px);
     box-shadow:
-        0 6px 20px rgba(255, 193, 7, 0.1),
-        0 2px 5px rgba(0, 0, 0, 0.03);
+        0 6px 20px var(--hover-shadow-color),
+        0 2px 5px var(--shadow-color);
 }
 
 .important-note .material-icons {
-    color: #ffc107;
+    color: var(--primary-color);
     font-size: 22px;
     padding: 10px;
-    background: rgba(255, 193, 7, 0.08);
+    background: var(--highlight-color);
     border-radius: 12px;
     transition: transform 0.3s ease;
 }
@@ -373,11 +699,22 @@ h1 {
     align-items: center;
     margin-bottom: 20px;
     padding: 15px 20px;
-    background: linear-gradient(120deg, #fff, #f8f9fa);
-    border: 1px solid rgba(0, 0, 0, 0.05);
+    background: linear-gradient(120deg,
+            var(--section-bg-color),
+            var(--highlight-color));
+    border: 1px solid var(--border-color);
     border-radius: 15px;
     transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
     position: relative;
+}
+
+.setup-steps li:hover {
+    transform: translateY(-5px);
+    background: linear-gradient(120deg,
+            var(--section-bg-color),
+            var(--gradient-end));
+    box-shadow: 0 10px 20px var(--shadow-color);
+    border-color: var(--primary-color);
 }
 
 .setup-steps li::before {
@@ -387,19 +724,12 @@ h1 {
     right: 20px;
     font-size: 48px;
     font-weight: 700;
-    color: rgba(0, 0, 0, 0.03);
+    color: var(--border-color);
     transition: all 0.3s ease;
 }
 
-.setup-steps li:hover {
-    transform: translateY(-5px);
-    background: linear-gradient(120deg, #fff, #fff5e6);
-    box-shadow: 0 10px 20px rgba(255, 165, 0, 0.08);
-    border-color: rgba(255, 165, 0, 0.2);
-}
-
 .setup-steps li:hover::before {
-    color: rgba(255, 165, 0, 0.1);
+    color: var(--primary-color);
     transform: scale(1.2);
 }
 
@@ -408,14 +738,15 @@ h1 {
     font-size: 22px;
     margin-right: 20px;
     padding: 10px;
-    background: rgba(255, 165, 0, 0.1);
+    background: var(--highlight-color);
     border-radius: 12px;
     transition: all 0.3s ease;
 }
 
 .setup-steps li:hover .material-icons {
     transform: scale(1.1) rotate(-10deg);
-    background: rgba(255, 165, 0, 0.2);
+    background: var(--gradient-end);
+    box-shadow: 0 3px 8px var(--shadow-color);
 }
 
 .setup-screenshot {
@@ -454,22 +785,30 @@ body.night-mode .developer-mode-text {
 }
 
 body.night-mode .important-note {
-    background: linear-gradient(120deg, #2c2c2c, #333);
-    border-color: rgba(255, 193, 7, 0.5);
+    background: linear-gradient(120deg,
+            var(--gradient-start),
+            var(--gradient-end));
+    border-color: var(--primary-color);
 }
 
 body.night-mode .setup-steps li {
-    background: linear-gradient(120deg, #1a1a1a, #242424);
-    border-color: rgba(255, 255, 255, 0.05);
+    background: linear-gradient(120deg,
+            var(--section-bg-color),
+            var(--highlight-color));
+    border-color: var(--border-color);
 }
 
 body.night-mode .setup-steps li:hover {
-    background: linear-gradient(120deg, #242424, #2c2c2c);
-    border-color: rgba(255, 165, 0, 0.3);
+    background: linear-gradient(120deg,
+            var(--gradient-start),
+            var(--gradient-end));
+    border-color: var(--primary-color);
 }
 
 body.night-mode .additional-info {
-    background: linear-gradient(120deg, #1a237e, #1b5e20);
+    background: linear-gradient(120deg,
+            var(--section-bg-color),
+            var(--highlight-color));
 }
 
 @media (max-width: 768px) {
@@ -592,7 +931,7 @@ body.night-mode .tooltip-trigger:hover::after {
     margin-bottom: 15px;
     padding: 15px;
     border-radius: 8px;
-    background-color: rgba(255, 215, 0, 0.1);
+    background-color: var(--highlight-color);
     transition: transform 0.2s ease;
 }
 
@@ -614,7 +953,7 @@ body.night-mode .tooltip-trigger:hover::after {
 
 /* 代码样式 */
 code {
-    background-color: #FFF0D4;
+    background-color: var(--code-bg-color);
     padding: 2px 4px;
     border-radius: 4px;
     font-family: 'Courier New', Courier, monospace;
@@ -622,8 +961,8 @@ code {
 
 /* 高级技巧部分 */
 #advanced-tips .note {
-    background-color: #fff8e5;
-    border-left: 4px solid #ffa500;
+    background-color: var(--highlight-color);
+    border-left: 4px solid var(--primary-color);
     padding: 15px;
     margin-top: 20px;
     border-radius: 8px;
@@ -644,6 +983,9 @@ code {
 
 .install-image {
     flex: 1;
+    max-width: 200px;
+    width: 100%;
+    height: auto;
 }
 
 .install-screenshot {
@@ -708,7 +1050,6 @@ code {
     color: var(--primary-color);
     position: absolute;
     left: 0;
-    top: 0;
 }
 
 /* 常见问题样式 */
@@ -718,14 +1059,14 @@ code {
     user-select: none;
     display: block;
     padding: 15px;
-    background-color: #FFE4B5;
+    background-color: var(--highlight-color);
     border-radius: 8px;
     margin-bottom: 10px;
     transition: background-color 0.3s, transform 0.2s;
 }
 
 .faq-toggle:hover {
-    background-color: #FFD700;
+    background-color: var(--secondary-color);
     transform: translateX(5px);
 }
 
@@ -795,7 +1136,7 @@ html {
 
 /* 徽章样式 */
 .badge {
-    background-color: #FFA500;
+    background-color: var(--primary-color);
     color: white;
     padding: 3px 6px;
     border-radius: 6px;
@@ -1006,7 +1347,6 @@ h2 {
 }
 
 p {
-    color: #666;
     font-size: 18px;
     line-height: 1.6;
 }
@@ -1019,7 +1359,7 @@ p {
     display: inline-block;
     width: 50px;
     height: 50px;
-    background-color: #ff4b4b;
+    background-color: var(--error-color);
     transform: rotate(45deg);
     animation: heartbeat 1.2s infinite;
 }
@@ -1029,7 +1369,7 @@ p {
     content: '';
     width: 50px;
     height: 50px;
-    background-color: #ff4b4b;
+    background-color: var(--error-color);
     border-radius: 50%;
     position: absolute;
 }
@@ -1171,7 +1511,7 @@ p {
     align-items: center;
     border-radius: 8px;
     padding: 20px;
-    background-color: rgba(255, 215, 0, 0.1);
+    background-color: var(--highlight-color);
     transition: transform 0.3s ease, box-shadow 0.3s ease;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
@@ -1229,15 +1569,15 @@ p {
     text-align: center;
     font-style: italic;
     font-size: 1.2em;
-    color: #663399;
+    color: var(--secondary-color);
     padding: 10px;
-    background-color: rgba(255, 255, 255, 0.8);
+    background-color: var(--gradient-start);
     border-radius: 8px;
     margin-bottom: 10px;
 }
 
 .video-credit a {
-    color: #FF5733;
+    color: var(--accent-color);
     text-decoration: none;
 }
 
@@ -1255,8 +1595,8 @@ p {
     width: 0;
     height: 0;
     border-radius: 50%;
-    background: radial-gradient(circle, #4e4e4e, #323232);
-    box-shadow: 0 0 50px rgba(19, 19, 19, 0.8);
+    background: radial-gradient(circle, var(--text-color), var(--background-color));
+    box-shadow: 0 0 50px var(--shadow-color);
     z-index: 1000;
     animation: pulse 1s infinite alternate;
     transition: width 0.5s ease, height 0.5s ease;
@@ -1365,6 +1705,10 @@ p {
     opacity: 1;
 }
 
+#view-achievements:active {
+    transform: translateY(0);
+}
+
 /* 成就模态框样式 */
 #achievements-modal.hide {
     animation: fadeOut 0.5s forwards;
@@ -1433,13 +1777,6 @@ p {
     color: var(--achievement-unlocked-color);
 }
 
-body,
-#view-achievements,
-#achievements-modal .modal-content,
-.achievement-item {
-    transition: background-color 0.3s, color 0.3s;
-}
-
 /* 分页样式 */
 #pagination {
     display: flex;
@@ -1449,6 +1786,8 @@ body,
 }
 
 #pagination button {
+    font-family: 'Microsoft YaHei', Arial, sans-serif;
+    font-weight: bold;
     background-color: var(--primary-color);
     color: white;
     border: none;
@@ -1531,7 +1870,7 @@ body,
 
 .progress-bar {
     height: 100%;
-    background-color: #4CAF50;
+    background-color: var(--success-color);
     border-radius: 5px;
     transition: width 0.5s ease-in-out;
 }
