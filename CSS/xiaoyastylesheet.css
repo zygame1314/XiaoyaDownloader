@@ -106,7 +106,6 @@ body.theme-xiaoya-answer .script-option.active {
 }
 
 .script-option.active {
-    background-color: #4CAF50;
     color: white;
     font-weight: bold;
 }
@@ -611,20 +610,6 @@ h1 {
     color: #666;
 }
 
-@media (max-width: 768px) {
-    .install-tampermonkey-container {
-        flex-direction: column;
-    }
-
-    .install-tampermonkey-image {
-        order: -1;
-    }
-
-    .browser-options {
-        flex-direction: column;
-    }
-}
-
 /* 开发者模式部分样式 */
 .developer-mode-container {
     display: flex;
@@ -811,33 +796,6 @@ body.night-mode .additional-info {
             var(--highlight-color));
 }
 
-@media (max-width: 768px) {
-    .developer-mode-container {
-        gap: 20px;
-        padding: 15px;
-    }
-
-    .developer-mode-text {
-        padding: 20px;
-    }
-
-    .important-note {
-        flex-direction: column;
-        align-items: flex-start;
-        gap: 15px;
-        padding: 15px 20px;
-    }
-
-    .important-note .material-icons {
-        padding: 8px;
-        font-size: 20px;
-    }
-
-    .setup-screenshot {
-        margin-top: 20px;
-    }
-}
-
 /* 问号提示样式 */
 .question-mark {
     display: inline-block;
@@ -1021,16 +979,6 @@ code {
 
 .install-button .material-icons {
     margin-right: 10px;
-}
-
-@media (max-width: 768px) {
-    .install-container {
-        flex-direction: column;
-    }
-
-    .install-image {
-        order: -1;
-    }
 }
 
 /* 列表样式 */
@@ -1968,4 +1916,97 @@ body.night-mode #visit-counter:hover {
 .custom-footer .beian-link:hover {
     color: var(--secondary-color);
     border-bottom-color: white;
+}
+
+@media (max-width: 768px) {
+    #visit-counter {
+        top: auto;
+        bottom: 150px;
+        right: 20px;
+        font-size: 12px;
+        padding: 8px 12px;
+    }
+
+    #visit-counter .material-icons {
+        font-size: 16px;
+    }
+
+    .install-tampermonkey-container {
+        flex-direction: column;
+    }
+
+    .install-tampermonkey-image {
+        order: -1;
+    }
+
+    .browser-options {
+        flex-direction: column;
+    }
+
+    .developer-mode-container {
+        gap: 20px;
+        padding: 15px;
+    }
+
+    .developer-mode-text {
+        padding: 20px;
+    }
+
+    .important-note {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 15px;
+        padding: 15px 20px;
+    }
+
+    .important-note .material-icons {
+        padding: 8px;
+        font-size: 20px;
+    }
+
+    .setup-screenshot {
+        margin-top: 20px;
+    }
+
+    .script-intro {
+        padding: 20px 15px;
+    }
+
+    .script-intro>.material-icons {
+        font-size: 36px;
+        padding: 10px;
+        margin-bottom: 15px;
+    }
+
+    .script-intro h3 {
+        font-size: 20px;
+    }
+
+    .script-intro p {
+        font-size: 16px;
+        margin-bottom: 20px;
+    }
+
+    .feature-list {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
+    }
+
+    .feature-list li {
+        width: 100%;
+        padding: 8px 10px;
+    }
+
+    .feature-list li:hover {
+        transform: translateX(3px);
+    }
+
+    .install-container {
+        flex-direction: column;
+    }
+
+    .install-image {
+        order: -1;
+    }
 }
