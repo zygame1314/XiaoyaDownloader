@@ -14,7 +14,28 @@ init({
     emoji: [
         'https://valine-emoji.bili33.top/bilibilitv',
     ],
-    imageUploader: false,
+    imageUploader: async (file) => {
+        const formData = new FormData();
+        formData.append('file', file);
+
+        try {
+            const response = await fetch('https://zygame1314.site/comment/upload-image', {
+                method: 'POST',
+                body: formData
+            });
+
+            if (!response.ok) {
+                throw new Error('上传失败');
+            }
+
+            const result = await response.json();
+            return result.url;
+        } catch (error) {
+            console.error('上传图片失败:', error);
+            alert('图片上传失败，请重试');
+            return null;
+        }
+    },
     pageview: true,
     comment: true,
     search: false,
