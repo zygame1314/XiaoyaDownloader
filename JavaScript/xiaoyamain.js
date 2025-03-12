@@ -835,6 +835,16 @@ btn.onclick = function (event) {
     }, 10);
 }
 
+document.querySelectorAll('.feedback-button#donateButton').forEach(button => {
+    button.onclick = function (event) {
+        event.preventDefault();
+        modal.classList.add('show');
+        setTimeout(() => {
+            modal.style.display = "block";
+        }, 10);
+    }
+});
+
 function closeModal() {
     modal.classList.add('hide');
     setTimeout(() => {
