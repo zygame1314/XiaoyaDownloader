@@ -26,7 +26,7 @@
 4. 🖱️ 点击页面右上角或右下角的下载按钮
 5. ✅ 选择所需课件并下载
 
-详细使用说明：[小雅爬爬爬使用指南](https://zygame1314.github.io/XiaoyaDownloader/)
+详细使用说明：[小雅爬爬爬使用指南](https://xiaoya.zygame1314.site)
 
 ## ⚙️ 配置选项
 
