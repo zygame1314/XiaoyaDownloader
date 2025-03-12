@@ -33,7 +33,7 @@ export async function onRequestPost(context) {
             },
         });
 
-        const imageUrl = `https://pub-d477e766898f476ab5049edca8c32627.r2.dev/${fileName}`;
+        const imageUrl = `https://pub-e05e2808a77740d4b714649a56da7819.r2.dev/${fileName}`;
 
         return new Response(
             JSON.stringify({
