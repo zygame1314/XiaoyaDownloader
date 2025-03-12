@@ -21,7 +21,7 @@ init({
         formData.append('file', webpBlob, `${file.name.split('.')[0]}.webp`);
 
         try {
-            const response = await fetch('https://zygame1314.site/comment/upload-image', {
+            const response = await fetch('https://blog.zygame1314.site/comment/upload-image', {
                 method: 'POST',
                 body: formData
             });
