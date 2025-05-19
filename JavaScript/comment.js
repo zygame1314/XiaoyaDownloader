@@ -12,16 +12,19 @@ init({
     highlight: true,
     recordIP: true,
     emoji: [
-        'https://valine-emoji.bili33.top/bilibilitv',
+        'https://img.zygame1314.top/bilibili_tv',
+        'https://img.zygame1314.top/blobs-gif'
     ],
     imageUploader: async (file) => {
         const webpBlob = await convertToWebP(file);
 
         const formData = new FormData();
         formData.append('file', webpBlob, `${file.name.split('.')[0]}.webp`);
+        const site = window.location.hostname;
+        formData.append('site', site);
 
         try {
-            const response = await fetch('https://img.zygame1314.site/comment/upload-image', {
+            const response = await fetch('https://api.zygame1314.site/comment/upload-image', {
                 method: 'POST',
                 body: formData
             });
@@ -34,7 +37,7 @@ init({
             return result.url;
         } catch (error) {
             console.error('上传图片失败:', error);
-            alert('图片上传失败，请重试');
+            showNotification('图片上传失败，请重试', 2, 'error');
             return null;
         }
     },
