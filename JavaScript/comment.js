@@ -13,8 +13,8 @@ init({
     highlight: true,
     recordIP: true,
     emoji: [
-        'https://bucket.zygame1314.top/static/emoji/bilibili_tv',
-        'https://bucket.zygame1314.top/static/emoji/blobs-gif'
+        'https://bucket.zygame1314.site/static/emoji/bilibili_tv',
+        'https://bucket.zygame1314.site/static/emoji/blobs-gif'
     ],
     imageUploader: async (file) => {
         const webpBlob = await convertToWebP(file);
