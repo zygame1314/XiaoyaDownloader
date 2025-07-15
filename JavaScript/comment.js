@@ -25,7 +25,7 @@ init({
         formData.append('site', site);
 
         try {
-            const response = await fetch('https://api.zygame1314.site/comment/upload-image', {
+            const response = await fetch('https://blog.zygame1314.site/comment/upload-image', {
                 method: 'POST',
                 body: formData
             });
