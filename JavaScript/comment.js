@@ -13,8 +13,7 @@ init({
     highlight: true,
     recordIP: true,
     emoji: [
-        'https://bucket.zygame1314.site/static/emoji/bilibili_tv',
-        'https://bucket.zygame1314.site/static/emoji/blobs-gif'
+        'https://bucket.zygame1314.site/static/emoji/bilibili_tv'
     ],
     imageUploader: async (file) => {
         const webpBlob = await convertToWebP(file);
@@ -25,7 +24,7 @@ init({
         formData.append('site', site);
 
         try {
-            const response = await fetch('https://api.zygame1314-666.top/comment/upload-image', {
+            const response = await fetch('https://api.zygame1314.site/comment/upload-image', {
                 method: 'POST',
                 body: formData
             });
