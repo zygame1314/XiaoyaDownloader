@@ -44,19 +44,19 @@
 <summary>查看截图（可能不是最新，以实际界面为准）</summary>
 
 ### 右上角下载按钮
-![右上角下载按钮](images/右上角下载列表.webp)
+![右上角下载按钮](https://bucket.zygame1314.site/static/xiaoya/右上角下载列表.webp)
 
 ### 右下角下载列表
-![右下角下载列表](images/右下角下载列表.webp)
+![右下角下载列表](https://bucket.zygame1314.site/static/xiaoya/右下角下载列表.webp)
 
 ### 右侧视频组件
-![右侧视频组件](images/视频组件.webp)
+![右侧视频组件](https://bucket.zygame1314.site/static/xiaoya/视频组件.webp)
 
 ### 控制面板
-![控制面板](images/控制面板.webp)
+![控制面板](https://bucket.zygame1314.site/static/xiaoya/控制面板.webp)
 
 ### 进度条
-![进度条](images/进度条.webp)
+![进度条](https://bucket.zygame1314.site/static/xiaoya/进度条.webp)
 
 </details>
 

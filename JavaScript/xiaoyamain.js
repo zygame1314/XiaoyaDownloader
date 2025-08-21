@@ -99,69 +99,69 @@ const achievements = [
         id: 'night_mode',
         title: '暗夜降临',
         description: '成功打开夜间模式。',
-        icon: 'images/achievement-icon.webp'
+        icon: 'https://bucket.zygame1314.site/static/xiaoya/achievement-icon.webp'
     },
     {
         id: 'day_mode',
         title: '重返光明',
         description: '成功回到普通模式。',
-        icon: 'images/achievement-icon-light.webp'
+        icon: 'https://bucket.zygame1314.site/static/xiaoya/achievement-icon-light.webp'
     },
     {
         id: 'first_visit',
         title: '初来乍到',
         description: '首次访问网站',
-        icon: 'images/first-visit-icon.webp'
+        icon: 'https://bucket.zygame1314.site/static/xiaoya/first-visit-icon.webp'
     },
     {
         id: 'explorer',
         title: '探索者',
         description: '浏览所有内容',
-        icon: 'images/explorer-icon.webp'
+        icon: 'https://bucket.zygame1314.site/static/xiaoya/explorer-icon.webp'
     },
     {
         id: 'night_owl',
         title: '你就熬吧……',
         description: '在凌晨0点至5点使用夜间模式',
-        icon: 'images/night-owl-icon.webp'
+        icon: 'https://bucket.zygame1314.site/static/xiaoya/night-owl-icon.webp'
     },
     {
         id: 'early_bird',
         title: '起得早/熬穿了',
         description: '在早上5点至6点访问网站',
-        icon: 'images/early-bird-icon.webp'
+        icon: 'https://bucket.zygame1314.site/static/xiaoya/early-bird-icon.webp'
     },
     {
         id: 'bookworm',
         title: '有啥看的',
         description: '在网站上累计阅读超过1小时',
-        icon: 'images/bookworm-icon.webp',
+        icon: 'https://bucket.zygame1314.site/static/xiaoya/bookworm-icon.webp',
         maxProgress: 3600
     },
     {
         id: 'problem_solver',
         title: '勤学好问',
         description: '阅读完所有FAQ',
-        icon: 'images/problem-solver-icon.webp'
+        icon: 'https://bucket.zygame1314.site/static/xiaoya/problem-solver-icon.webp'
     },
     {
         id: 'continuous_learner',
         title: '有什么值得留恋的吗？',
         description: '连续7天访问网站',
-        icon: 'images/continuous-learner-icon.webp',
+        icon: 'https://bucket.zygame1314.site/static/xiaoya/continuous-learner-icon.webp',
         maxProgress: 7
     },
     {
         id: 'script_switcher',
         title: '多面手',
         description: '尝试切换不同的小雅脚本',
-        icon: 'images/switcher-icon.webp'
+        icon: 'https://bucket.zygame1314.site/static/xiaoya/switcher-icon.webp'
     },
     {
         id: 'all_scripts',
         title: '收集控',
         description: '查看所有三种小雅脚本的详情',
-        icon: 'images/collector-icon.webp'
+        icon: 'https://bucket.zygame1314.site/static/xiaoya/collector-icon.webp'
     }
 ];
 
