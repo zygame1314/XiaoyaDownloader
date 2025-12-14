@@ -6,7 +6,7 @@
 // @description 🚀 小雅平台课件下载利器！批量下载、排序、筛选、导出等一应俱全！更多功能等你发掘！
 // @license     MIT
 // @author      Yi
-// @version     1.5.8
+// @version     1.5.9
 // @icon        https://www.ai-augmented.com/static/logo3.1dbbea8f.png
 // @homepageURL https://xiaoya.zygame1314.site
 // @supportURL  https://xiaoya.zygame1314.site
