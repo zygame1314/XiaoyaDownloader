@@ -562,9 +562,9 @@ function decryptFileUrl(encryptedUrl) {
         const vector = "99526255";
 
         const base64Str = encryptedUrl
-        .replace(/_/g, '+')
-        .replace(/\*/g, '/')
-        .replace(/-/g, '=');
+            .replace(/_/g, '+')
+            .replace(/\*/g, '/')
+            .replace(/-/g, '=');
 
         const keyUtf8 = window.CryptoJS.enc.Utf8.parse(key);
         const ivUtf8 = window.CryptoJS.enc.Utf8.parse(vector);
@@ -1259,24 +1259,24 @@ function setupInfoButton(modal, wrapper, iframe, fileUrl) {
                 const infoUrl = `${PREVIEW_BASE_URL}&info=0&furl=${encodeURIComponent(fileUrl)}`;
                 fetch(infoUrl)
                     .then(response => {
-                    if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
-                    return response.json();
-                })
+                        if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+                        return response.json();
+                    })
                     .then(data => {
-                    infoContent = createInfoContent(data);
-                    if (infoContent) {
-                        wrapper.appendChild(infoContent);
-                        toggleInfoDisplay();
-                    } else {
-                        showNotification('无法创建文件信息视图。', 'error');
-                    }
-                    resetButton();
-                })
+                        infoContent = createInfoContent(data);
+                        if (infoContent) {
+                            wrapper.appendChild(infoContent);
+                            toggleInfoDisplay();
+                        } else {
+                            showNotification('无法创建文件信息视图。', 'error');
+                        }
+                        resetButton();
+                    })
                     .catch(error => {
-                    console.error('获取文档信息失败:', error);
-                    showNotification('获取文档信息失败，请稍后重试。', 'error');
-                    resetButton();
-                });
+                        console.error('获取文档信息失败:', error);
+                        showNotification('获取文档信息失败，请稍后重试。', 'error');
+                        resetButton();
+                    });
             } else {
                 toggleInfoDisplay();
             }
@@ -1443,7 +1443,7 @@ function createInfoContent(data) {
 
         function highlightText(searchTerm) {
             const innerHTML = textContentDiv.innerHTML.replace(/<span class="highlight current">(.*?)<\/span>/gi, '$1')
-            .replace(/<span class="highlight">(.*?)<\/span>/gi, '$1');
+                .replace(/<span class="highlight">(.*?)<\/span>/gi, '$1');
             textContentDiv.innerHTML = innerHTML;
 
             if (!searchTerm) {
@@ -2016,7 +2016,7 @@ if (!wrapperContainer) {
         zIndex: '-1'
     });
     lottieContainer.innerHTML = `
-        <dotlottie-player src="https://lottie.host/0500ecdb-7f3b-4f73-ab09-155a70f85ce3/ZCLltVc7A4.json"
+        <dotlottie-player src="https://cdn.jsdmirror.com/gh/zygame1314/XiaoyaDownloader/lottie/loading-dot.json"
                           background="transparent" speed="1"
                           style="width: 100%; height: 100%;" loop autoplay>
         </dotlottie-player>
@@ -2073,14 +2073,14 @@ function updateIndicator() {
 
 function updateDownloadsContainerVisibility() {
     const nonEmptyNodes = Array.from(downloadsContainer.children).filter(child =>
-                                                                         !child.classList.contains('slide-out') &&
-                                                                         child.tagName !== 'P' &&
-                                                                         child !== downloadsContainer.firstChild &&
-                                                                         child !== toggleButton &&
-                                                                         child.id !== 'progressIndicator' &&
-                                                                         child.id !== 'totalProgressBar' &&
-                                                                         child.id !== 'totalProgressText'
-                                                                        );
+        !child.classList.contains('slide-out') &&
+        child.tagName !== 'P' &&
+        child !== downloadsContainer.firstChild &&
+        child !== toggleButton &&
+        child.id !== 'progressIndicator' &&
+        child.id !== 'totalProgressBar' &&
+        child.id !== 'totalProgressText'
+    );
 
     if (nonEmptyNodes.length === 0) {
         if (!downloadsContainer.querySelector('p')) {
@@ -2456,11 +2456,11 @@ function courseDownload(file_url, file_name) {
             });
         } else {
             handleFetchDownload(file_url, token, signal, fileSizeSpan, progressBar, progressPercentText,
-                                speedText, remainingTimeText, progressContainer, file_name, () => {
-                completedDownloads++;
-                updateTotalProgress();
-                resolve();
-            }, reject);
+                speedText, remainingTimeText, progressContainer, file_name, () => {
+                    completedDownloads++;
+                    updateTotalProgress();
+                    resolve();
+                }, reject);
         }
     });
 }
@@ -2555,74 +2555,74 @@ function handleFetchDownload(file_url, token, signal, fileSizeSpan, progressBar,
         }
     })
         .then(response => {
-        const contentLength = response.headers.get('Content-Length');
-        if (contentLength) {
-            const fileSize = bytesToSize(contentLength);
-            fileSizeSpan.innerText = `文件大小: ${fileSize}`;
-        } else {
-            fileSizeSpan.innerText = `无法获取文件大小`;
-            updateIndicator();
-            updateDownloadsContainerVisibility();
-        }
-
-        const reader = response.body.getReader();
-        let receivedBytes = 0;
-        let chunks = [];
-
-        function processResult(result) {
-            if (result.done) {
-                const blob = new Blob(chunks, { type: 'application/octet-stream' });
-                const downloadUrl = URL.createObjectURL(blob);
-                const a = document.createElement('a');
-                a.href = downloadUrl;
-                a.download = file_name;
-                document.body.appendChild(a);
-                a.click();
-                document.body.removeChild(a);
-                URL.revokeObjectURL(downloadUrl);
-                progressContainer.classList.add('slide-out');
-                progressContainer.addEventListener('animationend', () => {
-                    progressContainer.remove();
-                    updateIndicator();
-                    updateDownloadsContainerVisibility();
-                    resolve();
-                }, { once: true });
-                return;
+            const contentLength = response.headers.get('Content-Length');
+            if (contentLength) {
+                const fileSize = bytesToSize(contentLength);
+                fileSizeSpan.innerText = `文件大小: ${fileSize}`;
+            } else {
+                fileSizeSpan.innerText = `无法获取文件大小`;
+                updateIndicator();
+                updateDownloadsContainerVisibility();
             }
-            chunks.push(result.value);
-            receivedBytes += result.value.length;
 
-            let percentComplete = (receivedBytes / contentLength) * 100;
-            progressBar.style.width = `${percentComplete.toFixed(2)}%`;
-            progressPercentText.innerText = `${percentComplete.toFixed(2)}%`;
+            const reader = response.body.getReader();
+            let receivedBytes = 0;
+            let chunks = [];
 
-            const currentTime = Date.now();
-            const timeDiff = (currentTime - lastUpdateTime) / 1000;
-            if (timeDiff >= 1) {
-                const bytesPerSecond = (receivedBytes - lastReceivedBytes) / timeDiff;
-                const speed = bytesToSize(bytesPerSecond) + '/s';
-                speedText.innerText = `速度: ${speed}`;
+            function processResult(result) {
+                if (result.done) {
+                    const blob = new Blob(chunks, { type: 'application/octet-stream' });
+                    const downloadUrl = URL.createObjectURL(blob);
+                    const a = document.createElement('a');
+                    a.href = downloadUrl;
+                    a.download = file_name;
+                    document.body.appendChild(a);
+                    a.click();
+                    document.body.removeChild(a);
+                    URL.revokeObjectURL(downloadUrl);
+                    progressContainer.classList.add('slide-out');
+                    progressContainer.addEventListener('animationend', () => {
+                        progressContainer.remove();
+                        updateIndicator();
+                        updateDownloadsContainerVisibility();
+                        resolve();
+                    }, { once: true });
+                    return;
+                }
+                chunks.push(result.value);
+                receivedBytes += result.value.length;
 
-                const remainingBytes = contentLength - receivedBytes;
-                const remainingTime = remainingBytes / bytesPerSecond;
-                const remainingTimeFormatted = formatTime(remainingTime);
-                remainingTimeText.innerText = `剩余: ${remainingTimeFormatted}`;
+                let percentComplete = (receivedBytes / contentLength) * 100;
+                progressBar.style.width = `${percentComplete.toFixed(2)}%`;
+                progressPercentText.innerText = `${percentComplete.toFixed(2)}%`;
 
-                lastUpdateTime = currentTime;
-                lastReceivedBytes = receivedBytes;
+                const currentTime = Date.now();
+                const timeDiff = (currentTime - lastUpdateTime) / 1000;
+                if (timeDiff >= 1) {
+                    const bytesPerSecond = (receivedBytes - lastReceivedBytes) / timeDiff;
+                    const speed = bytesToSize(bytesPerSecond) + '/s';
+                    speedText.innerText = `速度: ${speed}`;
+
+                    const remainingBytes = contentLength - receivedBytes;
+                    const remainingTime = remainingBytes / bytesPerSecond;
+                    const remainingTimeFormatted = formatTime(remainingTime);
+                    remainingTimeText.innerText = `剩余: ${remainingTimeFormatted}`;
+
+                    lastUpdateTime = currentTime;
+                    lastReceivedBytes = receivedBytes;
+                }
+
+                reader.read().then(processResult);
             }
 
             reader.read().then(processResult);
-        }
-
-        reader.read().then(processResult);
-    })
+        })
         .catch(e => {
-        progressContainer.remove();
-        updateIndicator();
-        updateDownloadsContainerVisibility();
-        reject(e);
-    });
+            progressContainer.remove();
+            updateIndicator();
+            updateDownloadsContainerVisibility();
+            reject(e);
+        });
 }
 
 function formatTime(seconds) {
@@ -2664,7 +2664,7 @@ function createLottieAnimation(parent) {
         const lottieContainer = document.createElement("div");
         lottieContainer.id = "lottie-animation-container";
         lottieContainer.innerHTML = `
-        <dotlottie-player src="https://lottie.host/f6cfdc36-5c9a-4dac-bb71-149cdf2e7d92/VRIhn9vXE5.json"
+        <dotlottie-player src="https://cdn.jsdmirror.com/gh/zygame1314/XiaoyaDownloader/lottie/rainbow-cat.json"
                           background="transparent" speed="1" loop autoplay>
         </dotlottie-player>`;
 
@@ -2745,7 +2745,7 @@ function createOrUpdateContainer(parent) {
         container.appendChild(lottieContainer);
 
         const player = document.createElement('dotlottie-player');
-        player.setAttribute('src', "https://lottie.host/fbd042e1-0e8e-43a9-8a29-3407c692f209/UNft7IfOMP.json");
+        player.setAttribute('src', "https://cdn.jsdmirror.com/gh/zygame1314/XiaoyaDownloader/lottie/search.json");
         player.setAttribute('autoplay', '');
         player.setAttribute('loop', '');
         player.style.width = "100%";
@@ -3115,15 +3115,15 @@ async function handleBulkDownload() {
     }
 
     const downloadQueue = Array.from(checkboxes)
-    .filter(checkbox => checkbox.checked && checkbox.getAttribute('data-visible') === 'true')
-    .map(checkbox => {
-        const container = checkbox.closest('div');
-        const link = container.querySelector('a.download-link');
-        return {
-            quoteId: link.getAttribute('data-quote-id'),
-            name: link.getAttribute('data-origin-name')
-        };
-    });
+        .filter(checkbox => checkbox.checked && checkbox.getAttribute('data-visible') === 'true')
+        .map(checkbox => {
+            const container = checkbox.closest('div');
+            const link = container.querySelector('a.download-link');
+            return {
+                quoteId: link.getAttribute('data-quote-id'),
+                name: link.getAttribute('data-origin-name')
+            };
+        });
 
     if (totalDownloads === 0) {
         totalDownloads = downloadQueue.length;
@@ -4971,7 +4971,7 @@ function add_download_button() {
     downloadIconContainer.id = "download_icon_container";
     downloadIconContainer.innerHTML = `
         <dotlottie-player class="downloadlist-icon"
-                          src="https://lottie.host/604bb467-91d8-46f3-a7ce-786e25f8fded/alw6gwjRdU.json"
+                          src="https://cdn.jsdmirror.com/gh/zygame1314/XiaoyaDownloader/lottie/batch-download.json"
                           background="transparent"
                           speed="1"
                           style="width: 60px; height: 60px; margin: -15px;"
@@ -5311,26 +5311,26 @@ function showDownloadHistory() {
     };
     clearButton.onclick = () => {
         showNotification('确定要清空所有下载历史吗？此操作不可撤销。', 'confirm',
-                         () => {
-            const items = historyPopup.historyListElement.querySelectorAll('li');
+            () => {
+                const items = historyPopup.historyListElement.querySelectorAll('li');
 
-            items.forEach((item, index) => {
+                items.forEach((item, index) => {
+                    setTimeout(() => {
+                        item.classList.add('remove-history-item');
+                    }, index * 50);
+                });
+
                 setTimeout(() => {
-                    item.classList.add('remove-history-item');
-                }, index * 50);
-            });
-
-            setTimeout(() => {
-                downloadHistory = [];
-                localStorage.removeItem('downloadHistory');
-                updateHistoryList();
-                showNotification('下载历史已清空', 'info');
-            }, items.length * 50 + 500);
-        },
-                         () => {
-            showNotification('操作已取消', 'info');
-        }
-                        );
+                    downloadHistory = [];
+                    localStorage.removeItem('downloadHistory');
+                    updateHistoryList();
+                    showNotification('下载历史已清空', 'info');
+                }, items.length * 50 + 500);
+            },
+            () => {
+                showNotification('操作已取消', 'info');
+            }
+        );
     };
 
     const closeButton = document.createElement('button');
@@ -5746,7 +5746,7 @@ function initializeControlPanel() {
     let isControlPanelVisible = false;
 
     const lottiePlayer = document.createElement('dotlottie-player');
-    lottiePlayer.setAttribute('src', "https://lottie.host/4f5910c1-63a3-4ffa-965c-7c0e46a29928/PCa2EgPj4N.json");
+    lottiePlayer.setAttribute('src', "https://cdn.jsdmirror.com/gh/zygame1314/XiaoyaDownloader/lottie/setting.json");
     lottiePlayer.setAttribute('background', 'transparent');
     lottiePlayer.setAttribute('speed', '1');
     lottiePlayer.style.width = '100%';
@@ -6174,18 +6174,18 @@ function initializeControlPanel() {
 
         resetButton.onclick = () => {
             showNotification('确定要重置所有过滤器设置吗？', 'confirm',
-                             () => {
-                window.quickFilters = JSON.parse(JSON.stringify(defaultQuickFilters));
-                localStorage.removeItem('customQuickFilters');
-                showNotification('设置已重置为默认值，页面将在3秒后自动刷新以应用修改', 'info');
-                setTimeout(() => {
-                    location.reload();
-                }, 3000);
-            },
-                             () => {
-                showNotification('重置操作已取消', 'info');
-            }
-                            );
+                () => {
+                    window.quickFilters = JSON.parse(JSON.stringify(defaultQuickFilters));
+                    localStorage.removeItem('customQuickFilters');
+                    showNotification('设置已重置为默认值，页面将在3秒后自动刷新以应用修改', 'info');
+                    setTimeout(() => {
+                        location.reload();
+                    }, 3000);
+                },
+                () => {
+                    showNotification('重置操作已取消', 'info');
+                }
+            );
         };
 
         buttonContainer.appendChild(saveButton);
@@ -6821,31 +6821,31 @@ function initializeControlPanel() {
 
     clearMessagesButton.onclick = function () {
         showNotification("确定要清空所有消息吗？该操作无法撤销。", 'confirm',
-                         async () => {
-            try {
-                this.disabled = true;
-                this.textContent = '正在清空...';
-                const result = await clearAllMessages();
-                if (result.hasMessagesToClear) {
-                    showNotification('所有消息已清空，页面将在3秒后刷新', 'info');
-                    setTimeout(() => {
-                        location.reload();
-                    }, 3000);
-                } else {
-                    showNotification('没有消息可清空', 'info');
+            async () => {
+                try {
+                    this.disabled = true;
+                    this.textContent = '正在清空...';
+                    const result = await clearAllMessages();
+                    if (result.hasMessagesToClear) {
+                        showNotification('所有消息已清空，页面将在3秒后刷新', 'info');
+                        setTimeout(() => {
+                            location.reload();
+                        }, 3000);
+                    } else {
+                        showNotification('没有消息可清空', 'info');
+                    }
+                } catch (error) {
+                    console.error('Error clearing messages:', error);
+                    showNotification('清空消息时出错，请重试', 'error');
+                } finally {
+                    this.disabled = false;
+                    this.textContent = '清空所有消息';
                 }
-            } catch (error) {
-                console.error('Error clearing messages:', error);
-                showNotification('清空消息时出错，请重试', 'error');
-            } finally {
-                this.disabled = false;
-                this.textContent = '清空所有消息';
+            },
+            () => {
+                showNotification('清空操作已取消', 'info');
             }
-        },
-                         () => {
-            showNotification('清空操作已取消', 'info');
-        }
-                        );
+        );
     };
 
     async function clearAllMessages() {
@@ -7202,7 +7202,7 @@ function initializeControlPanel() {
             }
             arrow.style.transform = isOpen
                 ? 'translateY(-50%) rotate(0deg)'
-            : 'translateY(-50%) rotate(180deg)';
+                : 'translateY(-50%) rotate(180deg)';
         }
 
         selectedOption.onclick = toggleDropdown;
@@ -7285,9 +7285,9 @@ function initializeControlPanel() {
     exportButton.onclick = function () {
         const selectedOption = dropdownContainer.querySelector('.selected-option');
         const selectedFormat = selectedOption.textContent.includes('EF2') ? 'ef2' :
-        selectedOption.textContent.includes('JSON') ? 'json' :
-        selectedOption.textContent.includes('CSV') ? 'csv' :
-        selectedOption.textContent.includes('ZIP') ? 'zip' : 'txt';
+            selectedOption.textContent.includes('JSON') ? 'json' :
+                selectedOption.textContent.includes('CSV') ? 'csv' :
+                    selectedOption.textContent.includes('ZIP') ? 'zip' : 'txt';
         if (selectedFormat === 'ef2') {
             exportToEf2();
         } else if (selectedFormat === 'txt') {
@@ -7614,15 +7614,15 @@ function initializeControlPanel() {
                     return fetch(file.url)
                         .then(response => response.blob())
                         .then(blob => {
-                        zip.file(file.filename, blob);
-                        processedFiles++;
-                        const progress = 20 + (processedFiles / totalFiles) * 60;
-                        updateProgress(`正在添加文件 (${processedFiles}/${totalFiles})...`, progress);
-                    })
+                            zip.file(file.filename, blob);
+                            processedFiles++;
+                            const progress = 20 + (processedFiles / totalFiles) * 60;
+                            updateProgress(`正在添加文件 (${processedFiles}/${totalFiles})...`, progress);
+                        })
                         .catch(error => {
-                        console.error(`获取文件失败: ${file.filename}`, error);
-                        throw error;
-                    });
+                            console.error(`获取文件失败: ${file.filename}`, error);
+                            throw error;
+                        });
                 });
 
                 const courseName = await getCourseName();
@@ -8402,7 +8402,7 @@ function addLottieAnimation(element) {
     });
 
     const lottiePlayer = document.createElement('dotlottie-player');
-    lottiePlayer.setAttribute('src', "https://lottie.host/995b71c8-b7aa-45b0-bb77-94b850da5d5d/dyezqbvtia.json");
+    lottiePlayer.setAttribute('src', "https://cdn.jsdmirror.com/gh/zygame1314/XiaoyaDownloader/lottie/download-cat.json");
     lottiePlayer.setAttribute('background', "transparent");
     lottiePlayer.setAttribute('speed', "1");
     lottiePlayer.setAttribute('style', "width: 125%; height: 100%; position: absolute; left: -12.5%;");
@@ -8567,18 +8567,18 @@ function handleXhrResponse() {
             })
                 .then(response => response.json())
                 .then(data => {
-                let downloadUrl = data.data.url;
-                if (data.data.is_encryption) {
-                    downloadUrl = decryptFileUrl(downloadUrl);
-                }
-                triggerNewLinkAnimation();
-                updatePreviewLink(downloadUrl, content);
-            })
+                    let downloadUrl = data.data.url;
+                    if (data.data.is_encryption) {
+                        downloadUrl = decryptFileUrl(downloadUrl);
+                    }
+                    triggerNewLinkAnimation();
+                    updatePreviewLink(downloadUrl, content);
+                })
                 .catch(error => {
-                console.error('获取文件下载地址失败:', error);
-                createInitialPreviewLink();
-                showNotification('获取文件下载地址失败X﹏X（或者根本不是个文件？）', 'error');
-            });
+                    console.error('获取文件下载地址失败:', error);
+                    createInitialPreviewLink();
+                    showNotification('获取文件下载地址失败X﹏X（或者根本不是个文件？）', 'error');
+                });
         } else {
             createInitialPreviewLink();
         }
@@ -9697,7 +9697,7 @@ function initVideoAssistant() {
     container.innerHTML = `
         <div id="tm-assistant-icon">
             <dotlottie-player
-                src="https://lottie.host/e0b82942-db68-44a1-b729-df62ceb4c75e/bBXqj2oy9a.json"
+                src="https://cdn.jsdmirror.com/gh/zygame1314/XiaoyaDownloader/lottie/video-cat.json"
                 background="transparent"
                 speed="1"
                 style="width: 50px; height: 50px;"
@@ -10383,15 +10383,15 @@ function monitorFetch() {
         if (url && url.match(urlPattern)) {
             return originalFetch.apply(this, fetchArguments)
                 .then(response => {
-                const responseClone = response.clone();
-                responseClone.json().then(responseData => {
-                    console.log('监控的 fetch 请求响应:', responseData);
-                    handleResponse(responseData);
-                }).catch(e => {
-                    console.error('解析 fetch 响应失败:', e);
+                    const responseClone = response.clone();
+                    responseClone.json().then(responseData => {
+                        console.log('监控的 fetch 请求响应:', responseData);
+                        handleResponse(responseData);
+                    }).catch(e => {
+                        console.error('解析 fetch 响应失败:', e);
+                    });
+                    return response;
                 });
-                return response;
-            });
         } else {
             return originalFetch.apply(this, fetchArguments);
         }
