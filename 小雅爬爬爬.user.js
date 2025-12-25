@@ -6,7 +6,7 @@
 // @description 🚀 小雅平台课件下载利器！批量下载、排序、筛选、导出等一应俱全！更多功能等你发掘！
 // @license     MIT
 // @author      Yi
-// @version     1.5.9
+// @version     1.6.0
 // @icon        https://www.ai-augmented.com/static/logo3.1dbbea8f.png
 // @homepageURL https://xiaoya.zygame1314.site
 // @supportURL  https://xiaoya.zygame1314.site
@@ -20,7 +20,6 @@ styleSheet.innerText = `
     body * {
         font-family: 'Microsoft YaHei', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif !important;
     }
-
     .custom-checkbox {
         appearance: none;
         width: 25px;
@@ -34,7 +33,6 @@ styleSheet.innerText = `
         transition: all 0.3s ease;
         overflow: hidden;
     }
-
     .custom-checkbox::before {
         content: '';
         position: absolute;
@@ -47,21 +45,16 @@ styleSheet.innerText = `
         border-radius: 50%;
         transition: all 0.3s ease;
     }
-
     .custom-checkbox:checked::before {
         transform: translate(-50%, -50%) scale(1);
         animation: newpulse 0.5s ease;
     }
-
     .custom-checkbox:hover {
-
     }
-
     .custom-checkbox:checked {
         border-color: #ff8c00;
         animation: rotate 0.5s ease;
     }
-
     .glowing-text {
         background: linear-gradient(90deg, #ffa500, #ff8c00, #ffa500);
         background-size: 200% 100%;
@@ -69,13 +62,11 @@ styleSheet.innerText = `
         -webkit-background-clip: text;
         -webkit-text-fill-color: transparent;
     }
-
     @keyframes flowingGradient {
         0% { background-position: 0% 50%; }
         50% { background-position: 100% 50%; }
         100% { background-position: 0% 50%; }
     }
-
     @keyframes slideInFade {
         from {
             opacity: 0;
@@ -86,7 +77,6 @@ styleSheet.innerText = `
             transform: translateY(0);
         }
     }
-
     @keyframes slideOutFade {
         from {
             opacity: 1;
@@ -97,45 +87,37 @@ styleSheet.innerText = `
             transform: translateY(20px);
         }
     }
-
     .new-history-item {
         animation: slideInFade 0.5s ease-out forwards;
     }
-
     .remove-history-item {
         animation: slideOutFade 0.5s ease-in forwards;
     }
-
     @keyframes fadeIn {
         from { opacity: 0; transform: translate(-50%, -50%) scale(0.9); }
         to { opacity: 1; transform: translate(-50%, -50%) scale(1); }
     }
-
     @keyframes fadeOut {
         from { opacity: 1; transform: scale(1); }
         to { opacity: 0; transform: scale(0.9); }
     }
-
     .popup-show {
         animation: fadeIn 0.3s ease-out forwards;
     }
-
     .popup-hide {
         animation: fadeOut 0.3s ease-in forwards;
     }
-
     @keyframes glowPulse {
         0% {
             box-shadow: 0 0 5px #fcbb34;
         }
         50% {
-            box-shadow: 0 0 15px #fcbb34, 0 0 20px #f0932b; /* 在中间加强发光 */
+            box-shadow: 0 0 15px #fcbb34, 0 0 20px #f0932b;
         }
         100% {
             box-shadow: 0 0 5px #fcbb34;
         }
     }
-
     #teacherInfoContainer, #userSearchContainer {
         .title {
             color: #333;
@@ -220,7 +202,6 @@ styleSheet.innerText = `
         margin: 5px 0;
         border-radius: 5px;
     }
-
     .retry-btn {
         margin-left: 10px;
         padding: 2px 5px;
@@ -229,17 +210,14 @@ styleSheet.innerText = `
         border-radius: 3px;
         cursor: pointer;
     }
-
     .retry-btn:hover {
         background-color: #e0e0e0;
     }
-
     .failed-file {
         opacity: 0;
         transform: translateX(20px);
         transition: opacity 0.3s ease, transform 0.3s ease;
     }
-
     .custom-select {
         position: relative;
         font-family: 'Microsoft YaHei', sans-serif;
@@ -247,11 +225,9 @@ styleSheet.innerText = `
         margin-right: 10px;
         z-index: 10000;
     }
-
     .custom-select select {
         display: none;
     }
-
     .select-selected {
         background-color: white;
         border: 2px solid #ffa500;
@@ -268,7 +244,6 @@ styleSheet.innerText = `
         display: flex;
         align-items: center;
     }
-
     .select-selected:after {
         position: absolute;
         content: "";
@@ -281,18 +256,15 @@ styleSheet.innerText = `
         transition: all 0.3s ease;
         transform: translateY(-50%);
     }
-
     .select-selected.select-arrow-active {
         border-radius: 20px 20px 0 0;
         border-bottom-color: transparent;
     }
-
     .select-selected.select-arrow-active:after {
         border-color: transparent transparent #ffa500 transparent;
         top: 50%;
         transform: translateY(-25%);
     }
-
     .select-items div,.select-selected {
         font-weight: bold;
         color: #ffa500;
@@ -300,7 +272,6 @@ styleSheet.innerText = `
         cursor: pointer;
         user-select: none;
     }
-
     .select-items {
         position: absolute;
         background-color: white;
@@ -316,11 +287,9 @@ styleSheet.innerText = `
         box-shadow: 0 4px 8px rgba(255, 165, 0, 0.2);
         margin-top: -2px;
     }
-
     .select-hide {
         display: none;
     }
-
     .select-items div {
         padding: 8px 15px;
         display: flex;
@@ -328,56 +297,45 @@ styleSheet.innerText = `
         min-height: 38px;
         box-sizing: border-box;
     }
-
     .select-items div:hover, .same-as-selected {
         background-color: rgba(255, 165, 0, 0.2);
     }
-
     .select-selected:hover, .custom-select:focus-within .select-selected {
         border-color: #ff8c00;
         box-shadow: 0 0 8px rgba(255, 165, 0, 0.5);
     }
-
     .select-items::-webkit-scrollbar {
         width: 8px;
     }
-
     .select-items::-webkit-scrollbar-track {
         background: #f1f1f1;
         border-radius: 0 0 20px 0;
     }
-
     .select-items::-webkit-scrollbar-thumb {
         background: #ffa500;
         border-radius: 10px;
     }
-
     .select-items::-webkit-scrollbar-thumb:hover {
         background: #ff8c00;
     }
-
     .select-items div:last-child {
         border-radius: 0 0 18px 18px;
     }
 `;
 document.head.appendChild(styleSheet);
-
 (function () {
     'use strict';
     const script = document.createElement('script');
     script.src = 'https://unpkg.com/@dotlottie/player-component@latest/dist/dotlottie-player.mjs';
     script.type = 'module';
     document.head.appendChild(script);
-
     script.onload = () => {
         console.log('dotlottie-player模块已导入成功！');
     };
-
     script.onerror = () => {
         console.error('无法导入dotlottie-player模块！');
     };
 })();
-
 function loadCustomFilters() {
     try {
         const savedFilters = localStorage.getItem('customQuickFilters');
@@ -392,7 +350,6 @@ function loadCustomFilters() {
     }
     return null;
 }
-
 let course_resources;
 let courseVisitData;
 let historyListElement;
@@ -416,24 +373,19 @@ window.quickFilters = [
     { label: "代码", value: "py,cpp,java,js,ts,cs,php,rb,go,swift,kt,c,h,sh,bat,json,xml,yaml,yml,sql,css,scss,less" },
     { label: "压缩包", value: "zip,rar,7z,gz,bz2,tar" }
 ];
-
 const hostname = window.location.hostname;
-
 const savedFilters = loadCustomFilters();
 if (savedFilters) {
     window.quickFilters = savedFilters;
 }
-
 function isVideoFile(mimetype, resourceName) {
     const videoExtensions = [
         'mp4', 'avi', 'mov', 'wmv', 'flv', 'mkv', 'webm', 'm4v',
         'mpeg', 'mpg', '3gp', 'ts', 'vob', 'ogv', 'divx', 'rm', 'rmvb', 'f4v'
     ];
-
     if (typeof mimetype === 'string' && mimetype.startsWith('video/')) {
         return true;
     }
-
     if (typeof resourceName === 'string') {
         const parts = resourceName.split('.');
         if (parts.length > 1) {
@@ -443,13 +395,10 @@ function isVideoFile(mimetype, resourceName) {
             }
         }
     }
-
     return false;
 }
-
 async function getCourseAccessToken(visitData) {
     if (!visitData) return null;
-
     const token = getCookie();
     try {
         const authUrl = `https://${hostname}/api/jx-iresource/group/access/authorization`;
@@ -458,7 +407,6 @@ async function getCourseAccessToken(visitData) {
                 'Authorization': `Bearer ${token}`
             }
         });
-
         const authData = await authResponse.json();
         return authData.data?.access_group_token;
     } catch (error) {
@@ -466,11 +414,9 @@ async function getCourseAccessToken(visitData) {
         return null;
     }
 }
-
 async function getCourseResources(groupId, visitData) {
     const token = getCookie();
     const url = `https://${hostname}/api/jx-iresource/resource/queryCourseResources?group_id=${groupId}`;
-
     try {
         let response = await fetch(url, {
             headers: {
@@ -478,9 +424,7 @@ async function getCourseResources(groupId, visitData) {
                 'Content-Type': 'application/json; charset=utf-8'
             }
         });
-
         let responseData = await response.json();
-
         if (responseData.code === 50007) {
             const accessToken = await getCourseAccessToken(visitData);
             if (accessToken) {
@@ -494,23 +438,18 @@ async function getCourseResources(groupId, visitData) {
                 responseData = await response.json();
             }
         }
-
         if (!responseData.success) {
             throw new Error(`获取课程资源失败: ${responseData.message}`);
         }
-
         return responseData.data;
-
     } catch (error) {
         console.error('获取课程资源出错:', error);
         return null;
     }
 }
-
 async function getCourseVisitData(groupId) {
     const token = getCookie();
     const url = `https://${hostname}/api/jx-iresource/statistics/group/visit`;
-
     try {
         const visitResponse = await fetch(url, {
             method: 'POST',
@@ -520,24 +459,20 @@ async function getCourseVisitData(groupId) {
             },
             body: JSON.stringify({ group_id: groupId, role_type: "normal" })
         });
-
         const visitData = await visitResponse.json();
         if (!visitData.success) {
             console.error('获取课程访问数据失败:', visitData.message);
             return null;
         }
-
         return visitData.data;
     } catch (error) {
         console.error('获取课程访问数据失败:', error);
         return null;
     }
 }
-
 function isValidCourseUrl() {
     return window.location.href.startsWith(`https://${hostname}/app/jx-web/mycourse/`);
 }
-
 function getGroupIdFromUrl() {
     try {
         if (!isValidCourseUrl()) {
@@ -555,20 +490,16 @@ function getGroupIdFromUrl() {
         return null;
     }
 }
-
 function decryptFileUrl(encryptedUrl) {
     try {
         const key = "94374647";
         const vector = "99526255";
-
         const base64Str = encryptedUrl
             .replace(/_/g, '+')
             .replace(/\*/g, '/')
             .replace(/-/g, '=');
-
         const keyUtf8 = window.CryptoJS.enc.Utf8.parse(key);
         const ivUtf8 = window.CryptoJS.enc.Utf8.parse(vector);
-
         const decrypted = window.CryptoJS.DES.decrypt({
             ciphertext: window.CryptoJS.enc.Base64.parse(base64Str)
         }, keyUtf8, {
@@ -576,44 +507,36 @@ function decryptFileUrl(encryptedUrl) {
             mode: window.CryptoJS.mode.CBC,
             padding: window.CryptoJS.pad.Pkcs7
         });
-
         return decrypted.toString(window.CryptoJS.enc.Utf8);
     } catch (error) {
         console.error('URL解密失败:', error);
         return encryptedUrl;
     }
 }
-
 async function parseContent() {
     if (!isValidCourseUrl()) {
         return;
     }
     window.currentSearchKeyword = '';
     window.currentFilterCategory = '';
-
     const groupId = getGroupIdFromUrl();
     if (!groupId) {
         showNotification('无法获取课程ID', 'error');
         return;
     }
-
     const visitData = await getCourseVisitData(groupId);
     courseVisitData = visitData;
-
     const resources = await getCourseResources(groupId, visitData);
     course_resources = resources;
-
     if (!course_resources) {
         showNotification('获取课程资源失败', 'error');
         return;
     }
-
     if (visitData) {
         console.log('课程名称:', visitData.name);
         console.log('课程站点ID:', visitData.site_id);
         console.log('教师信息:', visitData.teachers);
     }
-
     const searchInput = document.getElementById("searchInput");
     if (searchInput) {
         searchInput.value = '';
@@ -622,10 +545,8 @@ async function parseContent() {
     if (quickFilterSelect) {
         quickFilterSelect.selectedIndex = 0;
     }
-
     var download_list = document.getElementById("download_list");
     download_list.innerHTML = '<h3 style="color:#fcbb34; font-weight:bold;">课程附件清单</h3>';
-
     failedContainer = document.createElement('div');
     failedContainer.id = 'failedContainer';
     failedContainer.style.cssText = `
@@ -647,7 +568,6 @@ async function parseContent() {
         font-weight: bold;
     `;
     noErrorsMessage.textContent = '太棒了！没有任何错误 (≧▽≦)';
-
     failedToggleButton = document.createElement('button');
     failedToggleButton.textContent = '显示失败项 (0)';
     failedToggleButton.style.cssText = `
@@ -668,60 +588,47 @@ async function parseContent() {
         failedToggleButton.style.transform = 'scale(1)';
     };
     failedToggleButton.onclick = toggleFailedContainer;
-
     download_list.appendChild(failedToggleButton);
     download_list.appendChild(failedContainer);
     failedContainer.appendChild(noErrorsMessage);
     updateFailedCount();
-
     function createFileItem(resource) {
         let file_name = resource.name;
         let create_time = new Date(resource.created_at).toLocaleDateString();
         let update_time = new Date(resource.updated_at).toLocaleDateString();
-
         var file_container = document.createElement('div');
         file_container.className = 'file-item';
-
         var checkbox = document.createElement('input');
         checkbox.type = 'checkbox';
         checkbox.className = 'custom-checkbox';
         checkbox.setAttribute('data-visible', 'true');
         checkbox.id = 'file-checkbox-' + resource.id;
-
         checkbox.addEventListener('change', function () {
             updateTreeCheckbox(this);
             syncTreeWithDownloadList();
         });
-
         var fileIconInfo = getFileIconSvg(file_name);
         var fileIcon = document.createElement('span');
         fileIcon.className = `file-icon ${fileIconInfo.colorClass}`;
         fileIcon.innerHTML = fileIconInfo.svg;
-
         var file_info = document.createElement('div');
         file_info.className = 'file-info';
-
         var fileName = document.createElement('div');
         fileName.className = 'file-name';
         fileName.textContent = file_name;
         fileName.title = file_name;
-
         var fileDetails = document.createElement('div');
         fileDetails.className = 'file-details';
-
         const svgIcons = {
             create: '<svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="16"></line><line x1="8" y1="12" x2="16" y2="12"></line></svg>',
             update: '<svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21.5 2v6h-6M2.5 22v-6h6M2 11.5a10 10 0 0 1 18.8-4.3M22 12.5a10 10 0 0 1-18.8 4.3"></path></svg>'
         };
-
         var dateContainer = document.createElement('div');
         dateContainer.style.display = 'flex';
         dateContainer.style.justifyContent = 'space-between';
-
         var dateElement = document.createElement('span');
         dateElement.style.display = 'flex';
         dateElement.style.alignItems = 'center';
-
         if (create_time === update_time) {
             dateElement.innerHTML = `${svgIcons.create} 创建/更新: ${create_time}`;
             dateElement.title = '创建和更新日期';
@@ -733,12 +640,10 @@ async function parseContent() {
             `;
             dateElement.title = '创建日期 / 更新日期';
         }
-
         dateContainer.appendChild(dateElement);
         fileDetails.appendChild(dateContainer);
         file_info.appendChild(fileName);
         file_info.appendChild(fileDetails);
-
         var downloadLink = document.createElement('a');
         downloadLink.className = 'download-link';
         downloadLink.href = '#';
@@ -752,22 +657,17 @@ async function parseContent() {
         downloadLink.setAttribute('data-parent-id', resource.parent_id);
         downloadLink.setAttribute('data-quote-id', resource.quote_id);
         downloadLink.draggable = true;
-
         var downloadIcon = document.createElement('span');
         downloadIcon.className = 'download-icon';
         downloadIcon.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="transform: translateY(2px);"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>';
-
         downloadLink.appendChild(downloadIcon);
-
         downloadLink.addEventListener('click', async function (event) {
             event.preventDefault();
             const downloadIcon = this.querySelector('.download-icon');
             downloadIcon.innerHTML = '<span class="loading-spinner"></span>';
-
             try {
                 totalDownloads++;
                 updateTotalProgress();
-
                 const fileUrl = await window.getDownloadUrl(resource.quote_id);
                 courseDownload(fileUrl, file_name);
             } catch (error) {
@@ -779,7 +679,6 @@ async function parseContent() {
                 downloadIcon.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="transform: translateY(2px);"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>';
             }
         });
-
         var previewLink = document.createElement('a');
         previewLink.className = 'preview-link';
         previewLink.href = '#';
@@ -790,17 +689,14 @@ async function parseContent() {
         previewLink.setAttribute('data-resource-id', resource.id);
         previewLink.setAttribute('data-path', resource.path);
         previewLink.setAttribute('data-parent-id', resource.parent_id);
-
         var previewIcon = document.createElement('span');
         previewIcon.className = 'preview-icon';
         previewIcon.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="transform: translateY(2px);"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>';
         previewLink.appendChild(previewIcon);
-
         previewLink.addEventListener('click', async function (event) {
             event.preventDefault();
             const previewIcon = this.querySelector('.preview-icon');
             previewIcon.innerHTML = '<span class="loading-spinner"></span>';
-
             try {
                 const fileUrl = await window.getDownloadUrl(resource.quote_id);
                 previewFile(file_name, fileUrl);
@@ -811,7 +707,6 @@ async function parseContent() {
                 previewIcon.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="transform: translateY(2px);"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>';
             }
         });
-
         file_container.appendChild(checkbox);
         file_container.appendChild(fileIcon);
         file_container.appendChild(file_info);
@@ -819,12 +714,10 @@ async function parseContent() {
         file_container.appendChild(downloadLink);
         return file_container;
     }
-
     window.getDownloadUrl = async function (quoteId) {
         const maxRetries = 3;
         const retryDelay = 1000;
         let retryCount = 0;
-
         while (retryCount < maxRetries) {
             try {
                 const token = getCookie();
@@ -833,9 +726,7 @@ async function parseContent() {
                         Authorization: `Bearer ${token}`
                     }
                 });
-
                 const data = await response.json();
-
                 if (data.success) {
                     let fileUrl = data.data.url;
                     if (data.data.is_encryption) {
@@ -853,7 +744,6 @@ async function parseContent() {
             }
         }
     }
-
     for (let i in course_resources) {
         let resource = course_resources[i];
         if (resource.mimetype &&
@@ -863,12 +753,10 @@ async function parseContent() {
             download_list.appendChild(fileItem);
         }
     }
-
     function getFileIconSvg(fileName) {
         const extension = fileName.split('.').pop().toLowerCase();
         let iconSvg = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24"><path fill="none" d="M0 0h24v24H0z"/><path d="M13.06 8.11l1.415 1.415a7 7 0 0 1 0 9.9l-.354.353a7 7 0 0 1-9.9-9.9l1.415 1.415a5 5 0 1 0 7.071 7.071l.354-.354a5 5 0 0 0 0-7.07l-1.415-1.415 1.415-1.414zm6.718 6.011l-1.414-1.414a5 5 0 1 0-7.071-7.071l-.354.354a5 5 0 0 0 0 7.07l1.415 1.415-1.415 1.414-1.414-1.414a7 7 0 0 1 0-9.9l.354-.353a7 7 0 0 1 9.9 9.9z"/></svg>';
         let colorClass = 'file-icon-default';
-
         for (let filter of window.quickFilters) {
             if (filter.value.split(',').includes(extension)) {
                 switch (filter.label) {
@@ -898,7 +786,6 @@ async function parseContent() {
         }
         return { svg: iconSvg, colorClass: colorClass };
     }
-
     function toggleFailedContainer() {
         if (failedContainer.style.display === 'none') {
             failedContainer.style.display = 'block';
@@ -908,11 +795,9 @@ async function parseContent() {
             failedToggleButton.textContent = '显示失败项 (' + (failedContainer.children.length - 1) + ')';
         }
     }
-
     function updateFailedCount() {
         const count = failedContainer.children.length - 1;
         failedToggleButton.textContent = (failedContainer.style.display === 'none' ? '显示' : '隐藏') + '失败项 (' + count + ')';
-
         if (count > 0) {
             failedToggleButton.style.display = 'block';
             noErrorsMessage.style.display = 'none';
@@ -921,7 +806,6 @@ async function parseContent() {
             noErrorsMessage.style.display = 'block';
         }
     }
-
     function addFailedFileNotification(fileName) {
         const failedItem = document.createElement('div');
         failedItem.className = 'failed-file';
@@ -937,7 +821,6 @@ async function parseContent() {
             box-shadow: 0 2px 4px rgba(0,0,0,0.1);
             transition: all 0.3s ease;
         `;
-
         const fileNameSpan = document.createElement('span');
         fileNameSpan.style.cssText = `
             color: #ff4d4d;
@@ -945,7 +828,6 @@ async function parseContent() {
             margin-right: 10px;
         `;
         fileNameSpan.textContent = `❌ 添加失败: ${fileName}`;
-
         const retryButton = document.createElement('button');
         retryButton.className = 'retry-btn';
         retryButton.textContent = '重试';
@@ -961,17 +843,14 @@ async function parseContent() {
             outline: none;
             box-shadow: 0 2px 4px rgba(255, 77, 77, 0.3);
         `;
-
         retryButton.onmouseover = () => {
             retryButton.style.backgroundColor = '#ff7777';
             retryButton.style.boxShadow = '0 4px 8px rgba(255, 77, 77, 0.5)';
         };
-
         retryButton.onmouseout = () => {
             retryButton.style.backgroundColor = '#ff9999';
             retryButton.style.boxShadow = '0 2px 4px rgba(255, 77, 77, 0.3)';
         };
-
         retryButton.onclick = () => {
             failedItem.style.opacity = '0';
             failedItem.style.transform = 'translateX(20px)';
@@ -984,12 +863,10 @@ async function parseContent() {
                 }
             }, 300);
         };
-
         failedItem.appendChild(fileNameSpan);
         failedItem.appendChild(retryButton);
         failedContainer.appendChild(failedItem);
         updateFailedCount();
-
         setTimeout(() => {
             failedItem.style.opacity = '1';
             failedItem.style.transform = 'translateX(0)';
@@ -997,7 +874,6 @@ async function parseContent() {
     }
     noErrorsMessage.style.display = 'none';
 }
-
 const PREVIEW_MODAL_CLASS = 'xiaoya-preview-modal';
 const DRAG_HANDLE_CLASS = 'xiaoya-preview-drag-handle';
 const CONTENT_WRAPPER_CLASS = 'xiaoya-preview-content-wrapper';
@@ -1005,14 +881,12 @@ const CLOSE_BUTTON_CLASS = 'xiaoya-preview-close-button';
 const INFO_BUTTON_CLASS = 'xiaoya-preview-info-button';
 const CODE_PREVIEW_CLASS = 'xiaoya-code-preview';
 const PREVIEW_BASE_URL = 'https://vip.ow365.cn/?i=29353&ssl=1&draw=1';
-
 const SUPPORTED_DOCS = new Set(['pdf', 'txt', 'doc', 'docx', 'ppt', 'pptx', 'xls', 'xlsx', 'js', 'json', 'css', 'sql', 'xml', 'java', 'cs']);
 const SUPPORTED_IMAGES = new Set(['jpg', 'jpeg', 'png', 'gif', 'bmp', 'svg', 'webp', 'ico']);
 const SUPPORTED_AUDIO = new Set(['mp3', 'wav', 'ogg']);
 const SUPPORTED_ARCHIVES = new Set(['zip', 'rar', '7z']);
 const SUPPORTED_CODE = new Set(['cpp', 'h', 'py', 'go', 'rs', 'md', 'php', 'rb', 'swift', 'kt', 'c', 'sh', 'bat', 'yaml', 'yml', 'scss', 'less', 'ts']);
 const SUPPORTED_DOCS_FOR_INFO = new Set(['pdf', 'doc', 'docx', 'ppt', 'pptx', 'xls', 'xlsx']);
-
 function isSupportedForPreview(extension) {
     return SUPPORTED_DOCS.has(extension) ||
         SUPPORTED_IMAGES.has(extension) ||
@@ -1020,7 +894,6 @@ function isSupportedForPreview(extension) {
         SUPPORTED_ARCHIVES.has(extension) ||
         SUPPORTED_CODE.has(extension);
 }
-
 function createPreviewModalStructure(fileName) {
     const previewModal = document.createElement('div');
     previewModal.className = PREVIEW_MODAL_CLASS;
@@ -1031,7 +904,6 @@ function createPreviewModalStructure(fileName) {
         overflow: hidden; opacity: 0; backdrop-filter: blur(15px);
         transition: opacity 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
         border: 1px solid rgba(255,255,255,0.18); display: flex; flex-direction: column;`;
-
     const dragHandle = document.createElement('div');
     dragHandle.className = DRAG_HANDLE_CLASS;
     dragHandle.style.cssText = `
@@ -1041,7 +913,6 @@ function createPreviewModalStructure(fileName) {
         border-top-left-radius: 20px; border-top-right-radius: 20px;
         display: flex; align-items: center; justify-content: center;
         box-shadow: 0 2px 4px rgba(0,0,0,0.1); position: relative; overflow: hidden;`;
-
     if (!document.getElementById('xiaoya-shimmer-style')) {
         const style = document.createElement('style');
         style.id = 'xiaoya-shimmer-style';
@@ -1052,14 +923,11 @@ function createPreviewModalStructure(fileName) {
         `;
         document.head.appendChild(style);
     }
-
-
     const dragIndicator = document.createElement('div');
     dragIndicator.style.cssText = `
         width: 50px; height: 5px; background-color: rgba(0,0,0,0.2); border-radius: 2.5px;
         position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);`;
     dragHandle.appendChild(dragIndicator);
-
     const textLabel = document.createElement('span');
     textLabel.textContent = `预览: ${fileName}`;
     textLabel.style.cssText = `
@@ -1067,7 +935,6 @@ function createPreviewModalStructure(fileName) {
         left: 15px; top: 50%; transform: translateY(-50%); opacity: 0.7;
         white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: calc(100% - 100px);`;
     dragHandle.appendChild(textLabel);
-
     const closeButton = document.createElement('button');
     closeButton.className = CLOSE_BUTTON_CLASS;
     closeButton.innerHTML = `<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M18 6L6 18" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M6 6L18 18" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>`;
@@ -1087,32 +954,25 @@ function createPreviewModalStructure(fileName) {
         }, 400);
     };
     dragHandle.appendChild(closeButton);
-
     const contentWrapper = document.createElement('div');
     contentWrapper.className = CONTENT_WRAPPER_CLASS;
     contentWrapper.style.cssText = `
         width: 100%; flex-grow: 1; display: flex; justify-content: center;
         align-items: center; padding: 20px; box-sizing: border-box; overflow: auto;`;
-
     previewModal.appendChild(dragHandle);
     previewModal.appendChild(contentWrapper);
-
     return { previewModal, contentWrapper, dragHandle };
 }
-
 function setupDragHandling(modal, handle) {
     let isDragging = false;
     let startX, startY, startLeft, startTop;
-
     const onMouseMove = (e) => {
         if (!isDragging) return;
         const clientX = e.clientX || (e.touches && e.touches[0].clientX);
         const clientY = e.clientY || (e.touches && e.touches[0].clientY);
         if (clientX === undefined || clientY === undefined) return;
-
         let dx = clientX - startX;
         let dy = clientY - startY;
-
         requestAnimationFrame(() => {
             let newLeft = startLeft + dx;
             let newTop = startTop + dy;
@@ -1120,13 +980,11 @@ function setupDragHandling(modal, handle) {
             modal.style.top = `${newTop}px`;
         });
     };
-
     const onTouchMove = (e) => {
         if (!isDragging) return;
         e.preventDefault();
         onMouseMove(e);
     };
-
     const onMouseUp = () => {
         if (!isDragging) return;
         isDragging = false;
@@ -1136,7 +994,6 @@ function setupDragHandling(modal, handle) {
         document.removeEventListener('touchend', onMouseUp);
         modal.style.cursor = 'default';
     };
-
     const onMouseDown = (e) => {
         isDragging = true;
         const clientX = e.clientX || (e.touches && e.touches[0].clientX);
@@ -1146,11 +1003,9 @@ function setupDragHandling(modal, handle) {
         startLeft = modal.offsetLeft;
         startTop = modal.offsetTop;
         modal.style.cursor = 'grabbing';
-
         document.addEventListener('mousemove', onMouseMove);
         document.addEventListener('mouseup', onMouseUp);
     };
-
     const onTouchStart = (e) => {
         isDragging = true;
         const clientX = e.touches[0].clientX;
@@ -1160,15 +1015,12 @@ function setupDragHandling(modal, handle) {
         startLeft = modal.offsetLeft;
         startTop = modal.offsetTop;
         modal.style.cursor = 'grabbing';
-
         document.addEventListener('touchmove', onTouchMove, { passive: false });
         document.addEventListener('touchend', onMouseUp);
     };
-
     handle.addEventListener('mousedown', onMouseDown);
     handle.addEventListener('touchstart', onTouchStart, { passive: true });
 }
-
 async function fetchAndDisplayCode(fileUrl, codeElement) {
     try {
         const response = await fetch(fileUrl);
@@ -1183,7 +1035,6 @@ async function fetchAndDisplayCode(fileUrl, codeElement) {
         showNotification('加载代码文件失败', 'error');
     }
 }
-
 function createContentElement(extension, fileUrl, contentWrapper, previewModal) {
     let element;
     if (SUPPORTED_CODE.has(extension)) {
@@ -1218,11 +1069,9 @@ function createContentElement(extension, fileUrl, contentWrapper, previewModal) 
         contentWrapper.appendChild(element);
     }
 }
-
 function setupInfoButton(modal, wrapper, iframe, fileUrl) {
     let isShowingInfo = false;
     let infoContent = null;
-
     const infoButton = document.createElement('button');
     infoButton.className = INFO_BUTTON_CLASS;
     infoButton.title = '查看文件信息';
@@ -1232,20 +1081,16 @@ function setupInfoButton(modal, wrapper, iframe, fileUrl) {
         border: none; border-radius: 50%; width: 56px; height: 56px; cursor: pointer;
         transition: all 0.3s ease; z-index: 1001; display: flex; align-items: center;
         justify-content: center; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);`;
-
     if (!document.getElementById('xiaoya-rotate-style')) {
         const style = document.createElement('style');
         style.id = 'xiaoya-rotate-style';
         style.textContent = `@keyframes rotate { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } } .rotating { animation: rotate 2s linear infinite; } .switch-icon { transition: transform 0.3s ease; } button:hover .switch-icon { transform: scale(1.1); }`;
         document.head.appendChild(style);
     }
-
     infoButton.onmouseover = () => { infoButton.style.backgroundColor = '#FFB732'; infoButton.style.transform = 'scale(1.1)'; infoButton.style.boxShadow = '0 6px 8px rgba(0, 0, 0, 0.15)'; };
     infoButton.onmouseout = () => { if (!infoButton.classList.contains('rotating')) { infoButton.style.backgroundColor = '#FFA500'; infoButton.style.transform = 'scale(1)'; infoButton.style.boxShadow = '0 4px 6px rgba(0, 0, 0, 0.1)'; } };
-
     const resetButton = () => { infoButton.classList.remove('rotating'); infoButton.style.pointerEvents = 'auto'; };
     const toggleInfoDisplay = () => { iframe.style.display = 'none'; infoContent.style.display = 'block'; isShowingInfo = true; infoButton.title = '返回文件预览'; };
-
     infoButton.onclick = () => {
         if (isShowingInfo) {
             iframe.style.display = 'block';
@@ -1284,33 +1129,24 @@ function setupInfoButton(modal, wrapper, iframe, fileUrl) {
     };
     modal.appendChild(infoButton);
 }
-
-
 function previewFile(fileName, fileUrl) {
     const extension = fileName.split('.').pop().toLowerCase();
-
     if (!isSupportedForPreview(extension)) {
         showNotification('该类型文件不支持预览╯︿╰', 'warning');
         return;
     }
-
     const existingModal = document.querySelector(`.${PREVIEW_MODAL_CLASS}`);
     if (existingModal) {
         existingModal.remove();
     }
-
-
     const { previewModal, contentWrapper, dragHandle } = createPreviewModalStructure(fileName);
     setupDragHandling(previewModal, dragHandle);
     createContentElement(extension, fileUrl, contentWrapper, previewModal);
-
     document.body.appendChild(previewModal);
     requestAnimationFrame(() => {
         previewModal.style.opacity = '1';
     });
 }
-
-
 function createInfoContent(data) {
     let infoDiv = document.createElement('div');
     infoDiv.style.cssText = `
@@ -1322,7 +1158,6 @@ function createInfoContent(data) {
         background-color: #f0f4f8;
         display: none;
     `;
-
     const getIconForFileType = (fileName) => {
         const extension = fileName.split('.').pop().toLowerCase();
         const icons = {
@@ -1331,11 +1166,8 @@ function createInfoContent(data) {
         };
         return icons[extension] || icons.default;
     };
-
     const fileIcon = getIconForFileType(data.FileName);
-
     const { formattedContent, characterCount } = formatTextContent(data.Text);
-
     let contentHtml = `
         <div class="file-header">
             <div class="file-icon">${fileIcon}</div>
@@ -1359,7 +1191,6 @@ function createInfoContent(data) {
             </div>
         </div>
     `;
-
     if (data.PageCount !== undefined) {
         contentHtml += `
         <div class="info-grid">
@@ -1428,24 +1259,19 @@ function createInfoContent(data) {
         </ul>
     `;
     }
-
     infoDiv.innerHTML = contentHtml;
-
     if (data.PageCount !== undefined) {
         const searchInput = infoDiv.querySelector('#searchInput');
         const searchButton = infoDiv.querySelector('#searchButton');
         const prevButton = infoDiv.querySelector('#prevButton');
         const nextButton = infoDiv.querySelector('#nextButton');
         const textContentDiv = infoDiv.querySelector('#textContent');
-
         let currentMatchIndex = -1;
         let matches = [];
-
         function highlightText(searchTerm) {
             const innerHTML = textContentDiv.innerHTML.replace(/<span class="highlight current">(.*?)<\/span>/gi, '$1')
                 .replace(/<span class="highlight">(.*?)<\/span>/gi, '$1');
             textContentDiv.innerHTML = innerHTML;
-
             if (!searchTerm) {
                 matches = [];
                 currentMatchIndex = -1;
@@ -1453,17 +1279,13 @@ function createInfoContent(data) {
                 nextButton.disabled = true;
                 return;
             }
-
             const regex = new RegExp(`(${searchTerm})`, 'gi');
             let matchCount = 0;
-
             const replacer = (match) => {
                 matchCount++;
                 return `<span class="highlight">${match}</span>`;
             };
-
             textContentDiv.innerHTML = innerHTML.replace(regex, replacer);
-
             matches = textContentDiv.querySelectorAll('.highlight');
             if (matches.length > 0) {
                 currentMatchIndex = 0;
@@ -1476,36 +1298,30 @@ function createInfoContent(data) {
                 nextButton.disabled = true;
             }
         }
-
         function updateCurrentMatch() {
             matches.forEach((match) => match.classList.remove('current'));
-
             if (currentMatchIndex >= 0 && currentMatchIndex < matches.length) {
                 const currentMatch = matches[currentMatchIndex];
                 currentMatch.classList.add('current');
                 currentMatch.scrollIntoView({ behavior: 'smooth', block: 'center' });
             }
         }
-
         searchButton.addEventListener('click', () => {
             const searchTerm = searchInput.value.trim();
             highlightText(searchTerm);
         });
-
         searchInput.addEventListener('keydown', (e) => {
             if (e.key === 'Enter') {
                 const searchTerm = searchInput.value.trim();
                 highlightText(searchTerm);
             }
         });
-
         nextButton.addEventListener('click', () => {
             if (matches.length > 0) {
                 currentMatchIndex = (currentMatchIndex + 1) % matches.length;
                 updateCurrentMatch();
             }
         });
-
         prevButton.addEventListener('click', () => {
             if (matches.length > 0) {
                 currentMatchIndex = (currentMatchIndex - 1 + matches.length) % matches.length;
@@ -1513,19 +1329,16 @@ function createInfoContent(data) {
             }
         });
     }
-
     const style = document.createElement('style');
     style.textContent = `
         * {
             box-sizing: border-box;
         }
-
         body {
             line-height: 1.6;
             color: #333;
             background-color: #f0f4f8;
         }
-
         .file-header {
             display: flex;
             align-items: center;
@@ -1535,18 +1348,15 @@ function createInfoContent(data) {
             border-radius: 10px;
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
         }
-
         .file-icon {
             font-size: 48px;
             margin-right: 20px;
         }
-
         h1 {
             font-size: 24px;
             color: #2c3e50;
             margin: 0;
         }
-
         h2.section-title {
             font-size: 20px;
             color: #34495e;
@@ -1554,14 +1364,12 @@ function createInfoContent(data) {
             padding-bottom: 10px;
             margin-top: 40px;
         }
-
         .info-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
             gap: 20px;
             margin-bottom: 30px;
         }
-
         .info-item {
             background-color: #fff;
             border-radius: 8px;
@@ -1571,28 +1379,23 @@ function createInfoContent(data) {
             display: flex;
             flex-direction: column;
         }
-
         .info-item:hover {
             transform: translateY(-5px);
             box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
         }
-
         .info-item .icon {
             font-size: 24px;
             margin-bottom: 10px;
         }
-
         .info-item .label {
             font-weight: bold;
             color: #7f8c8d;
             margin-bottom: 5px;
         }
-
         .info-item .value {
             color: #2c3e50;
             font-size: 18px;
         }
-
         .text-content {
             background-color: #fff;
             padding: 25px;
@@ -1606,7 +1409,6 @@ function createInfoContent(data) {
             color: #34495e;
             border-left: 4px solid #3498db;
         }
-
         .text-content h3 {
             font-size: 20px;
             color: #2c3e50;
@@ -1615,25 +1417,20 @@ function createInfoContent(data) {
             border-bottom: 1px solid #ecf0f1;
             padding-bottom: 5px;
         }
-
         .text-content p {
             margin-bottom: 15px;
         }
-
         .text-content ul {
             padding-left: 20px;
             margin-bottom: 15px;
         }
-
         .text-content li {
             margin-bottom: 5px;
         }
-
         .text-content strong {
             color: #2c3e50;
             font-weight: 700;
         }
-
         .text-content::-webkit-scrollbar {
             width: 8px;
         }
@@ -1644,7 +1441,6 @@ function createInfoContent(data) {
         .text-content::-webkit-scrollbar-track {
             background-color: #ecf0f1;
         }
-
         .slide-names, .sheet-names {
             list-style-type: none;
             padding-left: 0;
@@ -1654,7 +1450,6 @@ function createInfoContent(data) {
             margin-top: 20px;
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
         }
-
         .slide-names li, .sheet-names li {
             margin-bottom: 10px;
             color: #3498db;
@@ -1664,13 +1459,11 @@ function createInfoContent(data) {
             border-radius: 4px;
             background-color: #f7f9fc;
         }
-
         .slide-names li:hover, .sheet-names li:hover {
             color: #2980b9;
             transform: translateX(5px);
             background-color: #e8f0fe;
         }
-
         .search-container {
             display: flex;
             align-items: center;
@@ -1678,13 +1471,11 @@ function createInfoContent(data) {
             flex-wrap: wrap;
             gap: 10px;
         }
-
         .search-box {
             position: relative;
             flex: 1;
             min-width: 250px;
         }
-
         .search-box input[type="text"] {
             width: 100%;
             padding: 15px 20px;
@@ -1696,11 +1487,9 @@ function createInfoContent(data) {
             outline: none;
             transition: border-color 0.3s;
         }
-
         .search-box input[type="text"]::placeholder {
             color: transparent;
         }
-
         .search-box label {
             position: absolute;
             top: 50%;
@@ -1711,7 +1500,6 @@ function createInfoContent(data) {
             pointer-events: none;
             transition: all 0.3s;
         }
-
         .search-box input[type="text"]:focus + label,
         .search-box input[type="text"]:not(:placeholder-shown) + label {
             top: 5px;
@@ -1719,7 +1507,6 @@ function createInfoContent(data) {
             font-size: 12px;
             color: #3498db;
         }
-
         .search-box .search-border {
             position: absolute;
             bottom: 0;
@@ -1729,16 +1516,13 @@ function createInfoContent(data) {
             background-color: #3498db;
             transition: width 0.3s;
         }
-
         .search-box input[type="text"]:focus ~ .search-border {
             width: 100%;
         }
-
         .search-buttons {
             display: flex;
             gap: 10px;
         }
-
         .search-buttons button {
             padding: 12px 15px;
             font-size: 16px;
@@ -1751,40 +1535,33 @@ function createInfoContent(data) {
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
             outline: none;
         }
-
         .search-buttons button:disabled {
             background: #bdc3c7;
             cursor: not-allowed;
             box-shadow: none;
         }
-
         .search-buttons button:not(:disabled):hover {
             transform: translateY(-2px);
             box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15);
         }
-
         .highlight {
             background-color: #ffeb3b;
             padding: 2px 0;
             transition: background-color 0.3s;
         }
-
         .highlight.current {
             background-color: #ffc107;
         }
     `;
-
     infoDiv.appendChild(style);
     return infoDiv;
 }
-
 function formatFileSize(bytes) {
     if (bytes < 1024) return bytes + ' bytes';
     else if (bytes < 1048576) return (bytes / 1024).toFixed(2) + ' KB';
     else if (bytes < 1073741824) return (bytes / 1048576).toFixed(2) + ' MB';
     else return (bytes / 1073741824).toFixed(2) + ' GB';
 }
-
 function formatDate(dateString) {
     const date = new Date(dateString);
     return date.toLocaleString('zh-CN', {
@@ -1796,7 +1573,6 @@ function formatDate(dateString) {
         second: '2-digit'
     });
 }
-
 function formatTextContent(text) {
     if (typeof text !== 'string') {
         console.error('Invalid text input:', text);
@@ -1805,20 +1581,15 @@ function formatTextContent(text) {
             characterCount: 0,
         };
     }
-
     text = text
         .replace(/\u0007/g, '\n')
         .replace(/\f/g, '\n')
         .replace(/\r/g, '\n')
         .trim();
-
     const characterCount = text.length;
-
     const lines = text.split(/\n+/).map((line) => line.trim()).filter((line) => line);
-
     let formattedContent = '';
     let inList = false;
-
     lines.forEach((line) => {
         if (line.match(/^[一二三四五六七八九十]+[、\.．]/)) {
             if (inList) {
@@ -1856,18 +1627,15 @@ function formatTextContent(text) {
             formattedContent += `<p>${line}</p>`;
         }
     });
-
     if (inList) {
         formattedContent += '</ul>';
         inList = false;
     }
-
     return {
         formattedContent,
         characterCount,
     };
 }
-
 let toggleButton;
 let downloadsContainer = document.getElementById('downloadsContainer');
 let wrapperContainer = document.getElementById('downloadsWrapperContainer');
@@ -1875,7 +1643,6 @@ let totalProgressBar;
 let totalProgressText;
 let totalDownloads = 0;
 let completedDownloads = 0;
-
 if (!wrapperContainer) {
     wrapperContainer = document.createElement('div');
     wrapperContainer.id = 'downloadsWrapperContainer';
@@ -1890,7 +1657,6 @@ if (!wrapperContainer) {
         transition: 'transform 0.3s ease-in-out',
         transform: 'translateX(calc(-100% + 25px))'
     });
-
     downloadsContainer = document.createElement('div');
     downloadsContainer.id = 'downloadsContainer';
     Object.assign(downloadsContainer.style, {
@@ -1913,9 +1679,7 @@ if (!wrapperContainer) {
         overflowY: 'auto',
         overflowX: 'hidden',
     });
-
     wrapperContainer.appendChild(downloadsContainer);
-
     totalProgressBar = document.createElement('div');
     totalProgressBar.id = 'totalProgressBar';
     Object.assign(totalProgressBar.style, {
@@ -1926,7 +1690,6 @@ if (!wrapperContainer) {
         overflow: 'hidden',
         marginBottom: '10px'
     });
-
     let totalProgressInner = document.createElement('div');
     Object.assign(totalProgressInner.style, {
         width: '0%',
@@ -1935,9 +1698,7 @@ if (!wrapperContainer) {
         borderRadius: '5px',
         transition: 'width 0.3s'
     });
-
     totalProgressBar.appendChild(totalProgressInner);
-
     totalProgressText = document.createElement('div');
     totalProgressText.id = 'totalProgressText';
     Object.assign(totalProgressText.style, {
@@ -1947,14 +1708,11 @@ if (!wrapperContainer) {
         color: '#4CAF50'
     });
     totalProgressText.textContent = '总进度: 0%';
-
     downloadsContainer.appendChild(totalProgressText);
     downloadsContainer.appendChild(totalProgressBar);
-
     toggleButton = document.createElement('button');
     toggleButton.title = '点击展开/收折进度条';
     toggleButton.textContent = '▶';
-
     Object.assign(toggleButton.style, {
         position: 'absolute',
         top: '50%',
@@ -1975,7 +1733,6 @@ if (!wrapperContainer) {
         transition: 'left 0.3s, transform 0.3s, background-color 0.3s, box-shadow 0.3s',
         textShadow: '0 0 0px transparent'
     });
-
     toggleButton.onmouseover = () => {
         Object.assign(toggleButton.style, {
             background: 'linear-gradient(45deg, #FFEB3B, #FFC107)',
@@ -1983,7 +1740,6 @@ if (!wrapperContainer) {
             transform: 'translateY(-60%)'
         });
     };
-
     toggleButton.onmouseout = () => {
         Object.assign(toggleButton.style, {
             background: 'linear-gradient(45deg, #FFC107, #FF9800)',
@@ -1991,9 +1747,7 @@ if (!wrapperContainer) {
             transform: 'translateY(-50%)'
         });
     };
-
     let isCollapsed = true;
-
     toggleButton.onclick = () => {
         isCollapsed = !isCollapsed;
         if (isCollapsed) {
@@ -2003,9 +1757,7 @@ if (!wrapperContainer) {
         }
         toggleButton.textContent = isCollapsed ? '▶' : '◀';
     };
-
     wrapperContainer.appendChild(toggleButton);
-
     let lottieContainer = document.createElement('div');
     Object.assign(lottieContainer.style, {
         position: 'absolute',
@@ -2023,11 +1775,9 @@ if (!wrapperContainer) {
     `;
     downloadsContainer.prepend(lottieContainer);
 }
-
 function addDownloadsContainer() {
     document.body.appendChild(wrapperContainer);
 }
-
 function updateContainerPosition() {
     let windowHeight = window.innerHeight;
     let downloadsContainerHeight = downloadsContainer.offsetHeight;
@@ -2038,11 +1788,9 @@ function updateContainerPosition() {
         downloadsContainer.style.bottom = 'auto';
     }
 }
-
 function updateIndicator() {
     let indicator = document.getElementById('progressIndicator');
     let progressBarCount = downloadsContainer.querySelectorAll('.progressBar').length;
-
     if (!indicator) {
         indicator = document.createElement('div');
         indicator.id = 'progressIndicator';
@@ -2070,7 +1818,6 @@ function updateIndicator() {
     }
     indicator.textContent = progressBarCount;
 }
-
 function updateDownloadsContainerVisibility() {
     const nonEmptyNodes = Array.from(downloadsContainer.children).filter(child =>
         !child.classList.contains('slide-out') &&
@@ -2081,7 +1828,6 @@ function updateDownloadsContainerVisibility() {
         child.id !== 'totalProgressBar' &&
         child.id !== 'totalProgressText'
     );
-
     if (nonEmptyNodes.length === 0) {
         if (!downloadsContainer.querySelector('p')) {
             let emptyText = document.createElement('p');
@@ -2102,12 +1848,10 @@ function updateDownloadsContainerVisibility() {
                 transform: 'translateY(-20px)',
                 top: '50%'
             });
-
             setTimeout(() => {
                 emptyText.style.opacity = '1';
                 emptyText.style.transform = 'translateY(0)';
             }, 100);
-
             emptyText.animate([
                 { transform: 'translateY(0)' },
                 { transform: 'translateY(-10px)' },
@@ -2117,11 +1861,9 @@ function updateDownloadsContainerVisibility() {
                 iterations: Infinity,
                 easing: 'ease-in-out'
             });
-
             downloadsContainer.appendChild(emptyText);
         }
         wrapperContainer.style.display = isProgressBarVisible ? 'flex' : 'none';
-
         if (totalProgressBar) totalProgressBar.style.display = 'none';
         if (totalProgressText) totalProgressText.style.display = 'none';
     } else {
@@ -2129,15 +1871,12 @@ function updateDownloadsContainerVisibility() {
         if (emptyText) {
             downloadsContainer.removeChild(emptyText);
         }
-
         if (totalProgressBar) totalProgressBar.style.display = 'block';
         if (totalProgressText) totalProgressText.style.display = 'block';
     }
     toggleButton.style.display = isProgressBarVisible ? 'block' : 'none';
-
     updateTotalProgress();
 }
-
 function updateTotalProgress() {
     if (totalDownloads === 0) {
         totalProgressBar.classList.add('hidden');
@@ -2150,7 +1889,6 @@ function updateTotalProgress() {
         }, 500);
         return;
     }
-
     if (totalProgressBar.style.display === 'none') {
         totalProgressBar.style.display = 'block';
         totalProgressText.style.display = 'block';
@@ -2159,7 +1897,6 @@ function updateTotalProgress() {
         totalProgressBar.classList.add('visible');
         totalProgressText.classList.add('visible');
     }
-
     if (completedDownloads === 0) {
         const progressInner = totalProgressBar.firstChild;
         progressInner.style.width = '0%';
@@ -2168,37 +1905,28 @@ function updateTotalProgress() {
         totalProgressText.textContent = `总进度: 0.00% (0/${totalDownloads})`;
         return;
     }
-
     const progressPercentage = (completedDownloads / totalDownloads) * 100;
     const nextProgressPoint = ((completedDownloads + 0.5) / totalDownloads) * 100;
     const progressInner = totalProgressBar.firstChild;
-
     const startProgress = parseFloat(progressInner.style.width) || 0;
     const duration = 500;
     const startTime = performance.now();
-
     function animate(currentTime) {
         const elapsed = currentTime - startTime;
         const progress = Math.min(elapsed / duration, 1);
-
         const easeProgress = 1 - Math.pow(1 - progress, 3);
-
         let currentProgress;
         if (completedDownloads < totalDownloads) {
             currentProgress = startProgress + (nextProgressPoint - startProgress) * easeProgress;
         } else {
             currentProgress = startProgress + (progressPercentage - startProgress) * easeProgress;
         }
-
         progressInner.style.width = `${currentProgress}%`;
-
         const hue = Math.floor(120 * (currentProgress / 100));
         const color = `hsl(${hue}, 100%, 35%)`;
         progressInner.style.backgroundColor = color;
         totalProgressText.style.color = color;
-
         totalProgressText.textContent = `总进度: ${currentProgress.toFixed(2)}% (${completedDownloads}/${totalDownloads})`;
-
         if (progress < 1) {
             requestAnimationFrame(animate);
         } else if (progressPercentage === 100) {
@@ -2218,10 +1946,8 @@ function updateTotalProgress() {
             }, 1500);
         }
     }
-
     requestAnimationFrame(animate);
 }
-
 if (!document.getElementById('total-progress-styles')) {
     const style = document.createElement('style');
     style.id = 'total-progress-styles';
@@ -2231,18 +1957,15 @@ if (!document.getElementById('total-progress-styles')) {
             transform: translateY(20px);
             transition: opacity 0.5s ease-out, transform 0.5s ease-out;
         }
-
         #totalProgressBar.visible, #totalProgressText.visible {
             opacity: 1;
             transform: translateY(0);
         }
-
         #totalProgressBar.hidden, #totalProgressText.hidden {
             opacity: 0;
             transform: translateY(-20px);
             transition: opacity 0.5s ease-in, transform 0.5s ease-in;
         }
-
         #totalProgressBar > div {
             transition: width 0.5s ease-in-out, background-color 0.5s ease-in-out;
             background-image: linear-gradient(
@@ -2265,10 +1988,8 @@ if (!document.getElementById('total-progress-styles')) {
     `;
     document.head.appendChild(style);
 }
-
 updateIndicator()
 updateDownloadsContainerVisibility();
-
 function courseDownload(file_url, file_name) {
     return new Promise((resolve, reject) => {
         const useThirdPartyDownload = localStorage.getItem('useThirdPartyDownload') === 'true';
@@ -2276,7 +1997,6 @@ function courseDownload(file_url, file_name) {
         const downloadsContainer = document.getElementById('downloadsContainer');
         const controller = new AbortController();
         const signal = controller.signal;
-
         const progressText = document.createElement('span');
         const progressBar = document.createElement('div');
         const progressBarContainer = document.createElement('div');
@@ -2285,7 +2005,6 @@ function courseDownload(file_url, file_name) {
         const speedAndTimeContainer = document.createElement('div');
         const speedText = document.createElement('span');
         const remainingTimeText = document.createElement('span');
-
         const styles = {
             progressText: {
                 color: '#FF9800',
@@ -2344,7 +2063,6 @@ function courseDownload(file_url, file_name) {
                 fontWeight: 'bold'
             }
         };
-
         Object.assign(progressText.style, styles.progressText);
         Object.assign(progressBar.style, styles.progressBar);
         Object.assign(progressBarContainer.style, styles.progressBarContainer);
@@ -2353,12 +2071,10 @@ function courseDownload(file_url, file_name) {
         Object.assign(speedAndTimeContainer.style, styles.speedAndTimeContainer);
         Object.assign(speedText.style, styles.speedText);
         Object.assign(remainingTimeText.style, styles.remainingTimeText);
-
         progressText.innerText = `正在下载: ${file_name}`;
         progressBar.className = 'progressBar';
         speedText.innerText = '速度: 0 B/s';
         remainingTimeText.innerText = '剩余时间: 计算中...';
-
         progressBarContainer.appendChild(progressBar);
         progressContainer.appendChild(progressText);
         progressContainer.appendChild(progressBarContainer);
@@ -2367,31 +2083,25 @@ function courseDownload(file_url, file_name) {
         speedAndTimeContainer.appendChild(remainingTimeText);
         progressContainer.appendChild(speedAndTimeContainer);
         progressContainer.classList.add('slide-in');
-
         updateIndicator();
         updateDownloadsContainerVisibility();
-
         downloadsContainer.appendChild(progressContainer);
         window.AbortController = window.AbortController || {};
         window.AbortController[file_name] = controller;
-
         const controlContainer = document.createElement('div');
         const fileSizeSpan = document.createElement('span');
         const stopButton = document.createElement('button');
-
         Object.assign(controlContainer.style, {
             display: 'flex',
             justifyContent: 'space-between',
             alignItems: 'center',
             width: '100%'
         });
-
         Object.assign(fileSizeSpan.style, {
             fontSize: '14px',
             marginRight: 'auto',
             fontWeight: 'bold'
         });
-
         Object.assign(stopButton.style, {
             padding: '5px 10px',
             border: 'none',
@@ -2405,7 +2115,6 @@ function courseDownload(file_url, file_name) {
             transition: 'transform 0.3s ease',
             marginTop: '10px'
         });
-
         stopButton.textContent = '停止';
         stopButton.onmouseover = () => { stopButton.style.transform = 'scale(1.2)'; };
         stopButton.onmouseout = () => { stopButton.style.transform = 'scale(1)'; };
@@ -2418,7 +2127,6 @@ function courseDownload(file_url, file_name) {
                 completedDownloads++;
                 updateIndicator();
                 updateDownloadsContainerVisibility();
-
                 if (completedDownloads >= totalDownloads) {
                     setTimeout(() => {
                         totalProgressBar.classList.add('hidden');
@@ -2435,19 +2143,14 @@ function courseDownload(file_url, file_name) {
                 }
             }, { once: true });
         };
-
         controlContainer.appendChild(fileSizeSpan);
         controlContainer.appendChild(stopButton);
         progressContainer.appendChild(controlContainer);
-
         addProgressBarStyles();
-
         updateIndicator();
         updateDownloadsContainerVisibility();
         updateContainerPosition();
-
         saveDownloadHistory(file_name, file_url);
-
         if (useThirdPartyDownload) {
             handleThirdPartyDownload(file_url, file_name, progressBar, progressPercentText, progressContainer, () => {
                 completedDownloads++;
@@ -2464,7 +2167,6 @@ function courseDownload(file_url, file_name) {
         }
     });
 }
-
 function addProgressBarStyles() {
     if (!document.getElementById('progress-bar-styles')) {
         let styles = document.createElement('style');
@@ -2507,14 +2209,12 @@ function addProgressBarStyles() {
         document.head.appendChild(styles);
     }
 }
-
 function bytesToSize(bytes) {
     const sizes = ['Bytes', 'KB', 'MB', 'GB', 'TB'];
     if (bytes === 0) return '0 Byte';
     const i = parseInt(Math.floor(Math.log(bytes) / Math.log(1024)));
     return (bytes / Math.pow(1024, i)).toFixed(2) + ' ' + sizes[i];
 }
-
 function handleThirdPartyDownload(file_url, file_name, progressBar, progressPercentText, progressContainer, resolve) {
     const downloadLink = document.createElement('a');
     downloadLink.href = file_url;
@@ -2523,7 +2223,6 @@ function handleThirdPartyDownload(file_url, file_name, progressBar, progressPerc
     document.body.appendChild(downloadLink);
     downloadLink.click();
     document.body.removeChild(downloadLink);
-
     let progress = 0;
     const interval = setInterval(() => {
         progress += 10;
@@ -2542,12 +2241,10 @@ function handleThirdPartyDownload(file_url, file_name, progressBar, progressPerc
         }
     }, 200);
 }
-
 function handleFetchDownload(file_url, token, signal, fileSizeSpan, progressBar, progressPercentText, speedText, remainingTimeText, progressContainer, file_name, resolve, reject) {
     let startTime = Date.now();
     let lastUpdateTime = startTime;
     let lastReceivedBytes = 0;
-
     fetch(file_url, {
         signal,
         headers: {
@@ -2564,11 +2261,9 @@ function handleFetchDownload(file_url, token, signal, fileSizeSpan, progressBar,
                 updateIndicator();
                 updateDownloadsContainerVisibility();
             }
-
             const reader = response.body.getReader();
             let receivedBytes = 0;
             let chunks = [];
-
             function processResult(result) {
                 if (result.done) {
                     const blob = new Blob(chunks, { type: 'application/octet-stream' });
@@ -2591,30 +2286,24 @@ function handleFetchDownload(file_url, token, signal, fileSizeSpan, progressBar,
                 }
                 chunks.push(result.value);
                 receivedBytes += result.value.length;
-
                 let percentComplete = (receivedBytes / contentLength) * 100;
                 progressBar.style.width = `${percentComplete.toFixed(2)}%`;
                 progressPercentText.innerText = `${percentComplete.toFixed(2)}%`;
-
                 const currentTime = Date.now();
                 const timeDiff = (currentTime - lastUpdateTime) / 1000;
                 if (timeDiff >= 1) {
                     const bytesPerSecond = (receivedBytes - lastReceivedBytes) / timeDiff;
                     const speed = bytesToSize(bytesPerSecond) + '/s';
                     speedText.innerText = `速度: ${speed}`;
-
                     const remainingBytes = contentLength - receivedBytes;
                     const remainingTime = remainingBytes / bytesPerSecond;
                     const remainingTimeFormatted = formatTime(remainingTime);
                     remainingTimeText.innerText = `剩余: ${remainingTimeFormatted}`;
-
                     lastUpdateTime = currentTime;
                     lastReceivedBytes = receivedBytes;
                 }
-
                 reader.read().then(processResult);
             }
-
             reader.read().then(processResult);
         })
         .catch(e => {
@@ -2624,16 +2313,13 @@ function handleFetchDownload(file_url, token, signal, fileSizeSpan, progressBar,
             reject(e);
         });
 }
-
 function formatTime(seconds) {
     if (seconds === Infinity || isNaN(seconds)) {
         return '计算中...';
     }
-
     const hours = Math.floor(seconds / 3600);
     const minutes = Math.floor((seconds % 3600) / 60);
     const remainingSeconds = Math.floor(seconds % 60);
-
     let timeString = '';
     if (hours > 0) {
         timeString += `${hours}小时 `;
@@ -2642,14 +2328,11 @@ function formatTime(seconds) {
         timeString += `${minutes}分钟 `;
     }
     timeString += `${remainingSeconds}秒`;
-
     return timeString.trim();
 }
-
 window.updateUI = function () {
     const download_list = document.getElementById("download_list");
     const container = createOrUpdateContainer(download_list);
-
     createLottieAnimation(download_list);
     createOrUpdateSearchInput(container);
     createOrUpdateQuickFilterSelect(container);
@@ -2658,7 +2341,6 @@ window.updateUI = function () {
     createOrUpdateBulkDownloadButton(download_list);
     createOrUpdateTreeViewButton(download_list);
 }
-
 function createLottieAnimation(parent) {
     if (!document.getElementById("lottie-animation-container")) {
         const lottieContainer = document.createElement("div");
@@ -2667,7 +2349,6 @@ function createLottieAnimation(parent) {
         <dotlottie-player src="https://cdn.jsdmirror.com/gh/zygame1314/XiaoyaDownloader/lottie/rainbow-cat.json"
                           background="transparent" speed="1" loop autoplay>
         </dotlottie-player>`;
-
         Object.assign(lottieContainer.style, {
             position: "absolute",
             top: "85%",
@@ -2678,7 +2359,6 @@ function createLottieAnimation(parent) {
             height: "130px",
             overflow: "hidden"
         });
-
         const style = document.createElement('style');
         style.textContent = `
             #lottie-animation-container dotlottie-player {
@@ -2688,11 +2368,9 @@ function createLottieAnimation(parent) {
             }
         `;
         document.head.appendChild(style);
-
         parent.appendChild(lottieContainer);
     }
 }
-
 function createOrUpdateContainer(parent) {
     let container = document.getElementById("searchAndFilterContainer");
     if (!container) {
@@ -2711,7 +2389,6 @@ function createOrUpdateContainer(parent) {
             border: '2px solid #ffd700',
             zIndex: '10000'
         });
-
         const title = document.createElement("h3");
         title.textContent = "资源筛选";
         Object.assign(title.style, {
@@ -2722,7 +2399,6 @@ function createOrUpdateContainer(parent) {
             zIndex: '2'
         });
         container.appendChild(title);
-
         const inputContainer = document.createElement("div");
         Object.assign(inputContainer.style, {
             display: "flex",
@@ -2732,7 +2408,6 @@ function createOrUpdateContainer(parent) {
             zIndex: '2'
         });
         container.appendChild(inputContainer);
-
         const lottieContainer = document.createElement("div");
         Object.assign(lottieContainer.style, {
             position: 'absolute',
@@ -2743,7 +2418,6 @@ function createOrUpdateContainer(parent) {
             zIndex: '1'
         });
         container.appendChild(lottieContainer);
-
         const player = document.createElement('dotlottie-player');
         player.setAttribute('src', "https://cdn.jsdmirror.com/gh/zygame1314/XiaoyaDownloader/lottie/search.json");
         player.setAttribute('autoplay', '');
@@ -2751,19 +2425,15 @@ function createOrUpdateContainer(parent) {
         player.style.width = "100%";
         player.style.height = "100%";
         lottieContainer.appendChild(player);
-
         player.addEventListener('ready', () => {
             player.play();
         });
-
         parent.prepend(container);
-
         if (document.readyState === 'complete') {
             initLottie();
         } else {
             window.addEventListener('load', initLottie);
         }
-
         function initLottie() {
             document.querySelectorAll('.lottie-animation').forEach(element => {
                 if (element.lottieInstance) {
@@ -2780,7 +2450,6 @@ function createOrUpdateContainer(parent) {
     }
     return container;
 }
-
 function createOrUpdateSearchInput(container) {
     let searchInput = document.getElementById("searchInput");
     if (!searchInput) {
@@ -2805,7 +2474,6 @@ function createOrUpdateSearchInput(container) {
             transition: 'all 0.3s ease',
             boxShadow: '0 2px 5px rgba(255, 165, 0, 0.2)',
         });
-
         searchInput.addEventListener("input", () => filterList(searchInput.value));
         searchInput.addEventListener("focus", () => {
             searchInput.style.boxShadow = '0 0 8px rgba(255, 165, 0, 0.5)';
@@ -2815,7 +2483,6 @@ function createOrUpdateSearchInput(container) {
             searchInput.style.boxShadow = '0 2px 5px rgba(255, 165, 0, 0.2)';
             searchInput.style.borderColor = '#ffa500';
         });
-
         const style = document.createElement('style');
         style.textContent = `
             .course-search-input::placeholder{
@@ -2828,12 +2495,10 @@ function createOrUpdateSearchInput(container) {
             }
         `;
         document.head.appendChild(style);
-
         container.querySelector("div").appendChild(searchInput);
     }
     searchInput.value = window.currentSearchKeyword || '';
 }
-
 function createOrUpdateQuickFilterSelect(container) {
     let quickFilterSelect = document.getElementById("quickFilterSelect");
     if (!quickFilterSelect) {
@@ -2844,7 +2509,6 @@ function createOrUpdateQuickFilterSelect(container) {
     updateCustomSelectOptions(quickFilterSelect, window.quickFilters);
     setCustomSelectValue(quickFilterSelect, window.currentFilterCategory || '');
 }
-
 function createOrUpdateSortSelect(container) {
     let sortSelect = document.getElementById("sortSelect");
     if (!sortSelect) {
@@ -2859,7 +2523,6 @@ function createOrUpdateSortSelect(container) {
         { value: 'xiaoya_order', label: '小雅排序' }
     ]);
 }
-
 function createCustomSelect(id, placeholder) {
     const select = document.createElement("div");
     select.id = id;
@@ -2868,26 +2531,20 @@ function createCustomSelect(id, placeholder) {
         <div class="select-selected" data-value="">${placeholder}</div>
         <div class="select-items select-hide"></div>
     `;
-
     const selected = select.querySelector(".select-selected");
     const items = select.querySelector(".select-items");
-
     selected.addEventListener("click", function (e) {
         e.stopPropagation();
         closeAllSelect(this);
         items.classList.toggle("select-hide");
         this.classList.toggle("select-arrow-active");
     });
-
     items.addEventListener("click", function (e) {
         e.stopPropagation();
     });
-
     document.addEventListener("click", closeAllSelect);
-
     return select;
 }
-
 function updateCustomSelectOptions(select, options) {
     const items = select.querySelector(".select-items");
     items.innerHTML = '';
@@ -2907,7 +2564,6 @@ function updateCustomSelectOptions(select, options) {
         });
         items.appendChild(div);
     });
-
     const rect = items.getBoundingClientRect();
     if (rect.bottom > window.innerHeight) {
         items.style.bottom = '100%';
@@ -2917,8 +2573,6 @@ function updateCustomSelectOptions(select, options) {
         items.style.bottom = 'auto';
     }
 }
-
-
 function setCustomSelectValue(select, value) {
     const items = select.querySelector(".select-items");
     const selected = select.querySelector(".select-selected");
@@ -2930,7 +2584,6 @@ function setCustomSelectValue(select, value) {
         option.classList.add("same-as-selected");
     }
 }
-
 function closeAllSelect(elmnt) {
     const items = document.getElementsByClassName("select-items");
     const selected = document.getElementsByClassName("select-selected");
@@ -2945,7 +2598,6 @@ function closeAllSelect(elmnt) {
         }
     }
 }
-
 function applyCommonSelectStyle(select) {
     Object.assign(select.style, {
         padding: '10px 15px',
@@ -2964,13 +2616,11 @@ function applyCommonSelectStyle(select) {
         WebkitAppearance: 'none',
         MozAppearance: 'none'
     });
-
     select.style.backgroundImage = 'url("data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%3E%3Cpath%20fill%3D%22%23FFA500%22%20d%3D%22M287%2069.4a17.6%2017.6%200%200%200-13-5.4H18.4c-5%200-9.3%201.8-12.9%205.4A17.6%2017.6%200%200%200%200%2082.2c0%205%201.8%209.3%205.4%2012.9l128%20127.9c3.6%203.6%207.8%205.4%2012.8%205.4s9.2-1.8%2012.8-5.4L287%2095c3.5-3.5%205.4-7.8%205.4-12.8%200-5-1.9-9.2-5.5-12.8z%22%2F%3E%3C%2Fsvg%3E")';
     select.style.backgroundRepeat = 'no-repeat';
     select.style.backgroundPosition = 'right 15px top 50%';
     select.style.backgroundSize = '12px auto';
     select.style.paddingRight = '30px';
-
     select.addEventListener("focus", () => {
         select.style.boxShadow = '0 0 10px rgba(255, 165, 0, 0.5)';
     });
@@ -2978,7 +2628,6 @@ function applyCommonSelectStyle(select) {
         select.style.boxShadow = '0 2px 5px rgba(255, 165, 0, 0.2)';
     });
 }
-
 function updateSelectOptions(select, options) {
     select.innerHTML = '';
     options.forEach(option => {
@@ -2989,7 +2638,6 @@ function updateSelectOptions(select, options) {
         select.appendChild(opt);
     });
 }
-
 function createOrUpdateSelectAllCheckbox(parent) {
     if (!document.getElementById("selectAllCheckbox")) {
         const checkboxContainer = document.createElement('div');
@@ -3000,13 +2648,11 @@ function createOrUpdateSelectAllCheckbox(parent) {
             padding: '5px 10px',
             marginBottom: '10px'
         });
-
         const selectAllCheckbox = document.createElement('input');
         selectAllCheckbox.type = 'checkbox';
         selectAllCheckbox.className = 'custom-checkbox';
         selectAllCheckbox.id = 'selectAllCheckbox';
         selectAllCheckbox.style.marginRight = '10px';
-
         const selectAllLabel = document.createElement('label');
         selectAllLabel.htmlFor = 'selectAllCheckbox';
         selectAllLabel.textContent = '全选';
@@ -3015,15 +2661,12 @@ function createOrUpdateSelectAllCheckbox(parent) {
             color: '#FFA500',
             userSelect: 'none'
         });
-
         checkboxContainer.appendChild(selectAllCheckbox);
         checkboxContainer.appendChild(selectAllLabel);
         parent.prepend(checkboxContainer);
-
         selectAllCheckbox.addEventListener('change', handleSelectAllChange);
     }
 }
-
 function handleSelectAllChange() {
     const selectAllCheckbox = document.getElementById("selectAllCheckbox");
     const checkboxes = document.querySelectorAll("#download_list input[type='checkbox']:not(#selectAllCheckbox)");
@@ -3033,10 +2676,8 @@ function handleSelectAllChange() {
             checkbox.dispatchEvent(new Event('change', { bubbles: true, cancelable: true }));
         }
     });
-
     syncTreeWithDownloadList();
 }
-
 function applyCommonButtonStyle(button, gradientColors) {
     Object.assign(button.style, {
         background: `linear-gradient(90deg, ${gradientColors.join(", ")})`,
@@ -3058,38 +2699,31 @@ function applyCommonButtonStyle(button, gradientColors) {
         letterSpacing: '1px',
         outline: 'none',
     });
-
     button.addEventListener('mouseover', () => {
         button.style.transform = 'translateY(-2px)';
         button.style.boxShadow = '0 7px 14px rgba(0,0,0,0.12), 0 3px 6px rgba(0,0,0,0.08)';
         button.style.filter = 'brightness(110%)';
     });
-
     button.addEventListener('mouseout', () => {
         button.style.transform = 'translateY(0)';
         button.style.boxShadow = '0 4px 6px rgba(0,0,0,0.1), 0 1px 3px rgba(0,0,0,0.08)';
         button.style.filter = 'brightness(100%)';
     });
-
     button.addEventListener('mousedown', () => {
         button.style.transform = 'translateY(1px)';
         button.style.boxShadow = '0 2px 4px rgba(0,0,0,0.1), 0 1px 2px rgba(0,0,0,0.08)';
     });
-
     button.addEventListener('mouseup', () => {
         button.style.transform = 'translateY(-2px)';
         button.style.boxShadow = '0 7px 14px rgba(0,0,0,0.12), 0 3px 6px rgba(0,0,0,0.08)';
     });
-
     button.addEventListener('focus', () => {
         button.style.boxShadow = '0 0 0 3px rgba(255,255,255,0.5), 0 4px 6px rgba(0,0,0,0.1)';
     });
-
     button.addEventListener('blur', () => {
         button.style.boxShadow = '0 4px 6px rgba(0,0,0,0.1), 0 1px 3px rgba(0,0,0,0.08)';
     });
 }
-
 function createOrUpdateBulkDownloadButton(parent) {
     if (!document.getElementById("bulkDownloadButton")) {
         const bulkDownloadButton = document.createElement('button');
@@ -3103,17 +2737,14 @@ function createOrUpdateBulkDownloadButton(parent) {
         parent.appendChild(bulkDownloadButton);
     }
 }
-
 async function handleBulkDownload() {
     console.log('开始批量下载');
     const checkboxes = document.querySelectorAll("#download_list input[type='checkbox']:checked");
-
     if (checkboxes.length === 0) {
         showNotification('还啥都没选呢（；´д｀）ゞ', 'warning');
         console.log('没有选择任何文件，批量下载已取消');
         return;
     }
-
     const downloadQueue = Array.from(checkboxes)
         .filter(checkbox => checkbox.checked && checkbox.getAttribute('data-visible') === 'true')
         .map(checkbox => {
@@ -3124,16 +2755,13 @@ async function handleBulkDownload() {
                 name: link.getAttribute('data-origin-name')
             };
         });
-
     if (totalDownloads === 0) {
         totalDownloads = downloadQueue.length;
         completedDownloads = 0;
     } else {
         totalDownloads += downloadQueue.length;
     }
-
     console.log(`队列中的文件数: ${downloadQueue.length}`);
-
     if (downloadQueue.length > 10) {
         showNotification(
             `已选择 ${downloadQueue.length} 个文件，下载可能造成网络或性能瓶颈。确认继续？`,
@@ -3152,10 +2780,8 @@ async function handleBulkDownload() {
         processDownloadQueue(downloadQueue);
     }
 }
-
 async function processDownloadQueue(downloadQueue) {
     const useThirdPartyDownload = localStorage.getItem('useThirdPartyDownload') === 'true';
-
     for (let file of downloadQueue) {
         try {
             console.log(`准备下载: ${file.name}`);
@@ -3165,7 +2791,6 @@ async function processDownloadQueue(downloadQueue) {
             }).catch(error => {
                 console.error(`下载失败: ${file.name}`, error);
             });
-
             if (useThirdPartyDownload) {
                 await new Promise(resolve => setTimeout(resolve, 500));
             }
@@ -3174,21 +2799,16 @@ async function processDownloadQueue(downloadQueue) {
         }
     }
 }
-
 async function startBulkDownload(downloadQueue) {
     const useThirdPartyDownload = localStorage.getItem('useThirdPartyDownload') === 'true';
-
     totalDownloads = downloadQueue.length;
     completedDownloads = 0;
-
     for (let file of downloadQueue) {
         try {
             console.log(`正在处理文件: ${file.name}`);
             const fileUrl = await window.getDownloadUrl(file.quoteId);
             await courseDownload(fileUrl, file.name);
-
             console.log(`成功下载: ${file.name}`);
-
             if (useThirdPartyDownload) {
                 await new Promise(resolve => setTimeout(resolve, 1000));
             }
@@ -3196,29 +2816,22 @@ async function startBulkDownload(downloadQueue) {
             console.error(`下载 ${file.name} 时发生错误:`, error);
         }
     }
-
     console.log('批量下载任务全部完成');
 }
-
 function sortList(order) {
     const downloadList = document.getElementById("download_list");
     const items = Array.from(downloadList.querySelectorAll(".file-item"));
-
     const folderSortMap = {};
     const pathStructureMap = {};
-
     if (course_resources) {
         course_resources.forEach(resource => {
             folderSortMap[resource.id] = resource.sort_position || 0;
-
             if (resource.path) {
                 const pathParts = resource.path.split('/');
                 let currentPath = '';
-
                 pathParts.forEach((part, index) => {
                     const thisPath = currentPath ? `${currentPath}/${part}` : part;
                     currentPath = thisPath;
-
                     if (!pathStructureMap[part]) {
                         pathStructureMap[part] = {
                             depth: index,
@@ -3230,52 +2843,40 @@ function sortList(order) {
             }
         });
     }
-
     items.sort((a, b) => {
         const aLink = a.querySelector('a');
         const bLink = b.querySelector('a');
-
         const aParentId = aLink.getAttribute('data-parent-id');
         const bParentId = bLink.getAttribute('data-parent-id');
-
         const aPath = aLink.getAttribute('data-path');
         const bPath = bLink.getAttribute('data-path');
-
         const aPathParts = aPath ? aPath.split('/') : [];
         const bPathParts = bPath ? bPath.split('/') : [];
-
         if (order === 'xiaoya_order') {
             const minLength = Math.min(aPathParts.length, bPathParts.length);
-
             for (let i = 0; i < minLength; i++) {
                 const aId = aPathParts[i];
                 const bId = bPathParts[i];
-
                 if (aId !== bId) {
                     const aSortPosition = folderSortMap[aId] || 0;
                     const bSortPosition = folderSortMap[bId] || 0;
                     return aSortPosition - bSortPosition;
                 }
             }
-
             if (aPathParts.length !== bPathParts.length) {
                 return aPathParts.length - bPathParts.length;
             }
-
             const aFolderPosition = folderSortMap[aParentId] || Infinity;
             const bFolderPosition = folderSortMap[bParentId] || Infinity;
-
             if (aFolderPosition !== bFolderPosition) {
                 return aFolderPosition - bFolderPosition;
             }
-
             const aId = aLink.getAttribute('data-resource-id');
             const bId = bLink.getAttribute('data-resource-id');
             return aId.localeCompare(bId);
         } else {
             const aDate = new Date(aLink.getAttribute('data-created-at'));
             const bDate = new Date(bLink.getAttribute('data-created-at'));
-
             if (order === 'date_asc') {
                 return aDate - bDate;
             } else if (order === 'date_desc') {
@@ -3284,13 +2885,10 @@ function sortList(order) {
         }
     });
     items.forEach(item => downloadList.appendChild(item));
-
     applyFilters();
 }
-
 window.toggleListVisibility = function () {
     var download_list = document.getElementById("download_list");
-
     if (download_list.style.transform === 'scaleY(0)' || download_list.style.transform === '') {
         download_list.style.transform = "scaleY(1)";
         download_list.style.opacity = "1";
@@ -3300,7 +2898,6 @@ window.toggleListVisibility = function () {
         download_list.style.opacity = "0";
     }
 }
-
 function filterList(keyword) {
     window.currentSearchKeyword = keyword.toLowerCase();
     const searchInput = document.getElementById("searchInput");
@@ -3309,32 +2906,26 @@ function filterList(keyword) {
     }
     applyFilters();
 }
-
 function filterListByCategory(categoryValue) {
     window.currentFilterCategory = categoryValue;
     applyFilters();
 }
-
 function applyFilters() {
     var searchKeyword = window.currentSearchKeyword;
     var filterCategory = window.currentFilterCategory;
     var extensions = filterCategory ? filterCategory.split(',').map(ext => ext.trim()) : [];
-
     var containers = document.querySelectorAll("#download_list .file-item");
     containers.forEach(function (container) {
         var file = container.querySelector("a");
         var checkbox = container.querySelector("input[type='checkbox']");
         var fileName = file.getAttribute('data-origin-name').toLowerCase();
         var fileExtension = fileName.slice(((fileName.lastIndexOf(".") - 1) >>> 0) + 2);
-
         var isSearchMatch = searchKeyword === '' || fileName.includes(searchKeyword);
         var isFilterMatch = filterCategory === "" || extensions.includes(fileExtension);
-
         var isVisible = isSearchMatch && isFilterMatch;
         container.style.display = isVisible ? "flex" : "none";
         checkbox.setAttribute('data-visible', isVisible.toString());
     });
-
     const selectAllCheckbox = document.getElementById('selectAllCheckbox');
     if (selectAllCheckbox) {
         const visibleCheckboxes = Array.from(document.querySelectorAll("#download_list .file-item input[type='checkbox'][data-visible='true']"));
@@ -3359,7 +2950,6 @@ function applyFilters() {
         }
     }
 }
-
 const TREE_VIEW_CONFIG = {
     buttonId: 'treeViewButton',
     containerId: 'treeContainer',
@@ -3379,38 +2969,30 @@ const TREE_VIEW_CONFIG = {
         zIndex: 10000
     }
 };
-
 function createOrUpdateTreeViewButton(parent) {
     let treeViewButton = document.getElementById(TREE_VIEW_CONFIG.buttonId);
     let treeContainer = document.getElementById(TREE_VIEW_CONFIG.containerId);
-
     if (!treeViewButton) {
         treeViewButton = createTreeViewButton();
         treeViewButton.title = '点击构建树状图';
         parent.appendChild(treeViewButton);
     }
-
     if (!treeContainer) {
         treeContainer = createTreeContainer();
         document.body.appendChild(treeContainer);
         makeDraggable(treeContainer);
     }
     treeContainer.innerHTML = '';
-
     const dragHandle = createDragHandle();
     treeContainer.appendChild(dragHandle);
-
     const closeButton = createCloseButton(treeContainer);
     dragHandle.appendChild(closeButton);
-
     const searchContainer = createSearchContainer();
     treeContainer.appendChild(searchContainer);
-
     const clearSearchButton = searchContainer.querySelector('#treeClearSearchButton');
     if (clearSearchButton) {
         clearSearchButton.addEventListener('click', clearTreeSearch);
     }
-
     const contentWrapper = document.createElement('div');
     contentWrapper.id = 'treeContentWrapper';
     contentWrapper.style.cssText = `
@@ -3419,7 +3001,6 @@ function createOrUpdateTreeViewButton(parent) {
         padding: 20px;
     `;
     treeContainer.appendChild(contentWrapper);
-
     const bulkDownloadButton = document.createElement('button');
     bulkDownloadButton.id = 'treeBulkDownloadButton';
     bulkDownloadButton.title = '点击下载所选文件';
@@ -3453,69 +3034,52 @@ function createOrUpdateTreeViewButton(parent) {
         align-items: center;
         justify-content: center;
     `;
-
     bulkDownloadButton.addEventListener('mouseover', function () {
         this.style.backgroundColor = '#45a049';
         this.style.boxShadow = '0 6px 8px rgba(0, 0, 0, 0.15)';
         this.style.transform = 'translateY(-2px)';
     });
-
     bulkDownloadButton.addEventListener('mouseout', function () {
         this.style.backgroundColor = '#4CAF50';
         this.style.boxShadow = '0 4px 6px rgba(0, 0, 0, 0.1)';
         this.style.transform = 'translateY(0)';
     });
-
     bulkDownloadButton.addEventListener('click', handleBulkDownload);
     contentWrapper.appendChild(bulkDownloadButton);
-
     const loadingAnimation = createLoadingAnimation();
     const treeContent = createTreeContent();
-
     contentWrapper.appendChild(loadingAnimation);
     contentWrapper.appendChild(treeContent);
-
     const searchInput = searchContainer.querySelector('#treeSearchInput');
     const searchButton = searchContainer.querySelector('#treeSearchButton');
     const prevButton = searchContainer.querySelector('#treePrevButton');
     const nextButton = searchContainer.querySelector('#treeNextButton');
-
     let currentMatchIndex = -1;
     let matches = [];
     let highlightTimeout;
-
     if (searchInput && searchButton && prevButton && nextButton) {
         searchInput.addEventListener('keypress', (e) => {
             if (e.key === 'Enter') {
                 performTreeSearch();
             }
         });
-
         searchButton.addEventListener('click', performTreeSearch);
         prevButton.addEventListener('click', () => navigateMatches(-1));
         nextButton.addEventListener('click', () => navigateMatches(1));
     }
-
-
     function performTreeSearch() {
         if (!searchInput) return;
-
         const searchTerm = searchInput.value.toLowerCase().trim();
         if (searchTerm === '') {
             clearTreeSearch();
             return;
         }
-
         forcedExpandedItems.clear();
-
         const treeItems = treeContainer.querySelectorAll('.item-content');
         matches = [];
-
         removeAllHighlights();
-
         treeItems.forEach(item => {
             let textContent, span;
-
             const folderSpan = item.querySelector('.folder');
             if (folderSpan) {
                 textContent = folderSpan.textContent.trim();
@@ -3524,7 +3088,6 @@ function createOrUpdateTreeViewButton(parent) {
                 textContent = item.textContent.trim();
                 span = item.querySelector('span:not(.folder-toggle):not(.folder):not(.file-extension)');
             }
-
             if (textContent && textContent.toLowerCase().includes(searchTerm)) {
                 matches.push(span);
                 const parentElements = getParentElements(item.closest('li'));
@@ -3532,17 +3095,14 @@ function createOrUpdateTreeViewButton(parent) {
                 expandParentFolders(item.closest('li'));
             }
         });
-
         currentMatchIndex = matches.length > 0 ? 0 : -1;
         updateNavigationButtons();
         updateSearchInfo();
-
         if (matches.length > 0) {
             highlightCurrentMatch();
             scrollToMatch(currentMatchIndex);
         }
     }
-
     function getParentElements(element) {
         const parents = [];
         let current = element;
@@ -3554,20 +3114,16 @@ function createOrUpdateTreeViewButton(parent) {
         }
         return parents;
     }
-
     function navigateMatches(direction) {
         if (matches.length === 0) return;
-
         currentMatchIndex += direction;
         if (currentMatchIndex < 0) currentMatchIndex = matches.length - 1;
         if (currentMatchIndex >= matches.length) currentMatchIndex = 0;
-
         updateNavigationButtons();
         updateSearchInfo();
         highlightCurrentMatch();
         scrollToMatch(currentMatchIndex);
     }
-
     function updateSearchInfo() {
         const searchInfo = document.getElementById('treeSearchInfo');
         if (searchInfo) {
@@ -3578,17 +3134,14 @@ function createOrUpdateTreeViewButton(parent) {
             }
         }
     }
-
     function highlightCurrentMatch() {
         removeAllHighlights();
         if (currentMatchIndex >= 0 && currentMatchIndex < matches.length) {
             const currentMatch = matches[currentMatchIndex];
-
             const fragment = document.createDocumentFragment();
             while (currentMatch.firstChild) {
                 fragment.appendChild(currentMatch.firstChild);
             }
-
             fragment.childNodes.forEach(node => {
                 if (node.nodeType === Node.TEXT_NODE) {
                     const highlightSpan = document.createElement('span');
@@ -3597,18 +3150,14 @@ function createOrUpdateTreeViewButton(parent) {
                     node.parentNode.replaceChild(highlightSpan, node);
                 }
             });
-
             currentMatch.appendChild(fragment);
-
             scrollToMatch(currentMatchIndex);
-
             clearTimeout(highlightTimeout);
             highlightTimeout = setTimeout(() => {
                 removeAllHighlights();
             }, 2000);
         }
     }
-
     function removeAllHighlights() {
         treeContainer.querySelectorAll('.highlight').forEach(el => {
             const parent = el.parentNode;
@@ -3618,20 +3167,16 @@ function createOrUpdateTreeViewButton(parent) {
             parent.removeChild(el);
         });
     }
-
     function scrollToMatch(index) {
         if (index >= 0 && index < matches.length) {
             const contentWrapper = document.getElementById('treeContentWrapper');
             const matchElement = matches[index];
             const wrapperRect = contentWrapper.getBoundingClientRect();
             const matchRect = matchElement.getBoundingClientRect();
-
             contentWrapper.scrollTop += matchRect.top - wrapperRect.top - wrapperRect.height / 2 + matchRect.height / 2;
-
             matchElement.scrollIntoView({ block: "nearest", inline: "nearest" });
         }
     }
-
     function clearTreeSearch() {
         const searchInput = document.getElementById('treeSearchInput');
         const searchInfo = document.getElementById('treeSearchInfo');
@@ -3641,13 +3186,11 @@ function createOrUpdateTreeViewButton(parent) {
         if (searchInfo) {
             searchInfo.textContent = '';
         }
-
         forcedExpandedItems.clear();
         removeAllHighlights();
         matches = [];
         currentMatchIndex = -1;
         updateNavigationButtons();
-
         const allFolders = treeContainer.querySelectorAll('.folder-toggle.open');
         allFolders.forEach(toggle => {
             const li = toggle.closest('li');
@@ -3659,7 +3202,6 @@ function createOrUpdateTreeViewButton(parent) {
                 ul.style.height = ul.scrollHeight + 'px';
                 ul.style.display = 'block';
                 ul.offsetHeight;
-
                 ul.style.height = '0px';
                 ul.addEventListener('transitionend', function handler() {
                     if (ul.classList.contains('collapsed')) {
@@ -3670,12 +3212,10 @@ function createOrUpdateTreeViewButton(parent) {
             }
         });
     }
-
     function updateNavigationButtons() {
         prevButton.disabled = matches.length === 0;
         nextButton.disabled = matches.length === 0;
     }
-
     function expandParentFolders(element) {
         let current = element;
         while (current !== treeContainer) {
@@ -3693,13 +3233,11 @@ function createOrUpdateTreeViewButton(parent) {
             current = current.parentElement;
         }
     }
-
     setupTreeViewButtonEvents(treeViewButton, treeContainer, treeContent, loadingAnimation);
     setupTreeCheckboxEvents(treeContainer);
     addTreeViewStyles();
     setInitialFoldState(treeContainer);
 }
-
 function setInitialFoldState(container) {
     const rootUl = container.querySelector('ul');
     if (rootUl) {
@@ -3716,7 +3254,6 @@ function setInitialFoldState(container) {
         });
     }
 }
-
 function createTreeViewButton() {
     const button = document.createElement('button');
     button.id = TREE_VIEW_CONFIG.buttonId;
@@ -3725,7 +3262,6 @@ function createTreeViewButton() {
     button.style.right = '150px';
     return button;
 }
-
 function createDragHandle() {
     const dragHandle = document.createElement('div');
     dragHandle.className = 'drag-handle';
@@ -3739,7 +3275,6 @@ function createDragHandle() {
     dragHandle.style.zIndex = '1';
     return dragHandle;
 }
-
 function createSearchContainer() {
     const searchContainer = document.createElement('div');
     searchContainer.className = 'search-container';
@@ -3769,7 +3304,6 @@ function createSearchContainer() {
     `;
     return searchContainer;
 }
-
 function createTreeContainer() {
     const container = document.createElement('div');
     container.id = TREE_VIEW_CONFIG.containerId;
@@ -3782,21 +3316,17 @@ function createTreeContainer() {
         overflowY: 'hidden',
         transition: 'opacity 0.3s ease-out, transform 0.3s ease-out'
     });
-
     container.close = function () {
         this.style.opacity = '0';
         this.style.transform = 'translate(-50%, -50%) scale(0.95)';
-
         this.addEventListener('transitionend', function closeHandler() {
             this.style.display = 'none';
             this.removeEventListener('transitionend', closeHandler);
             disableControls(false);
         }, { once: true });
     };
-
     return container;
 }
-
 function createTreeContent() {
     const content = document.createElement('div');
     content.id = TREE_VIEW_CONFIG.contentId;
@@ -3836,7 +3366,6 @@ function createTreeContent() {
     `;
     return content;
 }
-
 function createLoadingAnimation() {
     const loading = document.createElement('div');
     loading.id = TREE_VIEW_CONFIG.loadingId;
@@ -3850,7 +3379,6 @@ function createLoadingAnimation() {
         background-color: rgba(255, 255, 255, 0.9);
         z-index: 10001;
     `;
-
     const container = document.createElement('div');
     container.style.cssText = `
         position: absolute;
@@ -3860,11 +3388,9 @@ function createLoadingAnimation() {
         text-align: center;
     `;
     loading.appendChild(container);
-
     const loader = document.createElement('div');
     loader.className = 'loader';
     container.appendChild(loader);
-
     const style = document.createElement('style');
     style.textContent = `
         .loader {
@@ -3891,12 +3417,9 @@ function createLoadingAnimation() {
             100% {transform: translateY(calc(var(--s,1)*0%)); -webkit-mask-position:calc(var(--s,0)*1ch + 1ch) 50%}
         }
     `;
-
     document.head.appendChild(style);
-
     return loading;
 }
-
 function createCloseButton(treeContainer) {
     const closeButton = document.createElement('span');
     closeButton.textContent = '×';
@@ -3917,7 +3440,6 @@ function createCloseButton(treeContainer) {
     });
     return closeButton;
 }
-
 function setupTreeViewButtonEvents(button, container, content, loading) {
     button.onclick = () => {
         if (course_resources) {
@@ -3927,24 +3449,20 @@ function setupTreeViewButtonEvents(button, container, content, loading) {
                 container.style.transform = 'translate(-50%, -50%) scale(0.95)';
                 loading.style.display = 'block';
                 content.innerHTML = '';
-
                 const searchInput = container.querySelector('#treeSearchInput');
                 const searchInfo = container.querySelector('#treeSearchInfo');
                 if (searchInput) searchInput.value = '';
                 if (searchInfo) searchInfo.textContent = '';
-
                 const prevButton = document.querySelector('#treePrevButton');
                 const nextButton = document.querySelector('#treeNextButton');
                 if (prevButton) prevButton.disabled = true;
                 if (nextButton) nextButton.disabled = true;
-
                 disableControls(true);
                 requestAnimationFrame(() => {
                     container.style.transition = 'opacity 0.3s ease-out, transform 0.3s ease-out';
                     container.style.opacity = '1';
                     container.style.transform = 'translate(-50%, -50%) scale(1)';
                 });
-
                 const collapseAllButton = container.querySelector('#treeCollapseAllButton');
                 if (collapseAllButton) {
                     collapseAllButton.addEventListener('click', () => {
@@ -3969,10 +3487,8 @@ function setupTreeViewButtonEvents(button, container, content, loading) {
                         });
                     });
                 }
-
                 const itemCount = countTreeItems(course_resources);
                 const animationDuration = Math.min(Math.max(itemCount * 10, 500), 3000);
-
                 setTimeout(() => {
                     content.innerHTML = createTreeHTML(course_resources);
                     addFolderToggle(content);
@@ -3985,7 +3501,6 @@ function setupTreeViewButtonEvents(button, container, content, loading) {
                         content.style.transition = 'opacity 0.3s ease-out';
                         content.style.opacity = '1';
                     });
-
                     const searchInput = container.querySelector('#treeSearchInput');
                     const searchButton = container.querySelector('#treeSearchButton');
                     if (searchInput && searchButton) {
@@ -4001,10 +3516,8 @@ function setupTreeViewButtonEvents(button, container, content, loading) {
         }
     };
 }
-
 function countTreeItems(resources) {
     if (!resources) return 0;
-
     if (Array.isArray(resources)) {
         let count = 0;
         for (const resource of resources) {
@@ -4026,17 +3539,14 @@ function countTreeItems(resources) {
         return 1;
     }
 }
-
 function disableControls(disable) {
     const container = document.getElementById('searchAndFilterContainer');
     const searchInput = document.getElementById('searchInput');
     const quickFilterSelect = document.getElementById('quickFilterSelect');
     const sortSelect = document.getElementById('sortSelect');
-
     if (container) {
         container.className = disable ? 'disabled' : '';
     }
-
     if (searchInput) {
         searchInput.disabled = disable;
         searchInput.style.color = disable ? '#888' : '#ffa500';
@@ -4044,7 +3554,6 @@ function disableControls(disable) {
     if (quickFilterSelect) quickFilterSelect.disabled = disable;
     if (sortSelect) sortSelect.disabled = disable;
 }
-
 function setupTreeCheckboxEvents(container) {
     container.addEventListener('change', e => {
         if (e.target.classList.contains('tree-checkbox')) {
@@ -4052,16 +3561,13 @@ function setupTreeCheckboxEvents(container) {
         }
     });
 }
-
 function handleTreeCheckboxChange(checkbox) {
-
     requestAnimationFrame(() => {
         batchUpdate(checkbox);
         updateSelectAllCheckbox();
         syncTreeWithDownloadList();
     });
 }
-
 function addPreviewButtonListeners() {
     const treePreviewButtons = document.querySelectorAll('#treeContainer .preview-button');
     treePreviewButtons.forEach(button => {
@@ -4078,15 +3584,12 @@ function addPreviewButtonListeners() {
         });
     });
 }
-
 function createTreeHTML() {
     let tree = {};
     let folderNames = {};
     let resourceSortMap = {};
-
     course_resources.forEach(resource => {
         resourceSortMap[resource.id] = resource.sort_position || 0;
-
         if (resource.type === 1) {
             folderNames[resource.id] = {
                 name: resource.name,
@@ -4094,11 +3597,9 @@ function createTreeHTML() {
             };
         }
     });
-
     document.querySelectorAll("#download_list .file-item").forEach(fileItem => {
         let fileInfo = fileItem.querySelector('a');
         let checkbox = fileItem.querySelector('input[type="checkbox"]');
-
         let resourceId = fileInfo.getAttribute('data-resource-id');
         let resource = {
             id: resourceId,
@@ -4108,11 +3609,9 @@ function createTreeHTML() {
             checkbox: checkbox,
             sort_position: resourceSortMap[resourceId] || 0
         };
-
         let pathIds = resource.path.split('/');
         let current = tree;
         let currentPath = [];
-
         pathIds.forEach((id, index) => {
             let folderInfo = folderNames[id] || {
                 name: (index === pathIds.length - 1 ? resource.name : id),
@@ -4120,7 +3619,6 @@ function createTreeHTML() {
             };
             let name = folderInfo.name;
             currentPath.push(id);
-
             if (!current[name]) {
                 current[name] = {
                     children: {},
@@ -4132,26 +3630,21 @@ function createTreeHTML() {
                     path: currentPath.join('/')
                 };
             }
-
             if (index === pathIds.length - 1) {
                 current[name].resources.push(resource);
                 current[name].id = resource.id;
                 current[name].name = resource.name;
                 current[name].sort_position = resource.sort_position;
             }
-
             current = current[name].children;
         });
     });
-
     return buildTreeHTML(tree);
 }
-
 function buildTreeHTML(node, parentPath = '', level = 0) {
     let html = '<ul' + (level > 0 ? ' class="collapsed"' : '') + '>';
     let folderEntries = [];
     let fileEntries = [];
-
     for (let key in node) {
         let item = node[key];
         if (item.isFolder) {
@@ -4160,11 +3653,9 @@ function buildTreeHTML(node, parentPath = '', level = 0) {
             fileEntries.push({ key, item });
         }
     }
-
     folderEntries.sort((a, b) => {
         return (a.item.sort_position || 0) - (b.item.sort_position || 0);
     });
-
     for (let { item } of folderEntries) {
         let currentPath = item.path;
         let folderContent = buildTreeHTML(item.children, currentPath, level + 1);
@@ -4181,11 +3672,9 @@ function buildTreeHTML(node, parentPath = '', level = 0) {
             </li>
         `;
     }
-
     fileEntries.sort((a, b) => {
         return (a.item.sort_position || 0) - (b.item.sort_position || 0);
     });
-
     for (let { item } of fileEntries) {
         for (let resource of item.resources) {
             let isChecked = resource.checkbox.checked ? 'checked' : '';
@@ -4211,17 +3700,14 @@ function buildTreeHTML(node, parentPath = '', level = 0) {
     html += '</ul>';
     return html;
 }
-
 function batchUpdate(checkbox) {
     const isChecked = checkbox.checked;
     const listItem = checkbox.closest('li');
     const childCheckboxes = listItem.querySelectorAll('input.tree-checkbox');
     const path = checkbox.getAttribute('data-path');
-
     childCheckboxes.forEach(child => {
         child.checked = isChecked;
     });
-
     const fileListCheckboxes = document.querySelectorAll(`#download_list .file-item a[data-path^="${path}"]`);
     fileListCheckboxes.forEach(fileInfo => {
         const fileCheckbox = fileInfo.parentElement.querySelector('input[type="checkbox"]');
@@ -4229,19 +3715,14 @@ function batchUpdate(checkbox) {
             fileCheckbox.checked = isChecked;
         }
     });
-
     updateParentCheckboxes(checkbox);
 }
-
 function getFileIcon(filename) {
     const parts = filename.split('.');
     const extension = parts.length > 1 ? parts.pop().toLowerCase() : '';
-
     let icon = '📄';
     let colorClass = '';
-
     let matched = false;
-
     if (window.quickFilters && Array.isArray(window.quickFilters)) {
         for (let filter of window.quickFilters) {
             if (extension && typeof filter.value === 'string' && filter.value.split(',').includes(extension)) {
@@ -4285,18 +3766,14 @@ function getFileIcon(filename) {
     } else {
         console.error("window.quickFilters is not defined or not an array.");
     }
-
     if (!matched) {
         colorClass = 'ext-other';
     }
-
     if (!extension) {
         return icon;
     }
-
     return `${icon} <span class="file-extension ${colorClass}">${extension}</span>`;
 }
-
 function addTreeViewStyles() {
     const style = document.createElement('style');
     style.textContent = `
@@ -4383,16 +3860,13 @@ function addTreeViewStyles() {
             overflow: hidden;
             transition: height 0.3s ease-out;
         }
-
         .tree-container li > ul.expanded {
             display: block;
             height: auto;
         }
-
         .tree-container li:hover > ul {
             display: block;
         }
-
         .tree-container li:hover > ul.collapsed {
             height: 0;
         }
@@ -4535,11 +4009,9 @@ function addTreeViewStyles() {
             0% { transform: translate(-50%, -50%) rotate(0deg); }
             100% { transform: translate(-50%, -50%) rotate(360deg); }
         }
-
         #searchAndFilterContainer {
             position: relative;
         }
-
         #searchAndFilterContainer.disabled::after {
             content: '';
             position: absolute;
@@ -4549,26 +4021,21 @@ function addTreeViewStyles() {
             bottom: 0;
             z-index: 10;
         }
-
         #searchAndFilterContainer.disabled .search-icon {
             color: #888 !important;
         }
-
         .course-search-input:disabled {
             background-color: #f0f0f0 !important;
             color: #888 !important;
             border-color: #ccc !important;
             opacity: 0.7;
         }
-
         .course-search-input:disabled::placeholder {
             color: #888 !important;
         }
-
         .search-input-with-icon:disabled {
             background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="%23888" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>') !important;
         }
-
         #searchAndFilterContainer.disabled .select-selected,
         #searchAndFilterContainer.disabled .select-items {
             background-color: #f0f0f0 !important;
@@ -4576,26 +4043,21 @@ function addTreeViewStyles() {
             border-color: #ccc !important;
             opacity: 0.7;
         }
-
         #searchAndFilterContainer.disabled .select-selected:after {
             border-color: #888 transparent transparent transparent !important;
         }
-
         #searchAndFilterContainer.disabled .select-selected:hover,
         #searchAndFilterContainer.disabled .custom-select:focus-within .select-selected {
             border-color: #ccc !important;
             box-shadow: none !important;
         }
-
         #searchAndFilterContainer.disabled .select-items div:hover {
             background-color: transparent !important;
         }
-
         #searchAndFilterContainer.disabled .select-selected,
         #searchAndFilterContainer.disabled .select-items {
             pointer-events: none;
         }
-
         .tree-content-fade-in {
             animation: fadeIn 0.3s ease-out;
         }
@@ -4617,7 +4079,6 @@ function addTreeViewStyles() {
         .ext-zip { background-color: #AAAAAA; }
         .ext-pdf { background-color: #cc2121; }
         .ext-other { background-color: #FF851B; }
-
         .search-container {
             top: 0;
             flex-shrink: 0;
@@ -4689,18 +4150,15 @@ function addTreeViewStyles() {
             color: #666;
             font-weight: bold;
         }
-
         @keyframes simpleHighlight {
             0% { background-color: rgba(255, 255, 0, 0.7); }
             100% { background-color: transparent; }
         }
-
         #treeContainer .highlight {
             background-color: rgba(255, 255, 0, 0.3);
             border-radius: 3px;
             animation: simpleHighlight 2s ease-out forwards;
         }
-
         #treePrevButton,
         #treeNextButton {
             background-color: #87CEEB;
@@ -4742,21 +4200,17 @@ function addTreeViewStyles() {
     `;
     document.head.appendChild(style);
 }
-
 function addFolderToggle(container) {
     container.removeEventListener('click', folderToggleHandler);
     container.addEventListener('click', folderToggleHandler);
 }
-
 function folderToggleHandler(e) {
     const toggle = e.target.closest('.folder-toggle');
     const folderContent = e.target.closest('.item-content');
     const li = folderContent ? folderContent.closest('li') : null;
-
     if (e.target.classList.contains('tree-checkbox')) {
         return;
     }
-
     if (toggle || (folderContent && li && li.querySelector('ul'))) {
         e.stopPropagation();
         const ul = li.querySelector('ul');
@@ -4765,7 +4219,6 @@ function folderToggleHandler(e) {
             li.querySelector('.folder-toggle').classList.toggle('open');
             ul.classList.toggle('collapsed');
             ul.classList.toggle('expanded');
-
             if (isExpanding) {
                 ul.style.display = 'block';
                 ul.style.height = 'auto';
@@ -4791,23 +4244,19 @@ function folderToggleHandler(e) {
         }
     }
 }
-
 function updateParentCheckboxes(checkbox) {
     let currentCheckbox = checkbox;
     while (currentCheckbox) {
         const parentLi = currentCheckbox.closest('li').parentElement.closest('li');
         if (!parentLi) break;
-
         const parentCheckbox = parentLi.querySelector('.tree-checkbox');
         updateFolderState(parentCheckbox);
         currentCheckbox = parentCheckbox;
     }
 }
-
 function updateFileListCheckbox(treeCheckbox) {
     const path = treeCheckbox.getAttribute('data-path');
     const isChecked = treeCheckbox.checked;
-
     document.querySelectorAll(`#download_list .file-item a[data-path^="${path}"]`).forEach(fileInfo => {
         const checkbox = fileInfo.parentElement.querySelector('input[type="checkbox"]');
         if (checkbox.checked !== isChecked) {
@@ -4815,10 +4264,8 @@ function updateFileListCheckbox(treeCheckbox) {
             checkbox.dispatchEvent(new Event('change', { bubbles: true }));
         }
     });
-
     updateSelectAllCheckbox();
 }
-
 function updateSelectAllCheckbox() {
     const selectAllCheckbox = document.getElementById('selectAllCheckbox');
     if (selectAllCheckbox) {
@@ -4833,28 +4280,23 @@ function updateSelectAllCheckbox() {
         selectAllCheckbox.checked = allChecked;
     }
 }
-
 function syncTreeWithDownloadList() {
     const treeCheckboxes = document.querySelectorAll('#treeContainer .tree-checkbox');
     const downloadCheckboxes = document.querySelectorAll('#download_list .file-item input[type="checkbox"]');
-
     const downloadCheckboxMap = new Map();
     downloadCheckboxes.forEach(cb => {
         const path = cb.parentElement.querySelector('a').getAttribute('data-path');
         downloadCheckboxMap.set(path, cb.checked);
     });
-
     treeCheckboxes.forEach(treeCheckbox => {
         const path = treeCheckbox.getAttribute('data-path');
         if (downloadCheckboxMap.has(path)) {
             treeCheckbox.checked = downloadCheckboxMap.get(path);
         }
     });
-
     const folderCheckboxes = Array.from(document.querySelectorAll('#treeContainer .folder-checkbox')).reverse();
     folderCheckboxes.forEach(updateFolderState);
 }
-
 function updateTreeCheckbox(downloadCheckbox) {
     let path = downloadCheckbox.parentElement.querySelector('a').getAttribute('data-path');
     let treeCheckbox = document.querySelector(`#treeContainer .tree-checkbox[data-path="${path}"]`);
@@ -4863,14 +4305,11 @@ function updateTreeCheckbox(downloadCheckbox) {
         updateParentCheckboxes(treeCheckbox);
     }
 }
-
 function updateFolderState(folderCheckbox) {
     const folderLi = folderCheckbox.closest('li');
     const allDescendants = folderLi.querySelectorAll(':scope > ul .tree-checkbox');
-
     let allChecked = true;
     let anyChecked = false;
-
     for (let cb of allDescendants) {
         if (cb.checked || cb.indeterminate) {
             anyChecked = true;
@@ -4880,17 +4319,14 @@ function updateFolderState(folderCheckbox) {
         }
         if (anyChecked && !allChecked) break;
     }
-
     folderCheckbox.checked = allChecked;
     folderCheckbox.indeterminate = !allChecked && anyChecked;
 }
-
 function makeDraggable(container) {
     let isDragging = false;
     let startX, startY, startLeft, startTop;
     let lastTouchTime = 0;
     let lastTouchX, lastTouchY;
-
     function onStart(e) {
         if (e.target.closest('.drag-handle') && !e.target.closest('.search-container')) {
             isDragging = true;
@@ -4911,7 +4347,6 @@ function makeDraggable(container) {
             }
         }
     }
-
     function onMove(e) {
         if (!isDragging) return;
         let clientX, clientY;
@@ -4928,7 +4363,6 @@ function makeDraggable(container) {
         container.style.top = `${startTop + dy}px`;
         e.preventDefault();
     }
-
     function onEnd(e) {
         if (isDragging) {
             isDragging = false;
@@ -4938,7 +4372,6 @@ function makeDraggable(container) {
                 const endY = e.changedTouches[0].clientY;
                 const timeDiff = endTime - lastTouchTime;
                 const distance = Math.sqrt(Math.pow(endX - lastTouchX, 2) + Math.pow(endY - lastTouchY, 2));
-
                 if (distance < 10 && timeDiff < 200) {
                     const clickEvent = new MouseEvent('click', {
                         bubbles: true,
@@ -4950,22 +4383,18 @@ function makeDraggable(container) {
             }
         }
     }
-
     container.addEventListener('mousedown', onStart);
     document.addEventListener('mousemove', onMove);
     document.addEventListener('mouseup', onEnd);
-
     container.addEventListener('touchstart', onStart, { passive: true });
     document.addEventListener('touchmove', onMove, { passive: false });
     document.addEventListener('touchend', onEnd);
-
     container.addEventListener('selectstart', (e) => {
         if (isDragging) {
             e.preventDefault();
         }
     });
 }
-
 function add_download_button() {
     var downloadIconContainer = document.createElement('div');
     downloadIconContainer.id = "download_icon_container";
@@ -4978,7 +4407,6 @@ function add_download_button() {
                           loop autoplay onclick="toggleListVisibility()"
                           title="点击展开或关闭列表"></dotlottie-player>
     `;
-
     downloadIconContainer.style.cssText = `
         position: fixed;
         right: 10px;
@@ -4986,7 +4414,6 @@ function add_download_button() {
         z-index: 9000;
         cursor: pointer;
     `;
-
     var downloadListContainer = document.createElement('div');
     downloadListContainer.id = "download_list";
     downloadListContainer.style.cssText = `
@@ -5050,18 +4477,15 @@ function add_download_button() {
             transition: transform 0.3s ease;
             cursor: pointer;
         }
-
         .download-icon:hover, .preview-icon:hover, .downloadlist-icon:hover {
             background-color: rgba(255, 255, 255, 0.3);
             transform: scale(1.2);
         }
-
         .downloadlist-icon {
             padding: 2px;
             margin: -20px;
         }
     `;
-
     var newStyles = document.createElement('style');
     newStyles.innerHTML = `
         #download_list .file-item {
@@ -5212,7 +4636,6 @@ function add_download_button() {
             background-size: 40px 40px;
             animation: moveBackgroundStripes 1s linear infinite;
         }
-
         @keyframes moveBackgroundStripes {
             0% {
                 background-position: 0 0;
@@ -5227,7 +4650,6 @@ function add_download_button() {
     document.body.appendChild(downloadIconContainer);
     document.body.appendChild(downloadListContainer);
 }
-
 function getCookie(keyword = 'prd-access-token') {
     const cookies = document.cookie.split('; ');
     for (const cookie of cookies) {
@@ -5238,12 +4660,10 @@ function getCookie(keyword = 'prd-access-token') {
     }
     return null;
 }
-
 function showDownloadHistory() {
     if (historyPopup) {
         return;
     }
-
     historyPopup = document.createElement('div');
     Object.assign(historyPopup.style, {
         position: 'fixed',
@@ -5263,7 +4683,6 @@ function showDownloadHistory() {
         overflow: 'hidden',
         opacity: '0',
     });
-
     const title = document.createElement('h2');
     title.textContent = '下载历史';
     Object.assign(title.style, {
@@ -5273,7 +4692,6 @@ function showDownloadHistory() {
         marginBottom: '20px',
         fontWeight: 'bold',
     });
-
     historyPopup.historyListElement = document.createElement('ul');
     Object.assign(historyPopup.historyListElement.style, {
         listStyleType: 'none',
@@ -5283,14 +4701,12 @@ function showDownloadHistory() {
         fontWeight: 'bold',
         flex: '1'
     });
-
     const buttonContainer = document.createElement('div');
     Object.assign(buttonContainer.style, {
         display: 'flex',
         justifyContent: 'space-between',
         marginTop: '20px'
     });
-
     const clearButton = document.createElement('button');
     clearButton.textContent = '清空历史';
     Object.assign(clearButton.style, {
@@ -5313,13 +4729,11 @@ function showDownloadHistory() {
         showNotification('确定要清空所有下载历史吗？此操作不可撤销。', 'confirm',
             () => {
                 const items = historyPopup.historyListElement.querySelectorAll('li');
-
                 items.forEach((item, index) => {
                     setTimeout(() => {
                         item.classList.add('remove-history-item');
                     }, index * 50);
                 });
-
                 setTimeout(() => {
                     downloadHistory = [];
                     localStorage.removeItem('downloadHistory');
@@ -5332,7 +4746,6 @@ function showDownloadHistory() {
             }
         );
     };
-
     const closeButton = document.createElement('button');
     closeButton.textContent = '关闭';
     Object.assign(closeButton.style, {
@@ -5355,40 +4768,30 @@ function showDownloadHistory() {
         const rect = historyPopup.getBoundingClientRect();
         const startX = rect.left;
         const startY = rect.top;
-
         historyPopup.style.top = startY + 'px';
         historyPopup.style.left = startX + 'px';
         historyPopup.style.transform = 'none';
-
         historyPopup.classList.remove('popup-show');
         historyPopup.classList.add('popup-hide');
-
         historyPopup.addEventListener('animationend', function () {
             document.body.removeChild(historyPopup);
             historyPopup = null;
         }, { once: true });
     };
-
     buttonContainer.appendChild(clearButton);
     buttonContainer.appendChild(closeButton);
-
     historyPopup.appendChild(title);
     historyPopup.appendChild(historyPopup.historyListElement);
     historyPopup.appendChild(buttonContainer);
     document.body.appendChild(historyPopup);
-
     const searchContainer = createSearchBox();
     historyPopup.insertBefore(searchContainer, historyPopup.historyListElement);
-
     document.body.appendChild(historyPopup);
-
     setTimeout(() => {
         historyPopup.classList.add('popup-show');
     }, 10);
-
     updateHistoryList();
 }
-
 function createSearchBox() {
     const searchContainer = document.createElement('div');
     Object.assign(searchContainer.style, {
@@ -5396,7 +4799,6 @@ function createSearchBox() {
         position: 'relative',
         width: '100%'
     });
-
     const searchInput = document.createElement('input');
     Object.assign(searchInput.style, {
         width: '100%',
@@ -5409,7 +4811,6 @@ function createSearchBox() {
         transition: 'all 0.3s ease'
     });
     searchInput.placeholder = '搜索下载历史...';
-
     const searchIcon = document.createElement('div');
     Object.assign(searchIcon.style, {
         position: 'absolute',
@@ -5422,17 +4823,13 @@ function createSearchBox() {
         backgroundSize: 'cover',
         cursor: 'pointer'
     });
-
     searchContainer.appendChild(searchInput);
     searchContainer.appendChild(searchIcon);
-
     searchInput.addEventListener('input', () => {
         filterHistory(searchInput.value);
     });
-
     return searchContainer;
 }
-
 function filterHistory(searchTerm) {
     const items = historyPopup.historyListElement.querySelectorAll('li');
     items.forEach((item, index) => {
@@ -5452,7 +4849,6 @@ function filterHistory(searchTerm) {
         }
     });
 }
-
 function resetListItemStyles(item) {
     Object.assign(item.style, {
         padding: '10px',
@@ -5463,7 +4859,6 @@ function resetListItemStyles(item) {
         alignItems: 'center',
         transition: 'opacity 0.3s, transform 0.3s'
     });
-
     const redownloadButton = item.querySelector('button');
     if (redownloadButton) {
         Object.assign(redownloadButton.style, {
@@ -5478,16 +4873,12 @@ function resetListItemStyles(item) {
         });
     }
 }
-
 function updateHistoryList() {
     if (!historyPopup || !historyPopup.historyListElement) return;
-
     const historyListElement = historyPopup.historyListElement;
     historyListElement.innerHTML = '';
-
     const threeDaysAgo = new Date().getTime() - (3 * 24 * 60 * 60 * 1000);
     downloadHistory = downloadHistory.filter(item => item.time > threeDaysAgo);
-
     if (downloadHistory.length === 0) {
         const noHistory = showNoHistoryMessage(historyListElement);
         requestAnimationFrame(() => {
@@ -5498,17 +4889,14 @@ function updateHistoryList() {
         downloadHistory.forEach((item, index) => {
             const listItem = createHistoryListItem(item, index);
             historyListElement.appendChild(listItem);
-
             setTimeout(() => {
                 listItem.style.opacity = '1';
                 listItem.style.transform = 'translateY(0)';
             }, index * 50);
         });
     }
-
     localStorage.setItem('downloadHistory', JSON.stringify(downloadHistory));
 }
-
 function showNoHistoryMessage(historyListElement) {
     const noHistory = document.createElement('div');
     noHistory.id = 'noHistoryMessage';
@@ -5532,7 +4920,6 @@ function showNoHistoryMessage(historyListElement) {
         transform: 'translateY(-20px)',
         transition: 'opacity 0.5s, transform 0.5s'
     });
-
     const p = noHistory.querySelector('p');
     Object.assign(p.style, {
         fontSize: '18px',
@@ -5540,18 +4927,15 @@ function showNoHistoryMessage(historyListElement) {
         margin: '10px 0 5px',
         color: '#fcbb34'
     });
-
     const span = noHistory.querySelector('span');
     Object.assign(span.style, {
         fontSize: '14px',
         opacity: '0.8',
         fontWeight: 'bold'
     });
-
     historyListElement.appendChild(noHistory);
     return noHistory;
 }
-
 function createHistoryListItem(item, index) {
     const listItem = document.createElement('li');
     Object.assign(listItem.style, {
@@ -5564,18 +4948,13 @@ function createHistoryListItem(item, index) {
         opacity: '0',
         transform: 'translateY(-20px)'
     });
-
     const itemInfo = document.createElement('span');
     itemInfo.textContent = `${index + 1}. ${item.filename} - ${new Date(item.time).toLocaleString()}`;
-
     const redownloadButton = createRedownloadButton(item);
-
     listItem.appendChild(itemInfo);
     listItem.appendChild(redownloadButton);
-
     return listItem;
 }
-
 function createRedownloadButton(item) {
     const redownloadButton = document.createElement('button');
     redownloadButton.textContent = '重新下载';
@@ -5600,7 +4979,6 @@ function createRedownloadButton(item) {
     };
     return redownloadButton;
 }
-
 function createDownloadHistoryPopup() {
     const popup = document.createElement('div');
     popup.id = 'downloadHistoryPopup';
@@ -5621,32 +4999,24 @@ function createDownloadHistoryPopup() {
         opacity: '0',
         transition: 'opacity 0.3s ease'
     });
-
     document.body.appendChild(popup);
 }
-
 function saveDownloadHistory(filename, url) {
     const historyItem = { filename, url, time: new Date().getTime() };
     downloadHistory.unshift(historyItem);
-
     const threeDaysAgo = new Date().getTime() - (3 * 24 * 60 * 60 * 1000);
     downloadHistory = downloadHistory.filter(item => item.time > threeDaysAgo);
-
     localStorage.setItem('downloadHistory', JSON.stringify(downloadHistory));
-
     if (historyPopup && historyPopup.historyListElement) {
         const noHistoryMessage = historyPopup.historyListElement.querySelector('#noHistoryMessage');
         if (noHistoryMessage) {
             noHistoryMessage.remove();
         }
-
         const newListItem = createHistoryListItem(historyItem, 0);
         historyPopup.historyListElement.insertBefore(newListItem, historyPopup.historyListElement.firstChild);
-
         setTimeout(() => {
             newListItem.classList.add('new-history-item');
         }, 10);
-
         const existingItems = historyPopup.historyListElement.querySelectorAll('li');
         existingItems.forEach((item, index) => {
             if (index > 0) {
@@ -5656,7 +5026,6 @@ function saveDownloadHistory(filename, url) {
         });
     }
 }
-
 function loadDownloadHistory() {
     const savedHistory = localStorage.getItem('downloadHistory');
     if (savedHistory) {
@@ -5666,16 +5035,13 @@ function loadDownloadHistory() {
         localStorage.setItem('downloadHistory', JSON.stringify(downloadHistory));
     }
 }
-
 function createZipProgressIndicator() {
     const TextContainer = document.getElementById('zipTextContainer');
     if (!TextContainer) {
         console.error('zipTextContainer not found');
         return null;
     }
-
     TextContainer.innerHTML = '';
-
     const iconContainer = document.createElement('div');
     iconContainer.style.cssText = `
         margin-bottom: 10px;
@@ -5683,12 +5049,10 @@ function createZipProgressIndicator() {
     `;
     iconContainer.innerHTML = '📁';
     TextContainer.appendChild(iconContainer);
-
     const progressText = document.createElement('p');
     progressText.style.margin = '0';
     progressText.textContent = 'ZIP导出准备就绪，等待操作...';
     TextContainer.appendChild(progressText);
-
     const progressBackground = document.createElement('div');
     progressBackground.style.cssText = `
         position: absolute;
@@ -5699,7 +5063,6 @@ function createZipProgressIndicator() {
         background-color: #fff;
     `;
     TextContainer.appendChild(progressBackground);
-
     const zipProgressBar = document.createElement('div');
     zipProgressBar.style.cssText = `
         position: absolute;
@@ -5711,12 +5074,10 @@ function createZipProgressIndicator() {
         transition: width 0.3s ease;
     `;
     TextContainer.appendChild(zipProgressBar);
-
     return {
         updateProgress: (text, progress = 0) => {
             progressText.textContent = text;
             zipProgressBar.style.width = `${progress}%`;
-
             if (progress === 0) {
                 iconContainer.innerHTML = '📁';
             } else if (progress < 100) {
@@ -5732,7 +5093,6 @@ function createZipProgressIndicator() {
         }
     };
 }
-
 function initializeControlPanel() {
     const controlPanel = document.createElement('div');
     const checkboxesContainer = document.createElement('div');
@@ -5744,7 +5104,6 @@ function initializeControlPanel() {
     const tipsDisplay = document.createElement('div');
     const showCourseNameText = document.createElement('div');
     let isControlPanelVisible = false;
-
     const lottiePlayer = document.createElement('dotlottie-player');
     lottiePlayer.setAttribute('src', "https://cdn.jsdmirror.com/gh/zygame1314/XiaoyaDownloader/lottie/setting.json");
     lottiePlayer.setAttribute('background', 'transparent');
@@ -5757,7 +5116,6 @@ function initializeControlPanel() {
     lottiePlayer.style.left = '0';
     lottiePlayer.setAttribute('loop', '');
     lottiePlayer.setAttribute('autoplay', '');
-
     const blurredBackground = document.createElement('div');
     blurredBackground.style.position = 'absolute';
     blurredBackground.style.top = '0';
@@ -5767,9 +5125,7 @@ function initializeControlPanel() {
     blurredBackground.style.zIndex = '-1';
     blurredBackground.style.backdropFilter = 'blur(3px)';
     blurredBackground.style.backgroundColor = 'rgba(255, 255, 255, 0.6)';
-
     controlPanel.appendChild(blurredBackground);
-
     controlPanel.style.position = 'fixed';
     controlPanel.style.top = '210px';
     controlPanel.style.right = isControlPanelVisible ? '40px' : `-${Math.max(controlPanel.offsetWidth + 20, window.innerWidth)}px`;
@@ -5784,11 +5140,9 @@ function initializeControlPanel() {
     controlPanel.style.width = '50%';
     controlPanel.style.height = '260px';
     controlPanel.style.maxHeight = '500px';
-
     controlPanel.appendChild(lottiePlayer);
     controlPanel.appendChild(tipsDisplay);
     controlPanel.appendChild(showCourseNameText);
-
     const menuContainer = document.createElement('div');
     menuContainer.style.display = 'flex';
     menuContainer.style.justifyContent = 'space-around';
@@ -5796,7 +5150,6 @@ function initializeControlPanel() {
     menuContainer.style.borderBottom = '2px solid #fcbb34';
     menuContainer.style.padding = '10px 0';
     menuContainer.style.flexWrap = 'wrap';
-
     const menuItems = [
         { text: '<strong>消息管理</strong>', category: 'message', icon: '📨' },
         { text: '<strong>下载管理</strong>', category: 'download', icon: '📥' },
@@ -5805,7 +5158,6 @@ function initializeControlPanel() {
         { text: '<strong>自定义过滤器</strong>', category: 'customFilter', icon: '🔧' },
         { text: '<strong>检查更新</strong>', category: 'update', icon: '🔎' }
     ];
-
     menuItems.forEach(item => {
         const menuItem = document.createElement('div');
         menuItem.innerHTML = `${item.icon} <span>${item.text}</span>`;
@@ -5815,25 +5167,20 @@ function initializeControlPanel() {
         menuItem.style.borderRadius = '20px';
         menuItem.style.transition = 'all 0.3s ease';
         menuItem.dataset.category = item.category;
-
         menuItem.addEventListener('mouseover', () => {
             menuItem.style.backgroundColor = 'rgba(252, 187, 52, 0.2)';
         });
-
         menuItem.addEventListener('mouseout', () => {
             if (!menuItem.classList.contains('active')) {
                 menuItem.style.backgroundColor = 'transparent';
             }
         });
-
         menuContainer.appendChild(menuItem);
     });
-
     menuContainer.addEventListener('click', (event) => {
         const clickedItem = event.target.closest('div[data-category]');
         if (clickedItem) {
             const category = clickedItem.dataset.category;
-
             menuContainer.querySelectorAll('div[data-category]').forEach(mi => {
                 mi.classList.toggle('active', mi.dataset.category === category);
                 mi.style.backgroundColor = mi.dataset.category === category ? 'rgba(252, 187, 52, 0.2)' : 'transparent';
@@ -5856,7 +5203,6 @@ function initializeControlPanel() {
             });
         }
     });
-
     const styleSheet = document.createElement('style');
     styleSheet.type = 'text/css';
     styleSheet.innerText = `
@@ -5864,15 +5210,12 @@ function initializeControlPanel() {
             from { opacity: 0; transform: translateY(-10px); }
             to { opacity: 1; transform: translateY(0); }
         }
-
         #controlPanel > div {
             animation: fadeIn 0.3s ease-out;
         }
     `;
     document.head.appendChild(styleSheet);
-
     controlPanel.prepend(menuContainer);
-
     const Beautifulupdater = document.createElement('div');
     Beautifulupdater.style.position = 'relative';
     Beautifulupdater.style.width = '200px';
@@ -5881,10 +5224,8 @@ function initializeControlPanel() {
     Beautifulupdater.style.flexDirection = 'column';
     Beautifulupdater.style.justifyContent = 'center';
     Beautifulupdater.style.alignItems = 'center';
-
     const versionContainer = document.createElement('div');
     versionContainer.style.textAlign = 'center';
-
     const versionWrapper = document.createElement('div');
     versionWrapper.style.cssText = `
         display: flex;
@@ -5892,7 +5233,6 @@ function initializeControlPanel() {
         align-items: center;
         gap: 10px;
     `;
-
     const versionDisplay = document.createElement('div');
     versionDisplay.textContent = `V${GM_info.script.version}`;
     versionDisplay.style.cssText = `
@@ -5907,7 +5247,6 @@ function initializeControlPanel() {
         animation: glowPulse 2s ease-in-out infinite;
         cursor: pointer;
     `;
-
     const updateTip = document.createElement('div');
     updateTip.innerHTML = `
         <div style="
@@ -5933,11 +5272,9 @@ function initializeControlPanel() {
             </small>
         </div>
     `;
-
     versionWrapper.appendChild(versionDisplay);
     versionWrapper.appendChild(updateTip);
     versionContainer.appendChild(versionWrapper);
-
     let clickCount = 0;
     let lastClickTime = 0;
     versionDisplay.addEventListener('click', (e) => {
@@ -5948,20 +5285,17 @@ function initializeControlPanel() {
         }
         clickCount++;
         lastClickTime = currentTime;
-
         if (clickCount === 5) {
             activateEasterEgg();
             clickCount = 0;
         }
     });
-
     versionDisplay.addEventListener('mousedown', () => {
         versionDisplay.style.transform = 'scale(0.95)';
     });
     versionDisplay.addEventListener('mouseup', () => {
         versionDisplay.style.transform = 'scale(1)';
     });
-
     const createDecorElement = (color, size, top, left, animationDelay) => {
         const decor = document.createElement('div');
         decor.style.cssText = `
@@ -5977,14 +5311,11 @@ function initializeControlPanel() {
         `;
         return decor;
     };
-
     Beautifulupdater.appendChild(createDecorElement('#FFD700', 10, 10, 20, 0));
     Beautifulupdater.appendChild(createDecorElement('#FFA07A', 15, 70, 30, 0.5));
     Beautifulupdater.appendChild(createDecorElement('#98FB98', 12, 20, 160, 1));
     Beautifulupdater.appendChild(createDecorElement('#87CEFA', 8, 80, 170, 1.5));
-
     Beautifulupdater.appendChild(versionContainer);
-
     const style = document.createElement('style');
     style.textContent = `
         @keyframes flowingGradient {
@@ -5998,11 +5329,9 @@ function initializeControlPanel() {
         }
     `;
     document.head.appendChild(style);
-
     const customFilterContainer = document.createElement('div');
     customFilterContainer.dataset.category = 'customFilter';
     customFilterContainer.style.display = 'none';
-
     function createFilterEditor() {
         const editor = document.createElement('div');
         editor.style.padding = '20px';
@@ -6010,16 +5339,13 @@ function initializeControlPanel() {
         editor.style.borderRadius = '10px';
         editor.style.marginBottom = '20px';
         editor.style.boxShadow = '0 4px 15px rgba(252, 187, 52, 0.15)';
-
         window.quickFilters.forEach((filter, index) => {
             if (filter.label === "全部") return;
-
             const filterRow = document.createElement('div');
             filterRow.style.marginBottom = '20px';
             filterRow.style.display = 'flex';
             filterRow.style.alignItems = 'center';
             filterRow.style.transition = 'all 0.3s ease';
-
             const labelSpan = document.createElement('span');
             labelSpan.textContent = filter.label + ': ';
             labelSpan.style.marginRight = '15px';
@@ -6029,7 +5355,6 @@ function initializeControlPanel() {
             labelSpan.style.fontSize = '16px';
             labelSpan.style.textShadow = '1px 1px 2px rgba(0, 0, 0, 0.1)';
             labelSpan.style.letterSpacing = '0.5px';
-
             const valueInput = document.createElement('input');
             valueInput.type = 'text';
             valueInput.value = filter.value;
@@ -6045,28 +5370,23 @@ function initializeControlPanel() {
             valueInput.style.color = '#333';
             valueInput.style.fontWeight = 'bold';
             valueInput.style.transform = 'skew(-10deg)';
-
             valueInput.addEventListener('focus', () => {
                 valueInput.style.boxShadow = '0 0 0 3px rgba(252, 187, 52, 0.3)';
                 filterRow.style.transform = 'translateX(5px)';
                 labelSpan.style.color = '#d35400';
             });
-
             valueInput.addEventListener('blur', () => {
                 valueInput.style.boxShadow = 'none';
                 filterRow.style.transform = 'translateX(0)';
                 labelSpan.style.color = '#e67e22';
             });
-
             valueInput.addEventListener('input', () => {
                 window.quickFilters[index].value = valueInput.value;
             });
-
             filterRow.appendChild(labelSpan);
             filterRow.appendChild(valueInput);
             editor.appendChild(filterRow);
         });
-
         const instructionText = document.createElement('p');
         instructionText.textContent = '注意：该规则也对树状图生效，建议是增加而不是删除。';
         instructionText.style.marginTop = '15px';
@@ -6075,30 +5395,24 @@ function initializeControlPanel() {
         instructionText.style.fontStyle = 'italic';
         instructionText.style.textAlign = 'center';
         editor.appendChild(instructionText);
-
         return editor;
     }
-
     function updateFilterEditor() {
         const oldEditor = customFilterContainer.querySelector('.filter-editor');
         const buttonsContainer = customFilterContainer.querySelector('.buttons-container');
         if (oldEditor) {
             oldEditor.remove();
         }
-
         const newEditor = createFilterEditor();
         newEditor.classList.add('filter-editor');
-
         if (buttonsContainer) {
             customFilterContainer.insertBefore(newEditor, buttonsContainer);
         } else {
             customFilterContainer.appendChild(newEditor);
         }
     }
-
     controlPanel.appendChild(customFilterContainer);
     updateFilterEditor();
-
     const defaultQuickFilters = [
         { label: "全部", value: "" },
         { label: "文档", value: "doc,docx,pdf,txt,odt,rtf,html,htm,xls,xlsx,ppt,pptx,odp,xmind" },
@@ -6107,22 +5421,18 @@ function initializeControlPanel() {
         { label: "代码", value: "py,cpp,java,js,ts,cs,php,rb,go,swift,kt,c,h,sh,bat,json,xml,yaml,yml,sql,css,scss,less" },
         { label: "压缩包", value: "zip,rar,7z,gz,bz2,tar" }
     ];
-
     function createSaveAndResetButtons() {
         const buttonContainer = document.createElement('div');
         buttonContainer.classList.add('buttons-container');
         buttonContainer.style.display = 'flex';
         buttonContainer.style.justifyContent = 'space-between';
         buttonContainer.style.marginTop = '20px';
-
         const saveButton = document.createElement('button');
         saveButton.textContent = '保存设置';
         saveButton.title = '保存设置并刷新页面';
-
         const resetButton = document.createElement('button');
         resetButton.textContent = '重置设置';
         resetButton.title = '重置为默认设置并刷新页面';
-
         const buttonStyle = `
             background-color: #3498db;
             border: none;
@@ -6138,28 +5448,23 @@ function initializeControlPanel() {
             transition: all 0.3s ease;
             box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
         `;
-
         saveButton.style.cssText = buttonStyle;
         resetButton.style.cssText = buttonStyle;
         resetButton.style.backgroundColor = '#e74c3c';
-
         const addHoverEffect = (button, defaultColor, hoverColor) => {
             button.onmouseover = function () {
                 this.style.backgroundColor = hoverColor;
                 this.style.transform = 'translateY(-2px)';
                 this.style.boxShadow = '0px 6px 8px rgba(0, 0, 0, 0.15)';
             };
-
             button.onmouseout = function () {
                 this.style.backgroundColor = defaultColor;
                 this.style.transform = 'translateY(0)';
                 this.style.boxShadow = '0px 4px 6px rgba(0, 0, 0, 0.1)';
             };
         };
-
         addHoverEffect(saveButton, '#3498db', '#2980b9');
         addHoverEffect(resetButton, '#e74c3c', '#c0392b');
-
         saveButton.onclick = () => {
             try {
                 localStorage.setItem('customQuickFilters', JSON.stringify(window.quickFilters));
@@ -6171,7 +5476,6 @@ function initializeControlPanel() {
                 showNotification('保存设置时出错，请重试', 'warning');
             }
         };
-
         resetButton.onclick = () => {
             showNotification('确定要重置所有过滤器设置吗？', 'confirm',
                 () => {
@@ -6187,14 +5491,11 @@ function initializeControlPanel() {
                 }
             );
         };
-
         buttonContainer.appendChild(saveButton);
         buttonContainer.appendChild(resetButton);
         return buttonContainer;
     }
-
     customFilterContainer.appendChild(createSaveAndResetButtons());
-
     const hoverGlowName = 'hover-glow';
     const styleSheet1 = document.createElement('style');
     styleSheet1.type = 'text/css';
@@ -6207,24 +5508,20 @@ function initializeControlPanel() {
                 box-shadow: 0 0 20px #fcbb34, 0 0 30px #fcbb34;
             }
         }
-
         #toggleButton:hover {
             animation: ${hoverGlowName} 1s ease-in-out infinite alternate;
         }
-
         .switch {
             position: relative;
             display: inline-block;
             width: 50px;
             height: 26px;
         }
-
         .switch input {
             opacity: 0;
             width: 0;
             height: 0;
         }
-
         .slider {
             position: absolute;
             cursor: pointer;
@@ -6236,7 +5533,6 @@ function initializeControlPanel() {
             transition: .4s;
             border-radius: 26px;
         }
-
         .slider:before {
             position: absolute;
             content: "";
@@ -6248,16 +5544,12 @@ function initializeControlPanel() {
             transition: .4s;
             border-radius: 50%;
         }
-
         input:checked + .slider {
-            background-color: #FF8C00; /* 改为橙色 */
+            background-color: #FF8C00;
         }
-
         input:checked + .slider:before {
             transform: translateX(24px);
         }
-
-        /* 显示/隐藏图标 */
         .slider:after {
             content: "•";
             position: absolute;
@@ -6269,30 +5561,24 @@ function initializeControlPanel() {
             opacity: 0;
             transition: .4s;
         }
-
         input:checked + .slider:after {
             opacity: 1;
             left: 8px;
         }
-
         .slider:hover {
             box-shadow: 0 0 5px rgba(255, 140, 0, 0.5);
         }
-
         .slider:hover:before {
             animation: newpulse 1.5s infinite;
         }
-
         @keyframes newpulse {
             0% { box-shadow: 0 0 0 0 rgba(255, 140, 0, 0.7); }
             70% { box-shadow: 0 0 0 10px rgba(255, 140, 0, 0); }
             100% { box-shadow: 0 0 0 0 rgba(255, 140, 0, 0); }
         }
-
         .switch:hover .slider:before {
             animation: newpulse 1.5s infinite;
         }
-
         .switch::after {
             content: attr(data-label);
             position: absolute;
@@ -6302,31 +5588,25 @@ function initializeControlPanel() {
             font-size: 12px;
             color: #555;
         }
-
         input:checked + .slider:before {
             transform: translateX(24px);
             transition: .4s cubic-bezier(0.68, -0.55, 0.27, 1.55);
         }
-
         .slider:before {
         transition: .4s, transform .2s;
         }
-
         input:checked + .slider:before {
             transform: translateX(24px) scale(1.1);
         }
-
         .slider {
             background: linear-gradient(to right, #ccc 50%, #FF8C00 50%);
             background-size: 200% 100%;
             background-position: left bottom;
             transition: all .4s ease;
         }
-
         input:checked + .slider {
             background-position: right bottom;
         }
-
         #allTipsContainer::-webkit-scrollbar {
             width: 10px;
         }
@@ -6377,7 +5657,6 @@ function initializeControlPanel() {
         #allTipsContainer.show {
             animation: fadeIn 0.3s ease-out forwards;
         }
-
         ${style.textContent}
         @keyframes popOutToCenter {
             0% { transform: translate(var(--start-x), var(--start-y)) scale(0.7); opacity: 0; }
@@ -6397,17 +5676,14 @@ function initializeControlPanel() {
                 transform: translateY(0);
             }
         }
-
         @keyframes typing {
             from { width: 0 }
             to { width: 100% }
         }
-
         @keyframes blink-caret {
             from, to { border-color: transparent }
             50% { border-color: #fcbb34; }
         }
-
         .tip-item {
             background: linear-gradient(45deg, #f3f4f6, #fff);
             border-left: 4px solid #fcbb34;
@@ -6420,12 +5696,10 @@ function initializeControlPanel() {
             animation-play-state: paused;
             opacity: 0;
         }
-
         .tip-item:hover {
             transform: translateX(5px);
             box-shadow: 0 5px 15px rgba(0,0,0,0.1);
         }
-
         .tip-number {
             display: inline-block;
             background-color: #fcbb34;
@@ -6437,12 +5711,10 @@ function initializeControlPanel() {
             border-radius: 50%;
             margin-right: 10px;
         }
-
         .tip-text {
             display: inline-block;
             vertical-align: middle;
         }
-
         #allTipsContainer h2 {
             font-size: 28px;
             font-weight: bold;
@@ -6457,7 +5729,6 @@ function initializeControlPanel() {
         }
     `;
     document.head.appendChild(styleSheet1);
-
     const gearIcon = document.createElement('span');
     gearIcon.textContent = '⚙️';
     gearIcon.style.fontSize = '16px';
@@ -6487,7 +5758,6 @@ function initializeControlPanel() {
     toggleButton.addEventListener('mouseout', function () {
         toggleButton.style.transform = 'scale(1)';
     });
-
     toggleButton.addEventListener('click', function () {
         isControlPanelVisible = !isControlPanelVisible;
         controlPanel.style.right = isControlPanelVisible ? '40px' : `-${Math.max(controlPanel.offsetWidth + 20, window.innerWidth)}px`;
@@ -6496,32 +5766,26 @@ function initializeControlPanel() {
             gearIcon.style.transform = 'none';
         }, { once: true });
     });
-
     const messageContainer = document.createElement('div');
     messageContainer.dataset.category = 'message';
     messageContainer.style.justifyContent = 'space-between';
     messageContainer.style.width = '100%';
-
     const downloadContainer = document.createElement('div');
     downloadContainer.dataset.category = 'download';
     downloadContainer.style.justifyContent = 'space-between';
     downloadContainer.style.width = '100%';
-
     const exportContainer = document.createElement('div');
     exportContainer.dataset.category = 'export';
     exportContainer.style.justifyContent = 'space-between';
     exportContainer.style.width = '100%';
-
     const displayContainer = document.createElement('div');
     displayContainer.dataset.category = 'display';
     displayContainer.style.justifyContent = 'space-between';
     displayContainer.style.width = '100%';
-
     const updateContainer = document.createElement('div');
     updateContainer.dataset.category = 'update';
     updateContainer.style.justifyContent = 'space-between';
     updateContainer.style.width = '100%';
-
     function initializeCheckboxState(checkbox, index) {
         const savedState = localStorage.getItem(`checkbox-${index}`);
         checkbox.checked = savedState === null ? true : savedState === 'true';
@@ -6530,17 +5794,14 @@ function initializeControlPanel() {
             updateVisibility();
         });
     }
-
     function saveCheckboxState(checkbox, index) {
         localStorage.setItem(`checkbox-${index}`, checkbox.checked);
     }
-
     [downloadInterfaceCheckbox, downloadButtonCheckbox, progressBarCheckbox, videoCheckbox].forEach((checkbox, index) => {
         checkbox.type = 'checkbox';
         initializeCheckboxState(checkbox, index);
         checkbox.id = `checkbox-${index}`;
         checkbox.style.display = 'none';
-
         const label = document.createElement('label');
         label.className = 'switch';
         label.htmlFor = `checkbox-${index}`;
@@ -6548,10 +5809,8 @@ function initializeControlPanel() {
         slider.className = 'slider';
         label.appendChild(checkbox);
         label.appendChild(slider);
-
         const labelText = document.createElement('span');
         labelText.textContent = ['右上角下载栏', '右下角下载栏', '左下角进度条', '右侧视频组件'][index];
-
         labelText.style.color = '#fcbb34';
         labelText.style.marginRight = '15px';
         labelText.style.fontWeight = '600';
@@ -6560,17 +5819,14 @@ function initializeControlPanel() {
         labelText.style.textShadow = '1px 1px 2px rgba(0, 0, 0, 0.1)';
         labelText.style.transition = 'all 0.3s ease';
         labelText.style.cursor = 'pointer';
-
         labelText.addEventListener('mouseover', () => {
             labelText.style.transform = 'translateY(-2px)';
             labelText.style.textShadow = '2px 2px 4px rgba(0, 0, 0, 0.2)';
         });
-
         labelText.addEventListener('mouseout', () => {
             labelText.style.transform = 'translateY(0)';
             labelText.style.textShadow = '1px 1px 2px rgba(0, 0, 0, 0.1)';
         });
-
         checkbox.addEventListener('change', () => {
             if (index === 1) {
                 updateDownloadListVisibility();
@@ -6579,7 +5835,6 @@ function initializeControlPanel() {
             }
             saveCheckboxState(checkbox, index);
         });
-
         const container = document.createElement('div');
         container.style.display = 'flex';
         container.style.justifyContent = 'space-between';
@@ -6587,22 +5842,18 @@ function initializeControlPanel() {
         container.style.padding = '10px';
         container.style.position = 'relative';
         container.appendChild(labelText);
-
         const decorationContainer = document.createElement('div');
         decorationContainer.style.display = 'flex';
         decorationContainer.style.alignItems = 'center';
         decorationContainer.style.margin = '0 15px';
-
         const decorativeLine = document.createElement('div');
         decorativeLine.style.width = '40px';
         decorativeLine.style.height = '2px';
         decorativeLine.style.background = 'linear-gradient(to right, #ff9800, #ff5722)';
-
         const dotContainer1 = document.createElement('div');
         dotContainer1.style.position = 'relative';
         dotContainer1.style.width = '20px';
         dotContainer1.style.height = '20px';
-
         const dot1 = document.createElement('div');
         dot1.style.position = 'absolute';
         dot1.style.top = '50%';
@@ -6613,14 +5864,11 @@ function initializeControlPanel() {
         dot1.style.backgroundColor = '#ff9800';
         dot1.style.transform = 'translate(-50%, -50%)';
         dot1.style.animation = 'newpulse 2s infinite';
-
         dotContainer1.appendChild(dot1);
-
         const dotContainer2 = document.createElement('div');
         dotContainer2.style.position = 'relative';
         dotContainer2.style.width = '20px';
         dotContainer2.style.height = '20px';
-
         const dot2 = document.createElement('div');
         dot2.style.position = 'absolute';
         dot2.style.top = '50%';
@@ -6631,30 +5879,22 @@ function initializeControlPanel() {
         dot2.style.backgroundColor = '#ff9800';
         dot2.style.transform = 'translate(-50%, -50%)';
         dot2.style.animation = 'newpulse 2s infinite';
-
         dotContainer2.appendChild(dot2);
-
         decorationContainer.appendChild(dotContainer1);
         decorationContainer.appendChild(decorativeLine);
         decorationContainer.appendChild(dotContainer2);
-
         container.appendChild(decorationContainer);
-
         container.appendChild(label);
-
         checkboxesContainer.appendChild(container);
     });
-
     const messageButtonContainer = document.createElement('div');
     messageButtonContainer.style.display = 'flex';
     messageButtonContainer.style.justifyContent = 'space-between';
     messageButtonContainer.style.marginTop = '10px';
-
     const markReadButton = document.createElement('button');
     markReadButton.id = 'markReadButton';
     markReadButton.textContent = '已读所有消息';
     markReadButton.title = '标记所有消息为已读并刷新页面';
-
     markReadButton.style.cssText = `
         background-color: #2ecc71;
         border: none;
@@ -6670,19 +5910,16 @@ function initializeControlPanel() {
         transition: all 0.3s ease;
         box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
     `;
-
     markReadButton.onmouseover = function () {
         this.style.backgroundColor = '#27ae60';
         this.style.transform = 'translateY(-2px)';
         this.style.boxShadow = '0px 6px 8px rgba(0, 0, 0, 0.15)';
     };
-
     markReadButton.onmouseout = function () {
         this.style.backgroundColor = '#2ecc71';
         this.style.transform = 'translateY(0)';
         this.style.boxShadow = '0px 4px 6px rgba(0, 0, 0, 0.1)';
     };
-
     markReadButton.onclick = async function () {
         try {
             this.disabled = true;
@@ -6702,19 +5939,16 @@ function initializeControlPanel() {
             this.textContent = '已读所有消息';
         }
     };
-
     async function markAllMessagesAsRead() {
         const token = getCookie();
         const hostname = window.location.hostname;
         const pageSize = 20;
         const messageTypes = ["todo", "group", "personal", "system"];
         let hasUnreadMessages = false;
-
         for (const messageType of messageTypes) {
             try {
                 let pageIndex = 1;
                 let unreadMessageIds = [];
-
                 while (true) {
                     const apiUrl = `https://${hostname}/api/jx-iresource/message/im/${messageType}?page_size=${pageSize}&page_index=${pageIndex}&msg_status=0`;
                     const response = await fetch(apiUrl, {
@@ -6722,22 +5956,17 @@ function initializeControlPanel() {
                             "Authorization": `Bearer ${token}`
                         }
                     });
-
                     if (!response.ok) {
                         throw new Error(`获取未读${messageType}消息失败: ${response.status} ${response.statusText}`);
                     }
-
                     const data = await response.json();
                     const messages = data.data.list;
-
                     if (messages.length === 0 || pageIndex * pageSize >= data.data.total) {
                         break;
                     }
-
                     unreadMessageIds = unreadMessageIds.concat(messages.map(message => message.id));
                     pageIndex++;
                 }
-
                 if (unreadMessageIds.length > 0) {
                     hasUnreadMessages = true;
                     const updateResponse = await fetch(`https://${hostname}/api/jx-iresource/message/im/updateStatus`, {
@@ -6751,11 +5980,9 @@ function initializeControlPanel() {
                             status: 1
                         })
                     });
-
                     if (!updateResponse.ok) {
                         throw new Error(`标记${messageType}消息失败: ${updateResponse.status} ${updateResponse.statusText}`);
                     }
-
                     console.log(`所有${messageType}消息已标记为已读`);
                 } else {
                     console.log(`没有未读${messageType}消息`);
@@ -6765,32 +5992,26 @@ function initializeControlPanel() {
                 throw error;
             }
         }
-
         try {
             const updateCountResponse = await fetch(`https://${hostname}/api/jx-iresource/message/im/un_read_count`, {
                 headers: {
                     "Authorization": `Bearer ${token}`
                 }
             });
-
             if (!updateCountResponse.ok) {
                 throw new Error(`更新未读消息计数失败: ${updateCountResponse.status} ${updateCountResponse.statusText}`);
             }
-
             const countData = await updateCountResponse.json();
             console.log("未读消息计数已更新:", countData);
         } catch (error) {
             console.error("更新未读消息计数时发生错误:", error);
         }
-
         return { hasUnreadMessages };
     }
-
     const clearMessagesButton = document.createElement('button');
     clearMessagesButton.id = 'clearMessagesButton';
     clearMessagesButton.textContent = '清空所有消息';
     clearMessagesButton.title = '清空所有消息并刷新页面';
-
     clearMessagesButton.style.cssText = `
         background-color: #e74c3c;
         border: none;
@@ -6806,19 +6027,16 @@ function initializeControlPanel() {
         transition: all 0.3s ease;
         box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
     `;
-
     clearMessagesButton.onmouseover = function () {
         this.style.backgroundColor = '#c0392b';
         this.style.transform = 'translateY(-2px)';
         this.style.boxShadow = '0px 6px 8px rgba(0, 0, 0, 0.15)';
     };
-
     clearMessagesButton.onmouseout = function () {
         this.style.backgroundColor = '#e74c3c';
         this.style.transform = 'translateY(0)';
         this.style.boxShadow = '0px 4px 6px rgba(0, 0, 0, 0.1)';
     };
-
     clearMessagesButton.onclick = function () {
         showNotification("确定要清空所有消息吗？该操作无法撤销。", 'confirm',
             async () => {
@@ -6847,19 +6065,16 @@ function initializeControlPanel() {
             }
         );
     };
-
     async function clearAllMessages() {
         const token = getCookie();
         const hostname = window.location.hostname;
         const pageSize = 20;
         const messageTypes = ["todo", "group", "personal", "system"];
         let hasMessagesToClear = false;
-
         for (const messageType of messageTypes) {
             try {
                 let pageIndex = 1;
                 let messageIdsToClear = [];
-
                 while (true) {
                     const apiUrl = `https://${hostname}/api/jx-iresource/message/im/${messageType}?page_size=${pageSize}&page_index=${pageIndex}`;
                     const response = await fetch(apiUrl, {
@@ -6867,22 +6082,17 @@ function initializeControlPanel() {
                             "Authorization": `Bearer ${token}`
                         }
                     });
-
                     if (!response.ok) {
                         throw new Error(`获取${messageType}消息失败: ${response.status} ${response.statusText}`);
                     }
-
                     const data = await response.json();
                     const messages = data.data.list;
-
                     if (messages.length === 0 || pageIndex * pageSize >= data.data.total) {
                         break;
                     }
-
                     messageIdsToClear = messageIdsToClear.concat(messages.map(message => message.id));
                     pageIndex++;
                 }
-
                 if (messageIdsToClear.length > 0) {
                     hasMessagesToClear = true;
                     const clearResponse = await fetch(`https://${hostname}/api/jx-iresource/message/im/selected/empty`, {
@@ -6895,12 +6105,10 @@ function initializeControlPanel() {
                             message_ids: messageIdsToClear
                         })
                     });
-
                     if (!clearResponse.ok) {
                         const errorText = await clearResponse.text();
                         throw new Error(`清空${messageType}消息失败: ${errorText}`);
                     }
-
                     console.log(`所有${messageType}消息已清空`);
                 } else {
                     console.log(`没有${messageType}消息可清空`);
@@ -6910,40 +6118,32 @@ function initializeControlPanel() {
                 throw error;
             }
         }
-
         try {
             const updateCountResponse = await fetch(`https://${hostname}/api/jx-iresource/message/im/un_read_count`, {
                 headers: {
                     "Authorization": `Bearer ${token}`
                 }
             });
-
             if (!updateCountResponse.ok) {
                 throw new Error(`更新未读消息计数失败: ${updateCountResponse.status} ${updateCountResponse.statusText}`);
             }
-
             const countData = await updateCountResponse.json();
             console.log("未读消息计数已更新:", countData);
         } catch (error) {
             console.error("更新未读消息计数时发生错误:", error);
         }
-
         return { hasMessagesToClear };
     }
-
     messageButtonContainer.appendChild(markReadButton);
     messageButtonContainer.appendChild(clearMessagesButton);
-
     const downloadButtonContainer = document.createElement('div');
     downloadButtonContainer.style.display = 'flex';
     downloadButtonContainer.style.justifyContent = 'space-between';
     downloadButtonContainer.style.marginTop = '10px';
-
     const showHistoryButton = document.createElement('button');
     showHistoryButton.id = 'showHistoryButton';
     showHistoryButton.textContent = '查看下载历史';
     showHistoryButton.title = '导出的文件不会被记录';
-
     showHistoryButton.style.cssText = `
         background-color: #3498db;
         border: none;
@@ -6959,27 +6159,21 @@ function initializeControlPanel() {
         transition: all 0.3s ease;
         box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
     `;
-
     showHistoryButton.onmouseover = function () {
         showHistoryButton.style.backgroundColor = '#2980b9';
         showHistoryButton.style.transform = 'translateY(-2px)';
         showHistoryButton.style.boxShadow = '0px 6px 8px rgba(0, 0, 0, 0.15)';
     };
-
     showHistoryButton.onmouseout = function () {
         showHistoryButton.style.backgroundColor = '#3498db';
         showHistoryButton.style.transform = 'translateY(0)';
         showHistoryButton.style.boxShadow = '0px 4px 6px rgba(0, 0, 0, 0.1)';
     };
-
     showHistoryButton.onclick = showDownloadHistory;
-
     downloadButtonContainer.appendChild(showHistoryButton);
-
     const thirdPartyDownloadButton = document.createElement('button');
     thirdPartyDownloadButton.id = 'thirdPartyDownloadButton';
     thirdPartyDownloadButton.title = '切换下载方式';
-
     thirdPartyDownloadButton.style.cssText = `
         background-color: #f39c12;
         border: none;
@@ -6995,26 +6189,21 @@ function initializeControlPanel() {
         transition: all 0.3s ease;
         box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
     `;
-
     thirdPartyDownloadButton.onmouseover = function () {
         thirdPartyDownloadButton.style.transform = 'translateY(-2px)';
         thirdPartyDownloadButton.style.boxShadow = '0px 6px 8px rgba(0, 0, 0, 0.15)';
     };
-
     thirdPartyDownloadButton.onmouseout = function () {
         thirdPartyDownloadButton.style.transform = 'translateY(0)';
         thirdPartyDownloadButton.style.boxShadow = '0px 4px 6px rgba(0, 0, 0, 0.1)';
     };
-
     let useThirdPartyDownload = localStorage.getItem('useThirdPartyDownload') === 'true';
     updateThirdPartyDownloadButtonState();
-
     thirdPartyDownloadButton.onclick = function () {
         useThirdPartyDownload = !useThirdPartyDownload;
         localStorage.setItem('useThirdPartyDownload', useThirdPartyDownload);
         updateThirdPartyDownloadButtonState();
     };
-
     function updateThirdPartyDownloadButtonState() {
         if (useThirdPartyDownload) {
             thirdPartyDownloadButton.textContent = '用第三方下载';
@@ -7024,9 +6213,7 @@ function initializeControlPanel() {
             thirdPartyDownloadButton.style.backgroundColor = '#f39c12';
         }
     }
-
     downloadButtonContainer.appendChild(thirdPartyDownloadButton);
-
     const exportButtonContainer = document.createElement('div');
     exportButtonContainer.style.cssText = `
         display: flex;
@@ -7037,7 +6224,6 @@ function initializeControlPanel() {
         background-color: rgba(252, 187, 52, 0.1);
         border-radius: 8px;
     `;
-
     const TextContainer = document.createElement('div');
     TextContainer.id = 'zipTextContainer';
     TextContainer.style.cssText = `
@@ -7055,7 +6241,6 @@ function initializeControlPanel() {
         position: relative;
         overflow: hidden;
     `;
-
     function createCustomDropdown(container, options) {
         const dropdownContainer = document.createElement('div');
         dropdownContainer.className = 'custom-dropdown';
@@ -7064,7 +6249,6 @@ function initializeControlPanel() {
             width: 250px;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         `;
-
         const selectedOption = document.createElement('div');
         selectedOption.className = 'selected-option';
         selectedOption.textContent = options[0].text;
@@ -7085,7 +6269,6 @@ function initializeControlPanel() {
             letter-spacing: 0.3px;
             line-height: 1.4;
         `;
-
         const arrow = document.createElement('div');
         arrow.className = 'dropdown-arrow';
         arrow.style.cssText = `
@@ -7101,7 +6284,6 @@ function initializeControlPanel() {
             transition: all 0.3s ease;
             cursor: pointer;
         `;
-
         const optionsList = document.createElement('ul');
         optionsList.className = 'options-list';
         optionsList.style.cssText = `
@@ -7119,7 +6301,6 @@ function initializeControlPanel() {
             z-index: 10001;
             box-shadow: 0 4px 10px rgba(230, 126, 34, 0.2);
         `;
-
         options.forEach(option => {
             const li = document.createElement('li');
             li.textContent = option.text;
@@ -7148,7 +6329,6 @@ function initializeControlPanel() {
                 selectedOption.textContent = option.text;
                 optionsList.style.display = 'none';
                 arrow.style.transform = 'translateY(-50%) rotate(0deg)';
-
                 selectedOption.style.borderRadius = '8px';
                 selectedOption.style.borderBottom = '2px solid #fcbb34';
                 selectedOption.style.borderColor = '#fcbb34';
@@ -7156,12 +6336,10 @@ function initializeControlPanel() {
             };
             optionsList.appendChild(li);
         });
-
         function positionOptionsList() {
             const rect = selectedOption.getBoundingClientRect();
             optionsList.style.width = `${rect.width}px`;
             optionsList.style.left = `${rect.left}px`;
-
             const spaceBelow = window.innerHeight - rect.bottom;
             if (spaceBelow < 200 && rect.top > spaceBelow) {
                 optionsList.style.top = 'auto';
@@ -7180,7 +6358,6 @@ function initializeControlPanel() {
                 optionsList.style.borderRadius = '0 0 8px 8px';
             }
         }
-
         function toggleDropdown(event) {
             event.stopPropagation();
             const isOpen = optionsList.style.display === 'block';
@@ -7204,14 +6381,11 @@ function initializeControlPanel() {
                 ? 'translateY(-50%) rotate(0deg)'
                 : 'translateY(-50%) rotate(180deg)';
         }
-
         selectedOption.onclick = toggleDropdown;
-
         arrow.onclick = (event) => {
             event.stopPropagation();
             toggleDropdown(event);
         };
-
         document.addEventListener('click', () => {
             optionsList.style.display = 'none';
             arrow.style.transform = 'translateY(-50%) rotate(0deg)';
@@ -7220,27 +6394,22 @@ function initializeControlPanel() {
             selectedOption.style.borderColor = '#fcbb34';
             selectedOption.style.color = '#333';
         });
-
         window.addEventListener('resize', () => {
             if (optionsList.style.display === 'block') {
                 positionOptionsList();
             }
         });
-
         dropdownContainer.appendChild(selectedOption);
         dropdownContainer.appendChild(arrow);
         document.body.appendChild(optionsList);
         container.appendChild(dropdownContainer);
-
         return { dropdownContainer, optionsList };
     }
-
     const selectWrapper = document.createElement('div');
     selectWrapper.style.cssText = `
         position: relative;
         margin-right: 15px;
     `;
-
     const formats = [
         { value: 'ef2', text: 'EF2 格式 (IDM专用)' },
         { value: 'txt', text: 'TXT 格式 (通用)' },
@@ -7248,9 +6417,7 @@ function initializeControlPanel() {
         { value: 'csv', text: 'CSV 格式 (电子表格)' },
         { value: 'zip', text: 'ZIP 格式 (压缩文件)' }
     ];
-
     const { dropdownContainer, optionsList } = createCustomDropdown(selectWrapper, formats);
-
     const exportButton = document.createElement('button');
     exportButton.id = 'exportButton';
     exportButton.textContent = '导出文件';
@@ -7269,19 +6436,16 @@ function initializeControlPanel() {
         transition: all 0.3s ease;
         box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
     `;
-
     exportButton.onmouseover = function () {
         this.style.backgroundColor = '#e67e22';
         this.style.transform = 'translateY(-2px)';
         this.style.boxShadow = '0px 6px 8px rgba(0, 0, 0, 0.15)';
     };
-
     exportButton.onmouseout = function () {
         this.style.backgroundColor = '#fcbb34';
         this.style.transform = 'translateY(0)';
         this.style.boxShadow = '0px 4px 6px rgba(0, 0, 0, 0.1)';
     };
-
     exportButton.onclick = function () {
         const selectedOption = dropdownContainer.querySelector('.selected-option');
         const selectedFormat = selectedOption.textContent.includes('EF2') ? 'ef2' :
@@ -7300,38 +6464,28 @@ function initializeControlPanel() {
             exportToZip();
         }
     };
-
     exportButtonContainer.appendChild(selectWrapper);
     exportButtonContainer.appendChild(exportButton);
     addShowCourseNameText();
     addTipsDisplay();
-
     async function exportToEf2() {
         const checkedCheckboxes = document.querySelectorAll("#download_list input[type='checkbox']:checked:not(#selectAllCheckbox)");
-
         const selectedFiles = Array.from(checkedCheckboxes).reduce((acc, checkbox) => {
             const container = checkbox.closest('div');
             if (!container) return acc;
-
             const link = container.querySelector('a.download-link');
             if (!link) return acc;
-
             const quoteId = link.getAttribute('data-quote-id');
             const filename = link.getAttribute('data-origin-name');
-
             if (!quoteId || !filename) return acc;
-
             acc.push({ quoteId, filename });
             return acc;
         }, []);
-
         if (selectedFiles.length === 0) {
             showNotification('请选择要导出的文件', 'warning');
             return;
         }
-
         showNotification('正在获取下载链接...', 'info');
-
         try {
             const filesWithUrls = await Promise.all(
                 selectedFiles.map(async file => {
@@ -7339,10 +6493,8 @@ function initializeControlPanel() {
                     return { ...file, url };
                 })
             );
-
             const referer = window.location.href;
             const cookieString = document.cookie;
-
             let ef2Content = '';
             filesWithUrls.forEach(file => {
                 ef2Content += '<\r\n';
@@ -7352,9 +6504,7 @@ function initializeControlPanel() {
                 ef2Content += `User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36 Edg/126.0.0.0\r\n`;
                 ef2Content += '>\r\n';
             });
-
             ef2Content += '\r\n';
-
             const blob = new Blob([ef2Content], { type: 'text/plain' });
             const downloadLink = document.createElement('a');
             downloadLink.href = URL.createObjectURL(blob);
@@ -7362,46 +6512,35 @@ function initializeControlPanel() {
             document.body.appendChild(downloadLink);
             downloadLink.click();
             document.body.removeChild(downloadLink);
-
             showNotification('导出成功!', 'info');
         } catch (error) {
             console.error('导出ef2文件时发生错误:', error);
             showNotification('导出失败,请重试', 'error');
         }
     }
-
     async function exportToTxt() {
         const checkedCheckboxes = document.querySelectorAll("#download_list input[type='checkbox']:checked:not(#selectAllCheckbox)");
-
         const selectedFiles = Array.from(checkedCheckboxes).reduce((acc, checkbox) => {
             const container = checkbox.closest('div');
             if (!container) return acc;
-
             const link = container.querySelector('a.download-link');
             if (!link) return acc;
-
             const quoteId = link.getAttribute('data-quote-id');
             if (!quoteId) return acc;
-
             acc.push(quoteId);
             return acc;
         }, []);
-
         if (selectedFiles.length === 0) {
             showNotification('请选择要导出的文件', 'info');
             return;
         }
-
         showNotification('正在获取下载链接...', 'info');
-
         try {
             const urls = await Promise.all(
                 selectedFiles.map(quoteId => window.getDownloadUrl(quoteId))
             );
-
             let txtContent = urls.join('\r\n');
             console.log('TXT 内容长度:', txtContent.length);
-
             const blob = new Blob([txtContent], { type: 'text/plain;charset=utf-8;' });
             const downloadLink = document.createElement('a');
             downloadLink.href = URL.createObjectURL(blob);
@@ -7409,14 +6548,12 @@ function initializeControlPanel() {
             document.body.appendChild(downloadLink);
             downloadLink.click();
             document.body.removeChild(downloadLink);
-
             showNotification('导出成功!', 'info');
         } catch (error) {
             console.error('导出txt文件时发生错误:', error);
             showNotification('导出失败,请重试', 'error');
         }
     }
-
     async function exportToJson() {
         const checkedCheckboxes = document.querySelectorAll("#download_list input[type='checkbox']:checked:not(#selectAllCheckbox)");
         const courseName = await getCourseName();
@@ -7432,7 +6569,6 @@ function initializeControlPanel() {
             if (!link) {
                 return acc;
             }
-
             acc.push({
                 quoteId: link.getAttribute('data-quote-id'),
                 filename: link.getAttribute('data-origin-name'),
@@ -7445,14 +6581,11 @@ function initializeControlPanel() {
             });
             return acc;
         }, []);
-
         if (selectedFiles.length === 0) {
             showNotification('请选择要导出的文件', 'warning');
             return;
         }
-
         showNotification('正在获取下载链接...', 'info');
-
         try {
             const filesWithUrls = await Promise.all(
                 selectedFiles.map(async file => {
@@ -7460,15 +6593,12 @@ function initializeControlPanel() {
                     return { ...file, url };
                 })
             );
-
             const jsonContent = JSON.stringify({
                 exportDate: new Date().toISOString(),
                 totalFiles: filesWithUrls.length,
                 files: filesWithUrls
             }, null, 2);
-
             console.log('JSON 内容长度:', jsonContent.length);
-
             const blob = new Blob([jsonContent], { type: 'application/json;charset=utf-8;' });
             const downloadLink = document.createElement('a');
             downloadLink.href = URL.createObjectURL(blob);
@@ -7476,30 +6606,23 @@ function initializeControlPanel() {
             document.body.appendChild(downloadLink);
             downloadLink.click();
             document.body.removeChild(downloadLink);
-
             showNotification('导出成功!', 'info');
         } catch (error) {
             console.error('导出json文件时发生错误:', error);
             showNotification('导出失败,请重试', 'error');
         }
     }
-
     async function exportToCsv() {
         const checkedCheckboxes = document.querySelectorAll("#download_list input[type='checkbox']:checked:not(#selectAllCheckbox)");
-
         const headers = ['URL', '文件名', '课程', '创建时间', '更新时间', '资源ID', '路径', '父ID'];
         let csvContent = headers.join(',') + '\n';
-
         const courseName = await getCourseName();
-
         const selectedFiles = Array.from(checkedCheckboxes).reduce((acc, checkbox) => {
             const container = checkbox.closest('div');
             if (checkbox.id === 'selectAllCheckbox') return acc;
             if (!container) return acc;
-
             const link = container.querySelector('a.download-link');
             if (!link) return acc;
-
             acc.push({
                 quoteId: link.getAttribute('data-quote-id'),
                 filename: link.getAttribute('data-origin-name'),
@@ -7512,14 +6635,11 @@ function initializeControlPanel() {
             });
             return acc;
         }, []);
-
         if (selectedFiles.length === 0) {
             showNotification('请选择要导出的文件', 'warning');
             return;
         }
-
         showNotification('正在获取下载链接...', 'info');
-
         try {
             const filesWithUrls = await Promise.all(
                 selectedFiles.map(async file => {
@@ -7527,7 +6647,6 @@ function initializeControlPanel() {
                     return { ...file, url };
                 })
             );
-
             csvContent = headers.join(',') + '\n';
             filesWithUrls.forEach(file => {
                 const row = [
@@ -7540,12 +6659,9 @@ function initializeControlPanel() {
                     file.path,
                     file.parentId
                 ].map(item => `"${(item || '').replace(/"/g, '""')}"`);
-
                 csvContent += row.join(',') + '\n';
             });
-
             console.log('CSV 内容长度:', csvContent.length);
-
             const blob = new Blob(['\ufeff' + csvContent], { type: 'text/csv;charset=utf-8;' });
             const downloadLink = document.createElement('a');
             downloadLink.href = URL.createObjectURL(blob);
@@ -7553,53 +6669,41 @@ function initializeControlPanel() {
             document.body.appendChild(downloadLink);
             downloadLink.click();
             document.body.removeChild(downloadLink);
-
             showNotification('导出成功!', 'info');
         } catch (error) {
             console.error('导出CSV文件时发生错误:', error);
             showNotification('导出失败,请重试', 'error');
         }
     }
-
     async function exportToZip() {
         const progressIndicator = createZipProgressIndicator();
         if (!progressIndicator) {
             return;
         }
-
         const { updateProgress, hide } = progressIndicator;
-
         updateProgress("正在准备导出...", 0);
-
         const checkedCheckboxes = document.querySelectorAll("#download_list input[type='checkbox']:checked:not(#selectAllCheckbox)");
         const selectedFiles = Array.from(checkedCheckboxes).reduce((acc, checkbox) => {
             const container = checkbox.closest('div');
             if (!container) return acc;
-
             const link = container.querySelector('a.download-link');
             if (!link) return acc;
-
             const quoteId = link.getAttribute('data-quote-id');
             const filename = link.getAttribute('data-origin-name');
             if (!quoteId || !filename) return acc;
-
             acc.push({ quoteId, filename });
             return acc;
         }, []);
-
         if (selectedFiles.length === 0) {
             updateProgress('请选择要导出的文件', 0);
             setTimeout(hide, 3000);
             return;
         }
-
         const proceedWithZip = async () => {
             const zip = new window.JSZip();
             const totalFiles = selectedFiles.length;
             let processedFiles = 0;
-
             updateProgress("正在获取下载链接...", 5);
-
             try {
                 const filesWithUrls = await Promise.all(
                     selectedFiles.map(async file => {
@@ -7607,9 +6711,7 @@ function initializeControlPanel() {
                         return { ...file, url };
                     })
                 );
-
                 updateProgress("正在准备ZIP文件...", 20);
-
                 const addFilePromises = filesWithUrls.map(file => {
                     return fetch(file.url)
                         .then(response => response.blob())
@@ -7624,26 +6726,19 @@ function initializeControlPanel() {
                             throw error;
                         });
                 });
-
                 const courseName = await getCourseName();
-
                 await Promise.all(addFilePromises);
-
                 updateProgress("正在生成ZIP文件...", 80);
                 const content = await zip.generateAsync({ type: "blob" });
-
                 updateProgress("ZIP文件已生成，准备下载...", 90);
-
                 const downloadLink = document.createElement('a');
                 downloadLink.href = URL.createObjectURL(content);
                 downloadLink.download = `${courseName}_课件包.zip`;
                 document.body.appendChild(downloadLink);
                 downloadLink.click();
                 document.body.removeChild(downloadLink);
-
                 updateProgress("ZIP文件下载已开始", 100);
                 setTimeout(hide, 3000);
-
             } catch (error) {
                 updateProgress("创建ZIP文件时发生错误，请查看控制台获取详细信息。", 0);
                 console.error("创建ZIP文件出错:", error);
@@ -7653,7 +6748,6 @@ function initializeControlPanel() {
                 }, 1000);
             }
         };
-
         if (selectedFiles.length > 10) {
             showNotification(
                 `已选择 ${selectedFiles.length} 个文件，压缩大量文件可能需要较长时间。是否继续？`,
@@ -7670,7 +6764,6 @@ function initializeControlPanel() {
             proceedWithZip();
         }
     }
-
     function showInterceptionMessage(message) {
         const messageHTML = `
             <div id="interceptionMessage" style="
@@ -7828,7 +6921,6 @@ function initializeControlPanel() {
         const messageElement = document.createElement('div');
         messageElement.innerHTML = messageHTML;
         document.body.appendChild(messageElement);
-
         const button = messageElement.querySelector('button');
         button.addEventListener('mouseover', () => {
             button.style.backgroundColor = '#ff8c00';
@@ -7839,7 +6931,6 @@ function initializeControlPanel() {
             button.style.transform = 'translateY(0)';
         });
     }
-
     function getCourseName() {
         if (courseVisitData && courseVisitData.name) {
             return courseVisitData.name;
@@ -7848,7 +6939,6 @@ function initializeControlPanel() {
             return '未知课程';
         }
     }
-
     function addShowCourseNameText() {
         showCourseNameText.style.marginTop = '10px';
         showCourseNameText.style.marginBottom = '10px';
@@ -7861,9 +6951,7 @@ function initializeControlPanel() {
         showCourseNameText.style.padding = '6px';
         showCourseNameText.style.boxSizing = 'border-box';
         showCourseNameText.className = 'glowing-text animated-text';
-
         showCourseNameText.textContent = '正在获取课程信息...';
-
         const style = document.createElement('style');
         style.textContent = `
             @keyframes float {
@@ -7890,14 +6978,12 @@ function initializeControlPanel() {
             }
         `;
         document.head.appendChild(style);
-
         let checkInterval = setInterval(async () => {
             try {
                 const courseName = await getCourseName();
                 if (courseName && courseName !== '未知课程' && courseName !== showCourseNameText.getAttribute('data-course')) {
                     showCourseNameText.setAttribute('data-course', courseName);
                     typeWriter(`当前课程：${courseName}`, showCourseNameText);
-
                     clearInterval(checkInterval);
                     setupCourseNameObserver();
                 }
@@ -7905,7 +6991,6 @@ function initializeControlPanel() {
                 console.debug('尝试获取课程名称:', error);
             }
         }, 1000);
-
         function setupCourseNameObserver() {
             const observer = new MutationObserver(async () => {
                 try {
@@ -7918,7 +7003,6 @@ function initializeControlPanel() {
                     console.debug('课程名称观察器错误:', error);
                 }
             });
-
             observer.observe(document.body, {
                 childList: true,
                 subtree: true,
@@ -7926,14 +7010,12 @@ function initializeControlPanel() {
             });
         }
     }
-
     function typeWriter(text, element, index = 0) {
         if (index < text.length) {
             element.textContent = text.substring(0, index + 1);
             setTimeout(() => typeWriter(text, element, index + 1), 50);
         }
     }
-
     function addTipsDisplay() {
         tipsDisplay.id = 'tipsDisplay';
         tipsDisplay.id = 'tipsDisplay';
@@ -7957,14 +7039,10 @@ function initializeControlPanel() {
         tipsDisplay.title = '点击以查看/收起所有提示。';
         tipsDisplay.style.opacity = '1';
         tipsDisplay.style.transform = 'translateY(0)';
-
         tipsDisplay.style.animation = 'pulsate 2s infinite';
-
         tipsDisplay.style.backgroundImage = 'linear-gradient(90deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0.5) 50%, rgba(255,255,255,0) 100%)';
         tipsDisplay.style.backgroundSize = '200% 100%';
         tipsDisplay.style.animation = 'pulsate 2s infinite, shine 3s infinite';
-
-
         const style = document.createElement('style');
         style.textContent = `
             #tipsDisplay:hover {
@@ -7984,7 +7062,6 @@ function initializeControlPanel() {
             #tipsDisplay {
                 animation: fadeInUp 0.5s ease-out;
             }
-
             @keyframes pulsate {
                 0% {
                     box-shadow: 0 0 0 0 rgba(252, 187, 52, 0.4);
@@ -7996,7 +7073,6 @@ function initializeControlPanel() {
                     box-shadow: 0 0 0 0 rgba(252, 187, 52, 0);
                 }
             }
-
             @keyframes shine {
                 0% {
                     background-position: -100% 0;
@@ -8007,7 +7083,6 @@ function initializeControlPanel() {
             }
         `;
         document.head.appendChild(style);
-
         const tipsList = [
             '教程：https://xiaoya.zygame1314.site。',
             '右上角下载栏支持当前页面的单个文件下载。',
@@ -8030,12 +7105,10 @@ function initializeControlPanel() {
             '只要是小雅能预览的，理论上都能预览（反之亦然）。',
             '如有功能建议或问题反馈，请在教程页面的评论区留言。',
         ];
-
         let isPaused = false;
         let currentTipIndex = 0;
         let intervalId;
         let isShowingAllTips = false;
-
         function changeTip() {
             if (!isShowingAllTips && !isPaused) {
                 currentTipIndex = (currentTipIndex + 1) % tipsList.length;
@@ -8044,19 +7117,16 @@ function initializeControlPanel() {
                 tipsDisplay.style.transform = 'translateX(-100%)';
             }
         }
-
         function updateTipDisplay() {
             tipsDisplay.innerHTML = '<i class="fas fa-lightbulb" style="margin-right: 10px;"></i>' + tipsList[currentTipIndex];
             tipsDisplay.style.opacity = '1';
             tipsDisplay.style.transform = 'translateX(0)';
         }
-
         tipsDisplay.addEventListener('transitionend', (event) => {
             if (event.propertyName === 'opacity' && tipsDisplay.style.opacity === '0' && !isShowingAllTips) {
                 updateTipDisplay();
             }
         });
-
         const allTipsContainer = document.createElement('div');
         allTipsContainer.id = 'allTipsContainer';
         allTipsContainer.style.display = 'none';
@@ -8083,24 +7153,19 @@ function initializeControlPanel() {
                 top: rect.top + rect.height / 2
             };
         }
-
         tipsDisplay.addEventListener('click', () => {
             isShowingAllTips = !isShowingAllTips;
             clearInterval(intervalId);
-
             if (isShowingAllTips) {
                 const position = getTipsDisplayPosition();
                 const startX = position.left - window.innerWidth / 2;
                 const startY = position.top - window.innerHeight / 2;
-
                 allTipsContainer.style.setProperty('--start-x', `${startX}px`);
                 allTipsContainer.style.setProperty('--start-y', `${startY}px`);
-
                 allTipsContainer.style.left = '50%';
                 allTipsContainer.style.top = '50%';
                 allTipsContainer.style.transform = `translate(${startX}px, ${startY}px) scale(0.7)`;
                 allTipsContainer.style.opacity = '0';
-
                 allTipsContainer.innerHTML = `
                 <h2>所有提示</h2>
                 ${tipsList.map((tip, index) => `
@@ -8111,9 +7176,7 @@ function initializeControlPanel() {
                     `).join('')}
                     <button id="closeTipsBtn">关闭</button>
                 `;
-
                 allTipsContainer.style.display = 'block';
-
                 allTipsContainer.style.animation = 'none';
                 void allTipsContainer.offsetWidth;
                 allTipsContainer.style.animation = 'popOutToCenter 0.3s cubic-bezier(0.68, -0.55, 0.27, 1.55) forwards';
@@ -8122,52 +7185,41 @@ function initializeControlPanel() {
                 closeTips();
             }
         });
-
         tipsDisplay.addEventListener('mouseover', () => {
             pauseTips();
             tipsDisplay.style.animation = 'pulsate 1s infinite, shine 2s infinite';
             tipsDisplay.style.transform = 'scale(1.02)';
         });
-
         tipsDisplay.addEventListener('mouseout', () => {
             resumeTips();
             tipsDisplay.style.animation = 'pulsate 2s infinite, shine 3s infinite';
             tipsDisplay.style.transform = 'scale(1)';
         });
-
         function closeTips() {
             allTipsContainer.querySelectorAll('*').forEach(el => {
                 el.style.animation = 'none';
                 void el.offsetWidth;
             });
-
             allTipsContainer.style.animation = 'none';
-
             void allTipsContainer.offsetWidth;
-
             const position = getTipsDisplayPosition();
             const endX = position.left - window.innerWidth / 2;
             const endY = position.top - window.innerHeight / 2;
-
             allTipsContainer.style.setProperty('--end-x', `${endX}px`);
             allTipsContainer.style.setProperty('--end-y', `${endY}px`);
-
             allTipsContainer.style.animation = 'popInToOrigin 0.3s cubic-bezier(0.68, -0.55, 0.27, 1.55) forwards';
-
             allTipsContainer.addEventListener('animationend', () => {
                 allTipsContainer.style.display = 'none';
                 isShowingAllTips = false;
                 resumeTips();
             }, { once: true });
         }
-
         function pauseTips() {
             isPaused = true;
             clearInterval(intervalId);
             tipsDisplay.style.transition = 'none';
             tipsDisplay.style.transform = 'translateX(0)';
         }
-
         function resumeTips() {
             if (!isShowingAllTips) {
                 isPaused = false;
@@ -8175,12 +7227,10 @@ function initializeControlPanel() {
                 startTipInterval();
             }
         }
-
         function startTipInterval() {
             clearInterval(intervalId);
             intervalId = setInterval(changeTip, 5000);
         }
-
         document.addEventListener('visibilitychange', () => {
             if (document.visibilityState === 'visible' && !isShowingAllTips) {
                 resumeTips();
@@ -8188,7 +7238,6 @@ function initializeControlPanel() {
                 pauseTips();
             }
         });
-
         updateTipDisplay();
         startTipInterval();
         document.body.appendChild(allTipsContainer);
@@ -8197,12 +7246,10 @@ function initializeControlPanel() {
             resumeTips
         };
     }
-
     function updateVisibility() {
         const downloadInterface = document.getElementById('downloadInterface');
         const progressBarInterface = document.getElementById('downloadsWrapperContainer');
         const videoAssistant = document.getElementById('tm-video-assistant');
-
         if (downloadInterface) {
             downloadInterface.style.display = downloadInterfaceCheckbox.checked ? 'block' : 'none';
         }
@@ -8215,55 +7262,44 @@ function initializeControlPanel() {
             isProgressBarVisible = isVisible;
         }
     }
-
     function updateDownloadListVisibility() {
         const downloadIconContainer = document.getElementById('download_icon_container');
         const downloadListContainer = document.getElementById('download_list');
         const isVisible = downloadButtonCheckbox.checked;
-
         if (downloadIconContainer && downloadListContainer) {
             downloadIconContainer.style.display = isVisible ? 'block' : 'none';
             downloadListContainer.style.display = isVisible ? 'block' : 'none';
             downloadListContainer.style.opacity = isVisible ? '1' : '0';
         }
     }
-
     messageContainer.appendChild(messageButtonContainer);
     downloadContainer.appendChild(downloadButtonContainer);
     exportContainer.appendChild(exportButtonContainer);
     exportContainer.appendChild(TextContainer);
     displayContainer.appendChild(checkboxesContainer);
     updateContainer.appendChild(Beautifulupdater);
-
     controlPanel.appendChild(messageContainer);
     controlPanel.appendChild(downloadContainer);
     controlPanel.appendChild(exportContainer);
     controlPanel.appendChild(displayContainer);
     controlPanel.appendChild(updateContainer);
-
     downloadContainer.style.display = 'none';
     exportContainer.style.display = 'none';
     displayContainer.style.display = 'none';
     updateContainer.style.display = 'none';
-
     document.body.appendChild(controlPanel);
     document.body.appendChild(toggleButton);
-
     updateVisibility();
     updateDownloadListVisibility();
 }
-
 let lastGroupId = null;
-
 function watchGroupIdChange() {
     lastGroupId = getGroupIdFromUrl();
-
     setInterval(() => {
         const currentGroupId = getGroupIdFromUrl();
         if (currentGroupId && currentGroupId !== lastGroupId) {
             lastGroupId = currentGroupId;
             parseContent();
-
             if (isEasterEggActivated) {
                 getTeacherInfo(currentGroupId).then((teacherInfo) => {
                     if (teacherInfo) {
@@ -8277,7 +7313,6 @@ function watchGroupIdChange() {
         }
     }, 1000);
 }
-
 if (window.top === window.self) {
     setTimeout(() => {
         add_download_button();
@@ -8291,7 +7326,6 @@ if (window.top === window.self) {
         }
         initializeControlPanel();
         createZipProgressIndicator();
-
         const observer = new MutationObserver(function (mutationsList) {
             for (let mutation of mutationsList) {
                 if (mutation.type === 'childList' && mutation.target.id === 'download_list') {
@@ -8300,26 +7334,21 @@ if (window.top === window.self) {
                 }
             }
         });
-
         observer.observe(document.body, { childList: true, subtree: true });
     }, 1000);
 }
-
 let previewLink;
 let isDownloading = false;
 let currentTitle = '';
-
 function initCourseCapture() {
     const list = createDownloadInterface();
     createInitialPreviewLink();
     observeTitleChanges();
     handleXhrResponse();
 }
-
 function observeTitleChanges() {
     const titleElement = document.querySelector('title');
     if (!titleElement) return;
-
     const observer = new MutationObserver(mutations => {
         mutations.forEach(mutation => {
             if (mutation.type === 'childList' && mutation.target === titleElement) {
@@ -8331,17 +7360,14 @@ function observeTitleChanges() {
             }
         });
     });
-
     observer.observe(titleElement, { childList: true });
 }
-
 function createDownloadInterface() {
     const list = document.createElement("div");
     initializeListStyles(list);
     addAnimationStyles();
     return list;
 }
-
 function initializeListStyles(element) {
     element.id = "downloadInterface";
     Object.assign(element.style, {
@@ -8359,7 +7385,6 @@ function initializeListStyles(element) {
         boxShadow: "0 4px 8px 0 rgba(0, 0, 0, 0.2)",
         cursor: "pointer"
     });
-
     element.classList.add("dynamic-gradient");
     element.innerHTML = `
         <h3 style="
@@ -8380,13 +7405,10 @@ function initializeListStyles(element) {
         </h3>
     `;
     element.querySelector('h3').style.opacity = 0;
-
     addLottieAnimation(element);
     addInteractivity(element);
-
     document.body.appendChild(element);
 }
-
 function addLottieAnimation(element) {
     const lottieContainer = document.createElement('div');
     Object.assign(lottieContainer.style, {
@@ -8400,7 +7422,6 @@ function addLottieAnimation(element) {
         zIndex: "9998",
         pointerEvents: "none"
     });
-
     const lottiePlayer = document.createElement('dotlottie-player');
     lottiePlayer.setAttribute('src', "https://cdn.jsdmirror.com/gh/zygame1314/XiaoyaDownloader/lottie/download-cat.json");
     lottiePlayer.setAttribute('background', "transparent");
@@ -8408,11 +7429,9 @@ function addLottieAnimation(element) {
     lottiePlayer.setAttribute('style', "width: 125%; height: 100%; position: absolute; left: -12.5%;");
     lottiePlayer.setAttribute('loop', "");
     lottiePlayer.setAttribute('autoplay', "");
-
     lottieContainer.appendChild(lottiePlayer);
     element.appendChild(lottieContainer);
 }
-
 function addInteractivity(element) {
     element.addEventListener("mouseover", () => {
         if (element.style.width === "50px") {
@@ -8426,12 +7445,10 @@ function addInteractivity(element) {
     });
     element.addEventListener("click", toggleInterfaceSize);
 }
-
 function toggleInterfaceSize() {
     const element = document.getElementById("downloadInterface");
     const lottieContainer = element.querySelector('div');
     const h3 = element.querySelector('h3');
-
     if (element.style.width === "50px") {
         Object.assign(element.style, {
             width: "400px",
@@ -8466,7 +7483,6 @@ function toggleInterfaceSize() {
         h3.style.opacity = 0;
     }
 }
-
 function addAnimationStyles() {
     const style = document.createElement('style');
     style.innerHTML = `
@@ -8499,18 +7515,15 @@ function addAnimationStyles() {
     `;
     document.head.appendChild(style);
 }
-
 function handleXhrResponse() {
     if (isDownloading) return;
     isDownloading = true;
-
     const content = document.title.split('|')[0].trim();
     const urlParts = window.location.href.split('/');
     const id = urlParts[urlParts.length - 1];
     let checkCount = 0;
     const maxChecks = 10;
     const checkInterval = 500;
-
     function checkResources() {
         if (course_resources && Object.keys(course_resources).length > 0) {
             processResources();
@@ -8522,24 +7535,20 @@ function handleXhrResponse() {
             isDownloading = false;
         }
     }
-
     function isAssignmentResource() {
         const taskButton = document.querySelector('.entry_task_btn');
         return taskButton !== null;
     }
-
     function processResources() {
         let quoteId = null;
         let resourceMimetype = null;
         let resourceName = null;
-
         if (isAssignmentResource()) {
             createInitialPreviewLink();
             showNotification('当前资源为作业，不支持下载。', 'info');
             isDownloading = false;
             return;
         }
-
         for (const resourceId in course_resources) {
             if (course_resources[resourceId].id === id) {
                 quoteId = course_resources[resourceId].quote_id;
@@ -8548,7 +7557,6 @@ function handleXhrResponse() {
                 break;
             }
         }
-
         if (quoteId) {
             if (isVideoFile(resourceMimetype, resourceName)) {
                 createInitialPreviewLink();
@@ -8556,10 +7564,8 @@ function handleXhrResponse() {
                 isDownloading = false;
                 return;
             }
-
             const url = 'https://' + hostname + '/api/jx-oresource/cloud/file_url/' + quoteId;
             const token = getCookie();
-
             fetch(url, {
                 headers: {
                     'Authorization': `Bearer ${token}`
@@ -8586,7 +7592,6 @@ function handleXhrResponse() {
     }
     checkResources();
 }
-
 function showNotification(message, type = 'info', onConfirm = null, onCancel = null) {
     if (!document.getElementById('custom-notification-styles')) {
         const style = document.createElement('style');
@@ -8716,56 +7721,43 @@ function showNotification(message, type = 'info', onConfirm = null, onCancel = n
         `;
         document.head.appendChild(style);
     }
-
     const notifications = document.querySelectorAll('.custom-notification');
     const notificationHeight = 100;
     const spacing = 10;
-
     const offset = notifications.length * (notificationHeight + spacing);
-
     const notification = document.createElement('div');
     notification.classList.add('custom-notification', `notification-${type}`);
     notification.style.top = `${20 + offset}px`;
-
     const content = document.createElement('div');
     content.classList.add('notification-content');
-
     const icon = document.createElement('div');
     icon.classList.add('notification-icon');
     icon.innerHTML = getIcon(type);
-
     const messageElement = document.createElement('div');
     messageElement.classList.add('notification-message');
     messageElement.textContent = message;
-
     content.appendChild(icon);
     content.appendChild(messageElement);
     notification.appendChild(content);
-
     const closeBtn = document.createElement('span');
     closeBtn.classList.add('notification-close');
     closeBtn.innerHTML = '&times;';
     closeBtn.onclick = closeNotification;
     notification.appendChild(closeBtn);
-
     const notificationDuration = 4000;
-
     if (type !== 'confirm') {
         const countdownBar = document.createElement('div');
         countdownBar.classList.add('notification-countdown');
         countdownBar.style.width = '100%';
         countdownBar.style.transitionDuration = `${notificationDuration}ms`;
         notification.appendChild(countdownBar);
-
         setTimeout(() => {
             countdownBar.style.width = '0%';
         }, 10);
     }
-
     if (type === 'confirm') {
         const buttonContainer = document.createElement('div');
         buttonContainer.classList.add('notification-buttons');
-
         const createButton = (text, isPrimary, onClick) => {
             const button = document.createElement('button');
             button.textContent = text;
@@ -8778,28 +7770,22 @@ function showNotification(message, type = 'info', onConfirm = null, onCancel = n
             button.onclick = onClick;
             return button;
         };
-
         const cancelButton = createButton('取消', false, () => {
             if (onCancel) onCancel();
             closeNotification();
         });
-
         const confirmButton = createButton('确认', true, () => {
             if (onConfirm) onConfirm();
             closeNotification();
         });
-
         buttonContainer.appendChild(cancelButton);
         buttonContainer.appendChild(confirmButton);
         notification.appendChild(buttonContainer);
     }
-
     document.body.appendChild(notification);
-
     setTimeout(() => {
         notification.classList.add('show');
     }, 10);
-
     function closeNotification() {
         notification.classList.remove('show');
         setTimeout(() => {
@@ -8812,11 +7798,9 @@ function showNotification(message, type = 'info', onConfirm = null, onCancel = n
             }
         }, 300);
     }
-
     if (type !== 'confirm') {
         setTimeout(closeNotification, notificationDuration);
     }
-
     function getIcon(type) {
         switch (type) {
             case 'info':
@@ -8859,7 +7843,6 @@ function showNotification(message, type = 'info', onConfirm = null, onCancel = n
         }
     }
 }
-
 function triggerNewLinkAnimation() {
     const downloadInterface = document.getElementById("downloadInterface");
     if (downloadInterface.style.width === "50px") {
@@ -8869,7 +7852,6 @@ function triggerNewLinkAnimation() {
         }, { once: true });
     }
 }
-
 function createInitialPreviewLink() {
     if (!previewLink || !document.contains(previewLink)) {
         createPreviewLink("#", "等待课件...( ＿ ＿)ノ｜");
@@ -8880,10 +7862,8 @@ function createInitialPreviewLink() {
         });
     }
 }
-
 function updatePreviewLink(href, content) {
     const list = document.getElementById("downloadInterface");
-
     if (previewLink && document.contains(previewLink)) {
         previewLink.style.animation = "fadeOut 0.5s forwards";
         previewLink.addEventListener('animationend', () => {
@@ -8895,12 +7875,10 @@ function updatePreviewLink(href, content) {
         createNewPreviewLink(href, content);
     }
 }
-
 function createNewPreviewLink(href, content) {
     createPreviewLink(href, content);
     previewLink.style.animation = "slideIn 0.5s forwards";
 }
-
 function createPreviewLink(href, content) {
     previewLink = document.createElement("a");
     Object.assign(previewLink.style, {
@@ -8924,7 +7902,6 @@ function createPreviewLink(href, content) {
         whiteSpace: "nowrap",
         textOverflow: "ellipsis",
     });
-
     const downloadIcon = `
         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-right: 8px; flex-shrink: 0;">
             <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
@@ -8932,34 +7909,25 @@ function createPreviewLink(href, content) {
             <line x1="12" y1="15" x2="12" y2="3"></line>
         </svg>
     `;
-
     previewLink.innerHTML = `${downloadIcon}<span style="overflow: hidden; text-overflow: ellipsis;">${content}</span>`;
-
     previewLink.title = content;
-
     addPreviewLinkEventListeners(previewLink);
-
     const list = document.getElementById("downloadInterface");
     list.appendChild(previewLink);
     list.appendChild(document.createElement("br"));
-
     Object.assign(previewLink, {
         href: href,
         target: "_blank"
     });
-
     previewLink.style.animation = "slideIn 0.5s forwards";
 }
-
 function addPreviewLinkEventListeners(previewLink) {
     let isPressed = false;
-
     previewLink.addEventListener('dragstart', (event) => {
         event.dataTransfer.effectAllowed = 'move';
         event.dataTransfer.setData('text/plain', previewLink.dataset.downloadUrl);
         event.dataTransfer.setData('text/filename', previewLink.dataset.filename);
     });
-
     previewLink.addEventListener('mouseover', () => {
         if (!isPressed) {
             previewLink.style.transform = "translateY(-3px)";
@@ -8967,7 +7935,6 @@ function addPreviewLinkEventListeners(previewLink) {
             previewLink.style.filter = "brightness(1.1)";
         }
     });
-
     previewLink.addEventListener('mouseout', () => {
         if (!isPressed) {
             previewLink.style.transform = "translateY(0)";
@@ -8975,38 +7942,32 @@ function addPreviewLinkEventListeners(previewLink) {
             previewLink.style.filter = "brightness(1)";
         }
     });
-
     previewLink.addEventListener('mousedown', (event) => {
         isPressed = true;
         previewLink.style.transform = "translateY(2px)";
         previewLink.style.boxShadow = "0 2px 4px rgba(0, 0, 0, 0.1)";
         previewLink.style.filter = "brightness(0.95)";
     });
-
     previewLink.addEventListener('mouseup', () => {
         isPressed = false;
         previewLink.style.transform = "translateY(-3px)";
         previewLink.style.boxShadow = "0 6px 12px rgba(0, 0, 0, 0.15)";
         previewLink.style.filter = "brightness(1.1)";
     });
-
     previewLink.addEventListener('mouseleave', () => {
         isPressed = false;
         previewLink.style.transform = "translateY(0)";
         previewLink.style.boxShadow = "0 4px 6px rgba(0, 0, 0, 0.1)";
         previewLink.style.filter = "brightness(1)";
     });
-
     previewLink.addEventListener("click", function (event) {
         totalDownloads++;
         updateTotalProgress();
-
         event.preventDefault();
         event.stopPropagation();
         courseDownload(previewLink.href, previewLink.textContent.trim());
     });
 }
-
 function createToggleButton(text) {
     const button = document.createElement('button');
     button.textContent = text;
@@ -9028,28 +7989,22 @@ function createToggleButton(text) {
         box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
         outline: none;
     `;
-
     button.addEventListener('mouseover', () => {
         button.style.backgroundColor = '#e5a72e';
         button.style.transform = 'translateX(5px)';
     });
-
     button.addEventListener('mouseout', () => {
         button.style.backgroundColor = '#fcbb34';
         button.style.transform = 'translateX(0)';
     });
-
     button.addEventListener('mousedown', () => {
         button.style.transform = 'translateX(2px) scale(0.98)';
     });
-
     button.addEventListener('mouseup', () => {
         button.style.transform = 'translateX(5px) scale(1)';
     });
-
     return button;
 }
-
 function createDebuggerToggleButton(text) {
     const button = document.createElement('button');
     button.textContent = text;
@@ -9072,25 +8027,20 @@ function createDebuggerToggleButton(text) {
         box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
         outline: none;
     `;
-
     button.addEventListener('mouseover', () => {
         button.style.backgroundColor = '#45a049';
     });
-
     button.addEventListener('mouseout', () => {
         button.style.backgroundColor = '#4CAF50';
     });
-
     return button;
 }
-
 function toggleContainer(container, button) {
     const isHidden = container.style.left === '-400px';
     container.style.left = isHidden ? '0' : '-400px';
     button.style.backgroundColor = isHidden ? '#e69b00' : '#fcbb34';
     button.textContent = isHidden ? '关闭' : button.getAttribute('data-original-text');
 }
-
 function createTeacherInfoContainer() {
     const container = document.createElement("div");
     container.id = "teacherInfoContainer";
@@ -9139,7 +8089,6 @@ function createTeacherInfoContainer() {
     container.appendChild(scrollContent);
     container.appendChild(toggleButton);
     document.body.appendChild(container);
-
     const teacher_style = document.createElement('style');
     teacher_style.textContent = `
         @keyframes blink {
@@ -9161,11 +8110,9 @@ function createTeacherInfoContainer() {
     `;
     document.head.appendChild(teacher_style);
 }
-
 function updateTeacherInfo(teacherInfo) {
     const content = document.getElementById("teacherInfoContent");
     if (!content) return;
-
     if (teacherInfo && teacherInfo.length > 0) {
         content.innerHTML = `
             <h3 class="title" style="font-weight: bold; margin-bottom: 15px; padding-left: 10px;">教师信息</h3>
@@ -9191,7 +8138,6 @@ function updateTeacherInfo(teacherInfo) {
         `;
     }
 }
-
 function createDebuggerDisablerContainer() {
     const container = document.createElement('div');
     container.id = "debuggerDisablerContainer";
@@ -9210,7 +8156,6 @@ function createDebuggerDisablerContainer() {
         height: 220px;
         transition: all 0.5s cubic-bezier(0.23, 1, 0.32, 1);
     `;
-
     const content = document.createElement('div');
     content.style.cssText = `
         height: 100%;
@@ -9220,7 +8165,6 @@ function createDebuggerDisablerContainer() {
         align-items: center;
         color: #ff6600;
     `;
-
     content.innerHTML = `
         <h3 style="margin: 0; color: #ff6600; text-align: center; font-size: 18px; letter-spacing: 2px;">反调试禁用器</h3>
         <div style="width: 100%; height: 2px; background: linear-gradient(to right, #1a1a1a, #ff6600, #1a1a1a);"></div>
@@ -9241,9 +8185,7 @@ function createDebuggerDisablerContainer() {
             letter-spacing: 1px;
         ">⚡点击禁用⚡</button>
     `;
-
     container.appendChild(content);
-
     const toggleButton = document.createElement('button');
     toggleButton.id = "debuggerToggleButton"
     toggleButton.textContent = "🔑 打开";
@@ -9264,35 +8206,27 @@ function createDebuggerDisablerContainer() {
         font-weight: bold;
         letter-spacing: 1px;
     `;
-
     document.body.appendChild(toggleButton);
     document.body.appendChild(container);
-
     let isOpen = false;
-
     toggleButton.onclick = (e) => {
         e.stopPropagation();
         isOpen = !isOpen;
-
         if (isOpen && !localStorage.getItem('debuggerDisablerShownWarning')) {
             showNotification("警告⚠️：此功能可能会影响网站的正常运行，请谨慎使用！", 'warning');
             localStorage.setItem('debuggerDisablerShownWarning', 'true');
         }
-
         container.style.top = isOpen ? '0' : '-280px';
         toggleButton.style.backgroundColor = isOpen ? '#ff8533' : '#ff6600';
         toggleButton.textContent = isOpen ? "🔒 关闭" : "🔑 打开";
         toggleButton.style.top = isOpen ? '220px' : '0';
     };
-
     toggleButton.addEventListener('mouseover', () => {
         toggleButton.style.backgroundColor = '#ff8533';
     });
-
     toggleButton.addEventListener('mouseout', () => {
         toggleButton.style.backgroundColor = isOpen ? '#ff8533' : '#ff6600';
     });
-
     const disableDebuggerBtn = document.getElementById('disableDebuggerBtn');
     disableDebuggerBtn.addEventListener('mouseover', () => {
         disableDebuggerBtn.style.backgroundColor = '#ff6600';
@@ -9315,10 +8249,8 @@ function createDebuggerDisablerContainer() {
         this.style.borderColor = '#00ff00';
         this.disabled = true;
         this.style.cursor = 'default';
-
         container.style.animation = 'glitch 0.5s';
     });
-
     const style = document.createElement('style');
     style.textContent = `
         @keyframes glitch {
@@ -9330,17 +8262,13 @@ function createDebuggerDisablerContainer() {
         }
     `;
     document.head.appendChild(style);
-
     return { container, toggleButton };
 }
-
 let teacherInfoRequestTimeout;
-
 async function getTeacherInfo(groupId) {
     if (teacherInfoRequestTimeout) {
         clearTimeout(teacherInfoRequestTimeout);
     }
-
     return new Promise((resolve) => {
         teacherInfoRequestTimeout = setTimeout(async () => {
             const visitData = await getCourseVisitData(groupId);
@@ -9348,7 +8276,6 @@ async function getTeacherInfo(groupId) {
                 resolve(null);
                 return;
             }
-
             try {
                 const teachers = visitData.teachers || [];
                 resolve(teachers.map((teacher) => ({
@@ -9362,7 +8289,6 @@ async function getTeacherInfo(groupId) {
         }, 500);
     });
 }
-
 function createUserSearchContainer() {
     const container = document.createElement('div');
     container.id = "userSearchContainer";
@@ -9381,13 +8307,11 @@ function createUserSearchContainer() {
         transition: all 0.3s ease;
         font-weight: bold;
     `;
-
     const scrollContent = document.createElement('div');
     scrollContent.style.cssText = `
         height: 100%;
         overflow-y: auto;
     `;
-
     scrollContent.innerHTML = `
         <input type="text" id="userSearchInput" placeholder="输入电话/一卡通号" class="search-teacher-input" style="
             font-weight: normal;
@@ -9419,7 +8343,6 @@ function createUserSearchContainer() {
             <p class="search-teacher-hint">请输入电话或一卡通号进行搜索</p>
         </div>
     `;
-
     const toggleButton = createToggleButton("用户搜索");
     toggleButton.setAttribute('data-original-text', "用户搜索");
     toggleButton.style.left = '400px';
@@ -9427,17 +8350,14 @@ function createUserSearchContainer() {
     toggleButton.onclick = (e) => {
         e.stopPropagation();
         toggleContainer(container, toggleButton);
-
         if (!localStorage.getItem('userSearchWarningShown')) {
             showUserSearchWarning();
             localStorage.setItem('userSearchWarningShown', 'true');
         }
     };
-
     container.appendChild(scrollContent);
     container.appendChild(toggleButton);
     document.body.appendChild(container);
-
     setTimeout(() => {
         const input = document.getElementById("userSearchInput");
         if (input) {
@@ -9449,7 +8369,6 @@ function createUserSearchContainer() {
                 input.style.borderColor = '#FFD180';
                 input.style.boxShadow = 'none';
             });
-
             input.addEventListener('keypress', async (e) => {
                 if (e.key === 'Enter') {
                     e.preventDefault();
@@ -9457,7 +8376,6 @@ function createUserSearchContainer() {
                 }
             });
         }
-
         const button = document.getElementById("userSearchButton");
         if (button) {
             button.addEventListener('mouseover', () => {
@@ -9469,7 +8387,6 @@ function createUserSearchContainer() {
             button.addEventListener('click', performSearch);
         }
     }, 0);
-
     const search_style = document.createElement('style');
     search_style.textContent = `
         #userSearchInput::placeholder {
@@ -9483,7 +8400,6 @@ function createUserSearchContainer() {
     `;
     document.head.appendChild(search_style);
 }
-
 async function performSearch() {
     const input = document.getElementById("userSearchInput");
     const resultsDiv = document.getElementById("userSearchResults");
@@ -9497,7 +8413,6 @@ async function performSearch() {
         }
     }
 }
-
 function showUserSearchWarning() {
     const overlay = document.createElement('div');
     overlay.style.cssText = `
@@ -9512,7 +8427,6 @@ function showUserSearchWarning() {
         transition: opacity 0.3s ease;
     `;
     document.body.appendChild(overlay);
-
     const warningDiv = document.createElement('div');
     warningDiv.style.cssText = `
         position: fixed;
@@ -9562,7 +8476,6 @@ function showUserSearchWarning() {
         ">我已了解</button>
     `;
     document.body.appendChild(warningDiv);
-
     const closeBtn = document.getElementById('warningCloseBtn');
     closeBtn.onmouseover = () => {
         closeBtn.style.backgroundColor = '#F57C00';
@@ -9574,13 +8487,11 @@ function showUserSearchWarning() {
         fadeOutAndRemove(overlay);
         fadeOutAndRemove(warningDiv);
     };
-
     setTimeout(() => {
         overlay.style.opacity = '1';
         warningDiv.style.opacity = '1';
     }, 10);
 }
-
 function fadeOutAndRemove(element) {
     element.style.opacity = '0';
     element.addEventListener('transitionend', function handler() {
@@ -9588,11 +8499,9 @@ function fadeOutAndRemove(element) {
         element.parentNode.removeChild(element);
     });
 }
-
 async function searchUser(username) {
     const token = getCookie();
     const apiUrl = `https://${hostname}/api/jx-iresource/auth/user/info?username=${username}`;
-
     try {
         const response = await fetch(apiUrl, {
             method: 'GET',
@@ -9600,7 +8509,6 @@ async function searchUser(username) {
                 'Authorization': `Bearer ${token}`
             }
         });
-
         if (response.ok) {
             const data = await response.json();
             return data.data;
@@ -9612,7 +8520,6 @@ async function searchUser(username) {
         return null;
     }
 }
-
 function displayUserInfo(userInfo, resultsDiv) {
     if (userInfo && userInfo.length > 0) {
         const user = userInfo[0];
@@ -9632,21 +8539,17 @@ function displayUserInfo(userInfo, resultsDiv) {
         resultsDiv.innerHTML = '<p class="no-data">未找到该用户</p>';
     }
 }
-
 function initContainers() {
     createTeacherInfoContainer();
     createUserSearchContainer();
     createDebuggerDisablerContainer();
 }
-
 let konamiCode = ['ArrowUp', 'ArrowUp', 'ArrowDown', 'ArrowDown', 'ArrowLeft', 'ArrowRight', 'ArrowLeft', 'ArrowRight', 'b', 'a'];
 let konamiIndex = 0;
-
 document.addEventListener('keydown', (e) => {
     if (isEasterEggActivated) {
         return;
     }
-
     if (e.key === konamiCode[konamiIndex]) {
         konamiIndex++;
         if (konamiIndex === konamiCode.length) {
@@ -9657,16 +8560,13 @@ document.addEventListener('keydown', (e) => {
         konamiIndex = 0;
     }
 });
-
 function activateEasterEgg() {
     if (isEasterEggActivated) {
         showNotification("彩蛋已激活！别再戳啦！", 'info');
         return;
     }
-
     console.log("彩蛋已激活！");
     initContainers();
-    interceptAndModifyRequests();
     let groupId = null;
     for (const resourceId in course_resources) {
         if (course_resources[resourceId].group_id) {
@@ -9674,7 +8574,6 @@ function activateEasterEgg() {
             break;
         }
     }
-
     if (groupId) {
         getTeacherInfo(groupId).then((teacherInfo) => {
             if (teacherInfo) {
@@ -9686,10 +8585,8 @@ function activateEasterEgg() {
     } else {
         console.warn("无法找到包含 group_id 属性的资源，无法获取老师信息");
     }
-
     isEasterEggActivated = true;
 }
-
 function initVideoAssistant() {
     const token = getCookie();
     const container = document.createElement('div');
@@ -9749,7 +8646,6 @@ function initVideoAssistant() {
         </div>
     `;
     document.body.appendChild(container);
-
     const style = document.createElement('style');
     style.textContent = `
         #tm-video-assistant {
@@ -9921,17 +8817,14 @@ function initVideoAssistant() {
             margin-right: 4px;
             font-size: 14px;
         }
-
         @keyframes flash {
             0% { opacity: 1; }
             50% { opacity: 0.2; }
             100% { opacity: 1; }
         }
-
         .flash-animation {
             animation: flash 1s ease-in-out;
         }
-
         #tm-m3u8-container {
             background: rgba(255, 255, 255, 0.25);
             border-left: 4px solid #9c27b0;
@@ -9940,7 +8833,6 @@ function initVideoAssistant() {
             transition: all 0.3s ease;
             box-sizing: border-box;
         }
-
         @keyframes newpulse {
             0% { transform: scale(1); }
             50% { transform: scale(1.15); }
@@ -9948,15 +8840,12 @@ function initVideoAssistant() {
         }
     `;
     document.head.appendChild(style);
-
     let lastUrl = location.href;
     let isExpanded = false;
     let initialTop = null;
     let guideModal = null;
-
     async function getVideoInfo(maxAttempts = 20, interval = 1000) {
         const assistant = document.getElementById('tm-video-assistant');
-
         for (let attempt = 0; attempt < maxAttempts; attempt++) {
             const playerDivs = [
                 document.querySelector('div.prism-player'),
@@ -9964,61 +8853,49 @@ function initVideoAssistant() {
                 document.querySelector('.video-container video'),
                 ...document.querySelectorAll('div[class*="player"]')
             ].filter(Boolean);
-
             for (const playerDiv of playerDivs) {
                 const videoElement = playerDiv.querySelector('video') || playerDiv;
                 if (videoElement && videoElement.src) {
                     const newSrc = videoElement.src;
                     const content = document.title.split('|')[0].trim();
                     const oldSrc = document.getElementById('tm-video-src').textContent;
-
                     if (newSrc !== oldSrc) {
                         document.getElementById('tm-video-src').textContent = newSrc;
                         document.getElementById('tm-video-title').textContent = content;
-
                         document.getElementById('tm-m3u8-container').style.display = 'block';
-
                         if (newSrc.startsWith('blob:')) {
                             document.getElementById('tm-video-src').textContent = '流式视频不可直接打开，请使用下方M3U8链接';
                         } else {
                             document.getElementById('tm-video-src').style.color = '';
                         }
-
                         getM3U8Link();
-
                         if (!isExpanded) {
                             assistant.style.animation = "newpulse 0.5s ease-in-out";
                             setTimeout(() => {
                                 assistant.style.animation = "";
                             }, 1000);
                         }
-
                         return { src: newSrc, title: content };
                     }
                 }
             }
-
             if (attempt < maxAttempts - 1) {
                 await new Promise(resolve => setTimeout(resolve, interval));
             }
         }
-
         document.getElementById('tm-video-title').textContent = '未找到视频标题';
         document.getElementById('tm-video-src').textContent = '未找到视频源';
         document.getElementById('tm-m3u8-src').textContent = '未找到M3U8链接';
         return null;
     }
-
     async function getM3U8Link() {
         try {
             document.getElementById('tm-m3u8-src').textContent = '正在获取M3U8链接...';
-
             const videoId = await extractVideoId();
             if (!videoId) {
                 document.getElementById('tm-m3u8-src').textContent = '无法获取视频ID';
                 return;
             }
-
             const authUrl = `https://${location.hostname}/api/jx-oresource/vod/video/play_auth/${videoId}`;
             const authResponse = await fetch(authUrl, {
                 headers: {
@@ -10028,13 +8905,11 @@ function initVideoAssistant() {
                     "x-language": "zh-CN",
                 }
             });
-
             const authData = await authResponse.json();
             if (!authData.success) {
                 document.getElementById('tm-m3u8-src').textContent = '获取授权失败';
                 return;
             }
-
             const privateVod = authData.data.private_vod;
             if (privateVod && privateVod.length > 0 && privateVod[0].private_url) {
                 const m3u8Url = privateVod[0].private_url;
@@ -10049,14 +8924,11 @@ function initVideoAssistant() {
             document.getElementById('tm-m3u8-src').textContent = '获取M3U8链接失败';
         }
     }
-
     async function extractVideoId() {
         try {
             const urlMatch = location.href.match(/resource\/.*?\/(\d+)/);
             if (!urlMatch) return null;
-
             const resourceId = urlMatch[1];
-
             const resourceUrl = `https://${location.hostname}/api/jx-iresource/resource/queryResource?node_id=${resourceId}`;
             const response = await fetch(resourceUrl, {
                 headers: {
@@ -10066,26 +8938,22 @@ function initVideoAssistant() {
                     "x-language": "zh-CN",
                 }
             });
-
             const resourceData = await response.json();
             if (resourceData.success && resourceData.data.resource && resourceData.data.resource.video_id) {
                 return resourceData.data.resource.video_id;
             }
-
             return null;
         } catch (error) {
             console.error('提取视频ID失败:', error);
             return null;
         }
     }
-
     function checkUrlAndExecute() {
         if (lastUrl !== location.href) {
             lastUrl = location.href;
             getVideoInfo();
         }
     }
-
     document.getElementById('tm-copy-src').addEventListener('click', function (e) {
         e.stopPropagation();
         const src = document.getElementById('tm-video-src').textContent;
@@ -10100,7 +8968,6 @@ function initVideoAssistant() {
             showStatus('暂无可复制的链接');
         }
     });
-
     document.getElementById('tm-open-src').addEventListener('click', function (e) {
         e.stopPropagation();
         const src = document.getElementById('tm-video-src').textContent;
@@ -10111,7 +8978,6 @@ function initVideoAssistant() {
             showStatus('暂无可打开的链接');
         }
     });
-
     document.getElementById('tm-copy-m3u8').addEventListener('click', function (e) {
         e.stopPropagation();
         const m3u8Src = document.getElementById('tm-m3u8-src').textContent;
@@ -10126,7 +8992,6 @@ function initVideoAssistant() {
             showStatus('暂无可复制的M3U8链接');
         }
     });
-
     document.getElementById('tm-download-m3u8').addEventListener('click', function (e) {
         e.stopPropagation();
         const m3u8Src = document.getElementById('tm-m3u8-src').textContent;
@@ -10138,7 +9003,6 @@ function initVideoAssistant() {
             showStatus('暂无可下载的M3U8链接');
         }
     });
-
     function addGuideButtonListener() {
         const guideButton = document.getElementById('tm-download-guide-button');
         if (guideButton) {
@@ -10148,13 +9012,11 @@ function initVideoAssistant() {
             });
         }
     }
-
     if (document.readyState === 'loading') {
         document.addEventListener('DOMContentLoaded', addGuideButtonListener);
     } else {
         addGuideButtonListener();
     }
-
     function showDownloadGuide() {
         if (guideModal) {
             closeGuide();
@@ -10179,7 +9041,6 @@ function initVideoAssistant() {
             transition: all 0.3s ease-in-out;
             overflow: hidden;
         `;
-
         const background = document.createElement('div');
         background.style.cssText = `
             position: absolute;
@@ -10192,7 +9053,6 @@ function initVideoAssistant() {
             animation: gradientBG 15s ease infinite;
         `;
         guideModal.appendChild(background);
-
         const style = document.createElement('style');
         style.textContent = `
             @keyframes gradientBG {
@@ -10209,14 +9069,12 @@ function initVideoAssistant() {
             }
         `;
         document.head.appendChild(style);
-
         const keywords = ['打开', '新标签页', '三点', '下载', '右键', '另存为', 'M3U8'];
         const highlightKeywords = (text) => {
             return keywords.reduce((acc, keyword) => {
                 return acc.replace(new RegExp(keyword, 'g'), `<strong style="color: #E65100; font-weight: 600;">${keyword}</strong>`);
             }, text);
         };
-
         const steps = [
             {
                 icon: '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-external-link"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>',
@@ -10243,7 +9101,6 @@ function initVideoAssistant() {
                 text: '对于流式视频，可使用M3U8下载按钮直接跳转到专业下载工具。'
             }
         ];
-
         guideModal.innerHTML = `
         <h2 style="margin-top: 0; color: #FF8F00; text-align: center; font-size: 28px; font-weight: 600;">如何下载视频</h2>
         <ol style="padding-left: 0; counter-reset: item; list-style-type: none;">
@@ -10271,10 +9128,8 @@ function initVideoAssistant() {
             ">我知道了</button>
         `;
         document.body.appendChild(guideModal);
-
         const closeButton = document.getElementById('close-guide');
         closeButton.addEventListener('click', closeGuide);
-
         closeButton.addEventListener('mouseover', () => {
             closeButton.style.background = '#F57C00';
             closeButton.style.transform = 'translateY(-2px)';
@@ -10288,7 +9143,6 @@ function initVideoAssistant() {
         setTimeout(() => {
             guideModal.style.opacity = '1';
             guideModal.style.transform = 'translate(-50%, -50%) scale(1)';
-
             const steps = guideModal.querySelectorAll('li');
             steps.forEach((step, index) => {
                 setTimeout(() => {
@@ -10298,10 +9152,8 @@ function initVideoAssistant() {
             });
         }, 50);
     }
-
     function closeGuide() {
         if (!guideModal) return;
-
         guideModal.style.opacity = '0';
         guideModal.style.transform = 'translate(-50%, -50%) scale(0.9)';
         setTimeout(() => {
@@ -10309,7 +9161,6 @@ function initVideoAssistant() {
             guideModal = null;
         }, 300);
     }
-
     function showStatus(message) {
         const statusElement = document.getElementById('tm-status');
         statusElement.textContent = message;
@@ -10318,15 +9169,12 @@ function initVideoAssistant() {
             statusElement.style.opacity = '0';
         }, 5000);
     }
-
     document.getElementById('tm-video-assistant').addEventListener('click', function () {
         if (!initialTop) {
             initialTop = this.offsetTop;
         }
-
         const centerY = initialTop + 25;
         const lottiePlayer = this.querySelector('dotlottie-player');
-
         if (isExpanded) {
             this.style.width = '50px';
             this.style.height = '50px';
@@ -10348,337 +9196,7 @@ function initVideoAssistant() {
         }
         isExpanded = !isExpanded;
     });
-
     getVideoInfo();
     detectInterval = setInterval(checkUrlAndExecute, 1000);
-
     window.addEventListener('popstate', checkUrlAndExecute);
 }
-
-function interceptAndModifyRequests() {
-    initRequestInterceptor();
-    initUIManager();
-}
-
-function initRequestInterceptor() {
-    monitorFetch();
-    monitorXHR();
-}
-
-const urlPattern = /https:\/\/.*\.ai-augmented\.com\/api\/jx-oresource\/cloud\/file_url\/\d+\?.*encryption_status=1(\&.*)?$/;
-
-function monitorFetch() {
-    const originalFetch = window.fetch;
-    window.fetch = function () {
-        let fetchArguments = Array.from(arguments);
-        let requestInfo = fetchArguments[0];
-
-        let url;
-        if (typeof requestInfo === 'string') {
-            url = requestInfo;
-        } else if (requestInfo instanceof Request) {
-            url = requestInfo.url;
-        }
-
-        if (url && url.match(urlPattern)) {
-            return originalFetch.apply(this, fetchArguments)
-                .then(response => {
-                    const responseClone = response.clone();
-                    responseClone.json().then(responseData => {
-                        console.log('监控的 fetch 请求响应:', responseData);
-                        handleResponse(responseData);
-                    }).catch(e => {
-                        console.error('解析 fetch 响应失败:', e);
-                    });
-                    return response;
-                });
-        } else {
-            return originalFetch.apply(this, fetchArguments);
-        }
-    };
-}
-
-function monitorXHR() {
-    const originalXHROpen = XMLHttpRequest.prototype.open;
-    const originalXHRSend = XMLHttpRequest.prototype.send;
-    const originalXHRSetRequestHeader = XMLHttpRequest.prototype.setRequestHeader;
-
-    XMLHttpRequest.prototype.open = function (method, url, async, user, password) {
-        if (url && url.match(urlPattern)) {
-            this._monitor = true;
-        } else {
-            this._monitor = false;
-        }
-
-        this._url = url;
-        this._method = method;
-        this._async = async;
-        this._requestHeaders = {};
-
-        return originalXHROpen.apply(this, [method, url, async, user, password]);
-    };
-
-    XMLHttpRequest.prototype.setRequestHeader = function (header, value) {
-        this._requestHeaders[header] = value;
-        originalXHRSetRequestHeader.apply(this, arguments);
-    };
-
-    XMLHttpRequest.prototype.send = function (body) {
-        if (this._monitor) {
-            this.addEventListener('load', function () {
-                try {
-                    if (this.responseType === '' || this.responseType === 'text') {
-                        const responseData = JSON.parse(this.responseText);
-                        console.log('监控的 XHR 请求响应 (text):', responseData);
-                        handleResponse(responseData);
-                    } else if (this.responseType === 'blob') {
-                        blobToText(this.response).then(text => {
-                            const responseData = JSON.parse(text);
-                            console.log('监控的 XHR 请求响应 (blob):', responseData);
-                            handleResponse(responseData);
-                        }).catch(e => {
-                            console.error('读取 blob 响应失败:', e);
-                        });
-                    } else {
-                        console.warn('未处理的 responseType:', this.responseType);
-                    }
-                } catch (e) {
-                    console.error('解析响应失败:', e);
-                }
-            });
-        }
-        return originalXHRSend.apply(this, arguments);
-    };
-}
-
-function blobToText(blob) {
-    return new Promise((resolve, reject) => {
-        const reader = new FileReader();
-        reader.onload = () => resolve(reader.result);
-        reader.onerror = () => reject(reader.error);
-        reader.readAsText(blob);
-    });
-}
-
-function handleResponse(responseData) {
-    if (responseData && responseData.data && responseData.data.url) {
-        let url = responseData.data.url;
-        if (responseData.data.is_encryption) {
-            url = decryptFileUrl(url);
-        }
-        showDownloadLink(url);
-    }
-}
-
-function initUIManager() {
-    createFloatingButton();
-    createLinkContainer();
-}
-
-let floatingButton;
-let linkDisplayContainer;
-let isExpanded = false;
-
-function createFloatingButton() {
-    if (!floatingButton) {
-        floatingButton = document.createElement('div');
-        floatingButton.id = 'floating-button';
-        floatingButton.style.position = 'fixed';
-        floatingButton.style.bottom = '5px';
-        floatingButton.style.left = '5px';
-        floatingButton.style.width = '60px';
-        floatingButton.style.height = '60px';
-        floatingButton.style.background = 'linear-gradient(270deg, #f7b733, #ff9900, #ffb347)';
-        floatingButton.style.backgroundSize = '400% 400%';
-        floatingButton.style.borderRadius = '50%';
-        floatingButton.style.boxShadow = '0 4px 8px rgba(0, 0, 0, 0.2)';
-        floatingButton.style.cursor = 'pointer';
-        floatingButton.style.zIndex = '9999';
-        floatingButton.style.display = 'flex';
-        floatingButton.style.justifyContent = 'center';
-        floatingButton.style.alignItems = 'center';
-        floatingButton.style.transition = 'all 0.4s cubic-bezier(0.68, -0.55, 0.27, 1.55)';
-        floatingButton.style.overflow = 'hidden';
-        floatingButton.style.animation = 'flowingGradient 5s ease infinite';
-
-        const buttonIcon = document.createElement('div');
-        buttonIcon.innerHTML = `
-            <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
-                <polyline points="7 10 12 15 17 10"></polyline>
-                <line x1="12" y1="15" x2="12" y2="3"></line>
-            </svg>
-        `;
-        buttonIcon.style.transition = 'transform 0.4s ease';
-        floatingButton.appendChild(buttonIcon);
-
-        floatingButton.addEventListener('click', toggleLinkContainer);
-        floatingButton.addEventListener('mouseenter', () => {
-            if (!isExpanded) {
-                floatingButton.style.transform = 'scale(1.1) rotate(5deg)';
-            }
-        });
-        floatingButton.addEventListener('mouseleave', () => {
-            if (!isExpanded) {
-                floatingButton.style.transform = 'scale(1) rotate(0deg)';
-            }
-        });
-
-        document.body.appendChild(floatingButton);
-    }
-}
-
-function createLinkContainer() {
-    if (!linkDisplayContainer) {
-        linkDisplayContainer = document.createElement('div');
-        linkDisplayContainer.id = 'download-link-container';
-        linkDisplayContainer.style.position = 'fixed';
-        linkDisplayContainer.style.bottom = '5px';
-        linkDisplayContainer.style.left = '5px';
-        linkDisplayContainer.style.width = '0';
-        linkDisplayContainer.style.height = '0';
-        linkDisplayContainer.style.background = 'linear-gradient(270deg, #f7b733, #ff9900, #ffb347)';
-        linkDisplayContainer.style.backgroundSize = '400% 400%';
-        linkDisplayContainer.style.borderRadius = '30px';
-        linkDisplayContainer.style.boxShadow = '0 10px 25px rgba(0, 0, 0, 0.1)';
-        linkDisplayContainer.style.zIndex = '9998';
-        linkDisplayContainer.style.overflow = 'hidden';
-        linkDisplayContainer.style.transition = 'all 0.4s cubic-bezier(0.68, -0.55, 0.27, 1.55)';
-        linkDisplayContainer.style.opacity = '0';
-        linkDisplayContainer.style.display = 'flex';
-        linkDisplayContainer.style.flexDirection = 'column';
-        linkDisplayContainer.style.justifyContent = 'center';
-        linkDisplayContainer.style.alignItems = 'center';
-        linkDisplayContainer.style.padding = '0';
-        linkDisplayContainer.style.color = '#ffffff';
-        linkDisplayContainer.style.animation = 'flowingGradient 5s ease infinite';
-
-        const title = document.createElement('h3');
-        title.innerText = '备用下载';
-        title.style.margin = '5px 0 5px 0';
-        title.style.opacity = '0';
-        title.style.fontWeight = 'bold';
-        title.style.transition = 'opacity 0.3s ease 0.2s';
-        linkDisplayContainer.appendChild(title);
-
-        const description = document.createElement('p');
-        description.innerText = '点击按钮获取链接';
-        description.style.margin = '0 0 10px 0';
-        description.style.fontSize = '14px';
-        description.style.opacity = '0';
-        description.style.fontWeight = 'bold';
-        description.style.transition = 'opacity 0.3s ease 0.3s';
-        linkDisplayContainer.appendChild(description);
-
-        document.body.appendChild(linkDisplayContainer);
-    }
-}
-
-function toggleLinkContainer() {
-    isExpanded = !isExpanded;
-
-    if (isExpanded) {
-        linkDisplayContainer.style.width = '300px';
-        linkDisplayContainer.style.height = '130px';
-        linkDisplayContainer.style.borderRadius = '10px';
-        linkDisplayContainer.style.opacity = '1';
-        linkDisplayContainer.style.padding = '20px';
-
-        setTimeout(() => {
-            linkDisplayContainer.querySelectorAll('h3, p, #emergency-download-button').forEach(el => {
-                el.style.opacity = '1';
-            });
-        }, 200);
-
-        floatingButton.style.transform = 'scale(0.8) rotate(45deg)';
-        floatingButton.style.backgroundColor = '#d35400';
-    } else {
-        linkDisplayContainer.style.width = '0';
-        linkDisplayContainer.style.height = '0';
-        linkDisplayContainer.style.borderRadius = '30px';
-        linkDisplayContainer.style.opacity = '0';
-        linkDisplayContainer.style.padding = '0';
-
-        linkDisplayContainer.querySelectorAll('h3, p, #emergency-download-button').forEach(el => {
-            el.style.opacity = '0';
-        });
-
-        floatingButton.style.transform = 'scale(1) rotate(0deg)';
-        floatingButton.style.backgroundColor = '#f39c12';
-    }
-}
-
-function showDownloadLink(fileUrl) {
-    let downloadButton = document.getElementById('emergency-download-button');
-    const fileName = document.title.split('|')[0].trim();
-
-    if (!downloadButton) {
-        downloadButton = document.createElement('a');
-        downloadButton.id = 'emergency-download-button';
-        downloadButton.style.display = 'inline-block';
-        downloadButton.style.backgroundColor = '#2ecc71';
-        downloadButton.style.color = '#ffffff';
-        downloadButton.style.padding = '10px 20px';
-        downloadButton.style.borderRadius = '25px';
-        downloadButton.style.textDecoration = 'none';
-        downloadButton.style.fontSize = '16px';
-        downloadButton.style.fontWeight = 'bold';
-        downloadButton.style.transition = 'all 0.3s ease';
-        downloadButton.style.opacity = '0';
-        downloadButton.style.transition = 'opacity 0.3s ease 0.4s, background-color 0.3s ease, transform 0.3s ease';
-
-        downloadButton.addEventListener('mouseover', () => {
-            downloadButton.style.backgroundColor = '#27ae60';
-            downloadButton.style.transform = 'scale(1.05)';
-        });
-
-        downloadButton.addEventListener('mouseout', () => {
-            downloadButton.style.backgroundColor = '#2ecc71';
-            downloadButton.style.transform = 'scale(1)';
-        });
-
-        linkDisplayContainer.appendChild(downloadButton);
-    }
-
-    downloadButton.innerText = '获取下载链接';
-    downloadButton.onclick = function (event) {
-        totalDownloads++;
-        updateTotalProgress();
-
-        event.preventDefault();
-        courseDownload(fileUrl, fileName);
-    };
-
-    requestAnimationFrame(() => {
-        downloadButton.style.opacity = '0';
-        requestAnimationFrame(() => {
-            downloadButton.style.opacity = '1';
-        });
-    });
-
-    triggerAnimation(downloadButton, 'flash-animation');
-
-    if (!isExpanded) {
-        toggleLinkContainer();
-    } else {
-        downloadButton.style.display = 'inline-block';
-        downloadButton.style.opacity = '1';
-    }
-}
-
-function triggerAnimation(element, animationClass) {
-    element.classList.remove(animationClass);
-    void element.offsetWidth;
-    element.classList.add(animationClass);
-}
-
-let lastScrollTop = 0;
-window.addEventListener('scroll', () => {
-    let scrollTop = window.pageYOffset || document.documentElement.scrollTop;
-    if (scrollTop > lastScrollTop && scrollTop > 200) {
-        floatingButton.style.transform = 'translateY(100px)';
-    } else {
-        floatingButton.style.transform = 'translateY(0)';
-    }
-    lastScrollTop = scrollTop <= 0 ? 0 : scrollTop;
-}, false);
