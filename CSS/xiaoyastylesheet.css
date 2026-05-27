@@ -610,6 +610,95 @@ h1 {
     color: #666;
 }
 
+.permissions-container {
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 15px 20px;
+}
+
+.permissions-text {
+    background: rgba(255, 255, 255, 0.95);
+    border-radius: 20px;
+    padding: 25px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+    order: 1;
+}
+
+.permissions-steps .step-detail {
+    flex: 1;
+}
+
+.permissions-steps .step-detail span {
+    display: block;
+    font-weight: 600;
+    font-size: 16px;
+    color: var(--text-color);
+}
+
+.permissions-steps .step-hint {
+    font-size: 14px;
+    color: #888;
+    margin-top: 4px;
+    margin-bottom: 0;
+}
+
+.permissions-image {
+    width: 100%;
+    order: 2;
+    margin-top: 20px;
+    position: relative;
+}
+
+.permissions-info {
+    margin-top: 25px;
+    padding: 15px 20px;
+    background: linear-gradient(120deg, #fff8e1, #fff3e0);
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.permissions-info .material-icons {
+    color: var(--warning-color);
+    font-size: 22px;
+    padding: 8px;
+    background: rgba(255, 193, 7, 0.1);
+    border-radius: 50%;
+}
+
+body.night-mode .permissions-text {
+    background: rgba(30, 30, 30, 0.95);
+}
+
+body.night-mode .permissions-steps .step-detail span {
+    color: #eee;
+}
+
+body.night-mode .permissions-steps .step-hint {
+    color: #999;
+}
+
+body.night-mode .permissions-info {
+    background: linear-gradient(120deg,
+            var(--section-bg-color),
+            var(--highlight-color));
+}
+
+@media (max-width: 768px) {
+    .permissions-container {
+        gap: 20px;
+        padding: 15px;
+    }
+
+    .permissions-text {
+        padding: 20px;
+    }
+}
+
 /* 开发者模式部分样式 */
 .developer-mode-container {
     display: flex;

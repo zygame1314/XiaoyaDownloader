@@ -28,16 +28,17 @@
     <div id="toc">
         <h3>目录</h3>
         <ul>
-            <li><a href="#install-tampermonkey" class="toc-link">安装油猴插件</a></li>
+            <li><a href="#install-scriptcat" class="toc-link">安装脚本猫</a></li>
             <li><a href="#enable-developer-mode" class="toc-link">启用开发者模式</a></li>
+            <li><a href="#enable-permissions" class="toc-link">开启脚本猫权限</a></li>
             <div class="content-section visible" data-script="xiaoya-crawl">
-                <li><a href="#install-script" class="toc-link">安装小雅爬爬爬脚本</a></li>
+            <li><a href="#install-script" class="toc-link">安装小雅爬爬爬脚本</a></li>
             </div>
             <div class="content-section hidden" data-script="xiaoya-do">
-                <li><a href="#install-script" class="toc-link">安装小雅做做做脚本</a></li>
+            <li><a href="#install-script" class="toc-link">安装小雅做做做脚本</a></li>
             </div>
             <div class="content-section hidden" data-script="xiaoya-answer">
-                <li><a href="#install-script" class="toc-link">安装小雅答答答脚本</a></li>
+            <li><a href="#install-script" class="toc-link">安装小雅答答答脚本</a></li>
             </div>
             <li><a href="#usage" class="toc-link">使用方法</a></li>
             <li><a href="#features" class="toc-link">主要功能</a></li>
@@ -91,19 +92,19 @@
         </div>
     </div>
 
-    <div id="install-tampermonkey" class="section">
-        <h2>1. 安装油猴插件</h2>
-        <p>如果你的浏览器还没有安装油猴插件，请按照以下步骤操作：</p>
+    <div id="install-scriptcat" class="section">
+        <h2>1. 安装脚本猫</h2>
+        <p>如果你的浏览器还没有安装脚本猫插件，请按照以下步骤操作：</p>
         <div class="install-tampermonkey-container">
             <div class="install-tampermonkey-text">
                 <div class="install-options">
-                    <a href="https://www.tampermonkey.net/" target="_blank" class="install-option">
+                    <a href="https://scriptcat.org/zh-CN" target="_blank" class="install-option">
                         <i class="material-icons">language</i>
-                        访问 Tampermonkey 官方网站
+                        访问 ScriptCat 官方网站
                     </a>
                     <div class="or-divider">或</div>
                     <div class="browser-options">
-                        <a href="https://chrome.google.com/webstore/detail/tampermonkey/dhdgffkkebhmkfjojejmpbldmpobfkfo?hl=zh-CN"
+                        <a href="https://chromewebstore.google.com/detail/scriptcat/ndcooeababalnlpkfedmmbbbgkljhpjf?hl=zh-CN"
                             target="_blank" class="browser-option">
                             <svg class="icon" viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg" width="24"
                                 height="24">
@@ -116,7 +117,7 @@
                             </svg>
                             Chrome
                         </a>
-                        <a href="https://addons.mozilla.org/zh-CN/firefox/addon/tampermonkey/" target="_blank"
+                        <a href="https://addons.mozilla.org/zh-CN/firefox/addon/scriptcat/" target="_blank"
                             class="browser-option">
                             <svg class="icon" viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg" width="24"
                                 height="24">
@@ -126,7 +127,7 @@
                             </svg>
                             Firefox
                         </a>
-                        <a href="https://microsoftedge.microsoft.com/addons/detail/tampermonkey/iikmkjmpaadaobahmlepeloendndfphd"
+                        <a href="https://microsoftedge.microsoft.com/addons/detail/%E8%84%9A%E6%9C%AC%E7%8C%AB/liilgpjgabokdklappibcjfablkpcekh?hl=zh-CN"
                             target="_blank" class="browser-option recommended">
                             <svg class="icon" viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg" width="24"
                                 height="24">
@@ -141,7 +142,7 @@
                 </div>
             </div>
             <div class="install-tampermonkey-image">
-                <img src="https://bucket.zygame1314.site/static/xiaoya/install-tampermonkey.webp" alt="安装油猴插件截图" class="tampermonkey-screenshot">
+                <img src="https://bucket.zygame1314.site/static/xiaoya/install-scriptcat.webp" alt="安装脚本猫截图" class="tampermonkey-screenshot">
             </div>
         </div>
         <div class="install-note">
@@ -189,8 +190,68 @@
         </div>
     </div>
 
+    <div id="enable-permissions" class="section">
+        <h2>3. 开启脚本猫权限</h2>
+        <p>安装脚本猫后，还需要开启以下权限，脚本才能正常工作：</p>
+        <div class="permissions-container">
+            <div class="permissions-text">
+                <div class="important-note">
+                    <i class="material-icons">warning</i>
+                    <div>
+                        <strong>为什么需要这些权限？</strong>
+                        <p>脚本猫需要这些权限才能在目标网站上运行用户脚本。以下权限是脚本正常运行的必要条件，请放心开启。</p>
+                    </div>
+                </div>
+                <ol class="setup-steps permissions-steps">
+                    <li>
+                        <i class="material-icons">extension</i>
+                        <div class="step-detail">
+                            <span>打开脚本猫设置页面</span>
+                            <p class="step-hint">点击浏览器工具栏中的脚本猫图标，点击"设置"或"管理"</p>
+                        </div>
+                    </li>
+                    <li>
+                        <i class="material-icons">toggle_on</i>
+                        <div class="step-detail">
+                            <span>开启「允许用户脚本」</span>
+                            <p class="step-hint">这是运行任何用户脚本的前提条件，必须开启</p>
+                        </div>
+                    </li>
+                    <li>
+                        <i class="material-icons">language</i>
+                        <div class="step-detail">
+                            <span>设置站点访问权限为「在所有站点上」</span>
+                            <p class="step-hint">允许此扩展读取和更改你访问的网站上的所有数据</p>
+                        </div>
+                    </li>
+                    <li>
+                        <i class="material-icons">folder_open</i>
+                        <div class="step-detail">
+                            <span>开启「允许访问文件 URL」</span>
+                            <p class="step-hint">部分功能需要访问本地文件，建议开启</p>
+                        </div>
+                    </li>
+                    <li>
+                        <i class="material-icons">security</i>
+                        <div class="step-detail">
+                            <span>开启「在 InPrivate 中允许」（可选）</span>
+                            <p class="step-hint">如果你需要在隐私浏览模式下使用脚本，请开启此选项</p>
+                        </div>
+                    </li>
+                </ol>
+                <div class="permissions-info">
+                    <i class="material-icons">info</i>
+                    <p>开启「允许用户脚本」时，浏览器可能会提示风险。这是因为脚本猫会运行未经浏览器商店评审的代码，但脚本猫是安全可信的扩展，请放心使用。</p>
+                </div>
+            </div>
+            <div class="permissions-image">
+                <img src="https://bucket.zygame1314.site/static/xiaoya/enable-permissions.webp" alt="开启脚本猫权限步骤截图" class="setup-screenshot">
+            </div>
+        </div>
+    </div>
+
     <div id="install-script" class="section">
-        <h2>3. 安装脚本</h2>
+        <h2>4. 安装脚本</h2>
         <div class="content-section visible" data-script="xiaoya-crawl">
             <div class="install-container">
                 <div class="install-text">
@@ -237,7 +298,7 @@
     </div>
 
     <div id="usage" class="section">
-        <h2>4. 使用方法</h2>
+        <h2>5. 使用方法</h2>
 
         <div class="content-section visible" data-script="xiaoya-crawl">
             <div class="usage-steps">
