@@ -3,7 +3,7 @@ import { init } from 'https://cdn.jsdmirror.com/npm/@waline/client@v3/dist/walin
 init({
     el: '#waline',
     dark: 'body.night-mode',
-    serverURL: 'https://xiaoyaapi.zygame1314.site',
+    serverURL: 'https://xiaoyablog.zygame1314.site',
     placeholder: '说点什么……',
     meta: ['nick', 'mail'],
     requiredMeta: ['nick', 'mail'],
@@ -13,7 +13,7 @@ init({
     highlight: true,
     recordIP: true,
     emoji: [
-        'https://bucket.zygame1314.site/static/emoji/bilibili_tv'
+        '/emoji/bilibili_tv'
     ],
     imageUploader: async (file) => {
         const webpBlob = await convertToWebP(file);
@@ -24,7 +24,7 @@ init({
         formData.append('site', site);
 
         try {
-            const response = await fetch('https://api.zygame1314.site/comment/upload-image', {
+            const response = await fetch('https://blog.zygame1314.site/comment/upload-image', {
                 method: 'POST',
                 body: formData
             });
