@@ -3,7 +3,7 @@ import { init } from 'https://cdn.jsdmirror.com/npm/@waline/client@v3/dist/walin
 init({
     el: '#waline',
     dark: 'body.night-mode',
-    serverURL: 'https://xiaoyablog.zygame1314.site',
+    serverURL: 'https://xiaoyaapi.zygame1314.site',
     placeholder: '说点什么……',
     meta: ['nick', 'mail'],
     requiredMeta: ['nick', 'mail'],
