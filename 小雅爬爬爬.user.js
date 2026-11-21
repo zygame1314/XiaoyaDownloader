@@ -2,11 +2,11 @@
 // @name        小雅爬爬爬
 // @match       https://*.ai-augmented.com/*
 // @grant       none
-// @require     https://cdn.bootcdn.net/ajax/libs/jszip/3.10.1/jszip.min.js
+// @require     https://cdn.jsdmirror.com/ajax/libs/jszip/3.10.1/jszip.min.js
 // @description 🚀 小雅平台课件下载利器！批量下载、排序、筛选、导出等一应俱全！更多功能等你发掘！
 // @license     MIT
 // @author      Yi
-// @version     2.0.1
+// @version     2.0.2
 // @icon        https://www.ai-augmented.com/static/logo3.1dbbea8f.png
 // @homepageURL https://xiaoya.zygame1314.site
 // @supportURL  https://xiaoya.zygame1314.site
@@ -325,10 +325,10 @@ document.head.appendChild(styleSheet);
     const link = document.createElement('link');
     link.id = 'xy-icon-font';
     link.rel = 'stylesheet';
-    link.href = 'https://cdn.bootcdn.net/ajax/libs/font-awesome/6.7.2/css/all.min.css';
+    link.href = 'https://cdn.jsdmirror.com/ajax/libs/font-awesome/6.7.2/css/all.min.css';
     link.onerror = () => {
         link.onerror = null;
-        link.href = 'https://cdn.staticfile.net/font-awesome/6.7.2/css/all.min.css';
+        link.href = 'https://cdn.jsdmirror.com/npm/@fortawesome/fontawesome-free@6.7.2/css/all.min.css';
     };
     document.head.appendChild(link);
     const iconStyle = document.createElement('style');
