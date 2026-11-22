@@ -6,7 +6,7 @@
 // @description 🚀 小雅平台课件下载利器！批量下载、排序、筛选、导出等一应俱全！更多功能等你发掘！
 // @license     MIT
 // @author      Yi
-// @version     2.0.2
+// @version     2.0.3
 // @icon        https://www.ai-augmented.com/static/logo3.1dbbea8f.png
 // @homepageURL https://xiaoya.zygame1314.site
 // @supportURL  https://xiaoya.zygame1314.site
@@ -367,15 +367,12 @@ function loadCustomFilters() {
 let course_resources;
 let currentResourcesGroupId = null;
 let courseVisitData;
-let historyListElement;
 let failedContainer;
 let failedToggleButton;
 let noErrorsMessage;
-let forcedExpandedItems = new Set();
 let historyPopup = null;
 let isEasterEggActivated = false;
 let downloadHistory = [];
-let detectInterval = null;
 window.currentSearchKeyword = '';
 window.currentFilterCategory = '';
 window.quickFilters = [
@@ -394,7 +391,7 @@ if (savedFilters) {
 function isVideoFile(mimetype, resourceName) {
     const videoExtensions = [
         'mp4', 'avi', 'mov', 'wmv', 'flv', 'mkv', 'webm', 'm4v',
-        'mpeg', 'mpg', '3gp', 'ts', 'vob', 'ogv', 'divx', 'rm', 'rmvb', 'f4v'
+        'mpeg', 'mpg', '3gp', 'vob', 'ogv', 'divx', 'rm', 'rmvb', 'f4v'
     ];
     if (typeof mimetype === 'string' && mimetype.startsWith('video/')) {
         return true;
@@ -410,9 +407,53 @@ function isVideoFile(mimetype, resourceName) {
     }
     return false;
 }
+function isStreamUrl(url) {
+    return typeof url === 'string' && /\.m3u8(\?|$)/i.test(url);
+}
+function getFileExtension(name) {
+    const match = String(name || '').trim().match(/\.([A-Za-z0-9]{1,6})$/);
+    return match ? match[1].toLowerCase() : '';
+}
+function guessExtensionFromUrl(url) {
+    const path = String(url || '').split(/[?#]/)[0];
+    return getFileExtension(path);
+}
+function isVideoNode(node) {
+    if (!node) return false;
+    if (Number(node.type) === 9) return true;
+    const resource = node.resource || {};
+    if (node.video_id || resource.video_id) return true;
+    return isVideoFile(node.mimetype || resource.mimetype, node.name);
+}
+function ensureFileName(name, url, isVideo) {
+    const base = String(name || '').trim() || '未命名文件';
+    if (getFileExtension(base)) return base;
+    const fromUrl = guessExtensionFromUrl(url);
+    if (fromUrl) return `${base}.${fromUrl}`;
+    if (isVideo) return `${base}.mp4`;
+    return base;
+}
+function handleStreamUrl(url, name) {
+    showNotification(`《${name}》仅提供 M3U8 流地址，已尝试复制到剪贴板`, 'info');
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(url).catch(() => { });
+    }
+}
+const LIST_SKIP_TYPES = new Set([1, 3, 7, 8, 11]);
+let hpFailedFileNotifier = null;
+function hpCountRenderable(list) {
+    if (!Array.isArray(list)) return 0;
+    let count = 0;
+    for (const resource of list) {
+        if (LIST_SKIP_TYPES.has(Number(resource.type))) continue;
+        if (!resource.quote_id) continue;
+        count++;
+    }
+    return count;
+}
 async function getCourseAccessToken(visitData) {
     if (!visitData) return null;
-    const token = getCookie();
+    const token = await hpAuthToken();
     try {
         const authUrl = `https://${hostname}/api/jx-iresource/group/access/authorization`;
         const authResponse = await fetch(`${authUrl}?site_id=${visitData.site_id}&role_type=4`, {
@@ -428,27 +469,29 @@ async function getCourseAccessToken(visitData) {
     }
 }
 async function getCourseResources(groupId, visitData) {
-    const token = getCookie();
+    const token = await hpAuthToken();
     const url = `https://${hostname}/api/jx-iresource/resource/queryCourseResources?group_id=${groupId}`;
+    const request = async (authToken, accessToken) => {
+        const headers = {
+            'Authorization': `Bearer ${authToken}`,
+            'Content-Type': 'application/json; charset=utf-8'
+        };
+        if (accessToken) headers['X-Course-Access'] = accessToken;
+        const response = await fetch(url, { headers });
+        return { status: response.status, data: await response.json() };
+    };
     try {
-        let response = await fetch(url, {
-            headers: {
-                'Authorization': `Bearer ${token}`,
-                'Content-Type': 'application/json; charset=utf-8'
-            }
-        });
-        let responseData = await response.json();
-        if (responseData.code === 50007) {
+        let result = await request(token);
+        if (result.status === 401) {
+            const retryToken = await hpAuthToken(true);
+            if (retryToken && retryToken !== token) result = await request(retryToken);
+        }
+        let responseData = result.data;
+        if (responseData.code === 50007 || result.status === 401) {
             const accessToken = await getCourseAccessToken(visitData);
             if (accessToken) {
-                response = await fetch(url, {
-                    headers: {
-                        'Authorization': `Bearer ${token}`,
-                        'Content-Type': 'application/json; charset=utf-8',
-                        'X-Course-Access': accessToken
-                    }
-                });
-                responseData = await response.json();
+                const retried = await request((await hpAuthToken()) || token, accessToken);
+                responseData = retried.data;
             }
         }
         if (!responseData.success) {
@@ -461,10 +504,9 @@ async function getCourseResources(groupId, visitData) {
     }
 }
 async function getCourseVisitData(groupId) {
-    const token = getCookie();
     const url = `https://${hostname}/api/jx-iresource/statistics/group/visit`;
-    try {
-        const visitResponse = await fetch(url, {
+    const request = async (token) => {
+        const response = await fetch(url, {
             method: 'POST',
             headers: {
                 'Authorization': `Bearer ${token}`,
@@ -472,7 +514,16 @@ async function getCourseVisitData(groupId) {
             },
             body: JSON.stringify({ group_id: groupId, role_type: "normal" })
         });
-        const visitData = await visitResponse.json();
+        return { status: response.status, data: await response.json() };
+    };
+    try {
+        let token = await hpAuthToken();
+        let result = await request(token);
+        if (result.status === 401) {
+            const retryToken = await hpAuthToken(true);
+            if (retryToken && retryToken !== token) result = await request(retryToken);
+        }
+        const visitData = result.data;
         if (!visitData.success) {
             console.error('获取课程访问数据失败:', visitData.message);
             return null;
@@ -545,11 +596,11 @@ async function parseContent() {
     const visitData = await getCourseVisitData(groupId);
     courseVisitData = visitData;
     const resources = await getCourseResources(groupId, visitData);
-    course_resources = resources;
-    currentResourcesGroupId = resources ? groupId : null;
-    if (!course_resources) {
-        showNotification('获取课程资源失败', 'error');
-        return;
+    const hadResourceError = !Array.isArray(resources);
+    course_resources = hadResourceError ? [] : resources;
+    currentResourcesGroupId = groupId;
+    if (hadResourceError) {
+        showNotification('课程资源接口异常，将尝试其他途径探测', 'warning');
     }
     if (visitData) {
         console.log('课程名称:', visitData.name);
@@ -608,6 +659,7 @@ async function parseContent() {
     updateFailedCount();
     function createFileItem(resource) {
         let file_name = resource.name;
+        const isVideo = Number(resource.type) === 9 || isVideoFile(resource.mimetype, resource.name);
         let create_time = new Date(resource.created_at).toLocaleDateString();
         let update_time = new Date(resource.updated_at).toLocaleDateString();
         var file_container = document.createElement('div');
@@ -621,7 +673,7 @@ async function parseContent() {
             updateTreeCheckbox(this);
             syncTreeWithDownloadList();
         });
-        var fileIconInfo = getFileIconInfo(file_name);
+        var fileIconInfo = getFileIconInfo(file_name, isVideo);
         var fileIcon = document.createElement('span');
         fileIcon.className = `file-icon ${fileIconInfo.colorClass}`;
         fileIcon.innerHTML = fileIconInfo.html;
@@ -631,6 +683,19 @@ async function parseContent() {
         fileName.className = 'file-name';
         fileName.textContent = file_name;
         fileName.title = file_name;
+        if (isVideo) {
+            const nameRow = document.createElement('div');
+            nameRow.className = 'file-name-row';
+            nameRow.appendChild(fileName);
+            const videoBadge = document.createElement('span');
+            videoBadge.className = 'file-video-badge';
+            videoBadge.title = '视频资源，通过点播接口获取地址';
+            videoBadge.innerHTML = `${xyIcon('film')}<span>视频</span>`;
+            nameRow.appendChild(videoBadge);
+            file_info.appendChild(nameRow);
+        } else {
+            file_info.appendChild(fileName);
+        }
         var fileDetails = document.createElement('div');
         fileDetails.className = 'file-details';
         const svgIcons = {
@@ -657,7 +722,6 @@ async function parseContent() {
         }
         dateContainer.appendChild(dateElement);
         fileDetails.appendChild(dateContainer);
-        file_info.appendChild(fileName);
         file_info.appendChild(fileDetails);
         var downloadLink = document.createElement('a');
         downloadLink.className = 'download-link';
@@ -671,6 +735,7 @@ async function parseContent() {
         downloadLink.setAttribute('data-path', resource.path);
         downloadLink.setAttribute('data-parent-id', resource.parent_id);
         downloadLink.setAttribute('data-quote-id', resource.quote_id);
+        downloadLink.setAttribute('data-video', isVideo ? '1' : '0');
         downloadLink.draggable = true;
         var downloadIcon = document.createElement('span');
         downloadIcon.className = 'download-icon';
@@ -683,8 +748,14 @@ async function parseContent() {
             try {
                 totalDownloads++;
                 updateTotalProgress();
-                const fileUrl = await window.getDownloadUrl(resource.quote_id);
-                courseDownload(fileUrl, file_name);
+                const fileUrl = await window.getDownloadUrl(resource.quote_id, { video: isVideo });
+                if (isStreamUrl(fileUrl)) {
+                    handleStreamUrl(fileUrl, file_name);
+                    completedDownloads++;
+                    updateTotalProgress();
+                } else {
+                    courseDownload(fileUrl, file_name);
+                }
             } catch (error) {
                 console.error('获取下载链接失败:', error);
                 addFailedFileNotification(file_name);
@@ -713,8 +784,8 @@ async function parseContent() {
             const previewIcon = this.querySelector('.preview-icon');
             previewIcon.innerHTML = xyIcon('spinner', 'fa-spin');
             try {
-                const fileUrl = await window.getDownloadUrl(resource.quote_id);
-                previewFile(file_name, fileUrl);
+                const fileUrl = await window.getDownloadUrl(resource.quote_id, { video: isVideo });
+                previewFile(file_name, fileUrl, { video: isVideo });
             } catch (error) {
                 console.error('获取预览链接失败:', error);
                 showNotification('获取预览链接失败', 'error');
@@ -729,84 +800,72 @@ async function parseContent() {
         file_container.appendChild(downloadLink);
         return file_container;
     }
-    window.getDownloadUrl = async function (quoteId) {
-        const maxRetries = 3;
-        const retryDelay = 1000;
-        let retryCount = 0;
-        while (retryCount < maxRetries) {
+    window.getDownloadUrl = async function (quoteId, options) {
+        const wantVideo = !!(options && options.video);
+        const maxAttempts = 2;
+        const retryDelay = 800;
+        const fetchJson = async (path) => {
             try {
                 const token = getCookie();
-                const response = await fetch('https://' + hostname + '/api/jx-oresource/cloud/file_url/' + quoteId, {
+                const response = await fetch('https://' + hostname + path, {
                     headers: {
                         Authorization: `Bearer ${token}`
                     }
                 });
-                const data = await response.json();
-                if (data.success) {
-                    let fileUrl = data.data.url;
-                    if (data.data.is_encryption) {
-                        fileUrl = decryptFileUrl(fileUrl);
-                    }
-                    return fileUrl;
-                }
-                throw new Error('获取下载链接失败');
+                return await response.json();
             } catch (error) {
-                retryCount++;
-                if (retryCount === maxRetries) {
-                    throw error;
+                return null;
+            }
+        };
+        const fromCloud = async () => {
+            const data = await fetchJson('/api/jx-oresource/cloud/file_url/' + quoteId);
+            if (data && data.success && data.data && data.data.url) {
+                let fileUrl = data.data.url;
+                if (data.data.is_encryption) {
+                    fileUrl = decryptFileUrl(fileUrl);
                 }
+                return fileUrl;
+            }
+            return null;
+        };
+        const fromVod = async () => {
+            const data = await fetchJson('/api/jx-oresource/vod/video/' + quoteId);
+            if (data && data.success && data.data) {
+                if (data.data.download_url) return data.data.download_url;
+                const videoId = data.data.video_id
+                    || (data.data.resource && data.data.resource.video_id)
+                    || null;
+                if (videoId) {
+                    const auth = await fetchJson('/api/jx-oresource/vod/video/play_auth/' + videoId);
+                    const list = auth && auth.success && auth.data ? auth.data.private_vod : null;
+                    if (Array.isArray(list) && list[0] && list[0].private_url) {
+                        return list[0].private_url;
+                    }
+                }
+            }
+            return null;
+        };
+        const resolvers = wantVideo ? [fromVod, fromCloud] : [fromCloud, fromVod];
+        let lastError = null;
+        for (let attempt = 0; attempt < maxAttempts; attempt++) {
+            for (const resolver of resolvers) {
+                const url = await resolver();
+                if (url) return url;
+            }
+            lastError = new Error('获取下载链接失败');
+            if (attempt < maxAttempts - 1) {
                 await new Promise(resolve => setTimeout(resolve, retryDelay));
             }
         }
+        throw lastError;
     }
     const fragment = document.createDocumentFragment();
     for (const resource of course_resources) {
-        if (resource.mimetype &&
-            resource.type !== 'folder' &&
-            !isVideoFile(resource.mimetype, resource.name)) {
-            const fileItem = createFileItem(resource);
-            fragment.appendChild(fileItem);
-        }
+        if (LIST_SKIP_TYPES.has(Number(resource.type))) continue;
+        if (!resource.quote_id) continue;
+        fragment.appendChild(createFileItem(resource));
     }
     download_list.appendChild(fragment);
-    function getFileIconInfo(fileName) {
-        const extension = fileName.split('.').pop().toLowerCase();
-        const imageExts = ['jpg', 'jpeg', 'png', 'gif', 'bmp', 'tiff', 'svg', 'webp', 'tif'];
-        const audioExts = ['mp3', 'wav', 'ogg', 'flac', 'aac', 'm4a', 'wma', 'aiff', 'ape', 'midi'];
-        const codeExts = ['py', 'cpp', 'java', 'js', 'ts', 'cs', 'php', 'rb', 'go', 'swift', 'kt', 'c', 'h', 'sh', 'bat', 'json', 'xml', 'yaml', 'yml', 'sql', 'css', 'scss', 'less'];
-        const archiveExts = ['zip', 'rar', '7z', 'gz', 'bz2', 'tar'];
-        let icon = 'link';
-        let colorClass = 'file-icon-default';
-        if (extension === 'pdf') {
-            icon = 'file-pdf';
-            colorClass = 'file-icon-document';
-        } else if (extension === 'doc' || extension === 'docx') {
-            icon = 'file-word';
-            colorClass = 'file-icon-document';
-        } else if (extension === 'xls' || extension === 'xlsx') {
-            icon = 'file-excel';
-            colorClass = 'file-icon-document';
-        } else if (extension === 'ppt' || extension === 'pptx') {
-            icon = 'file-powerpoint';
-            colorClass = 'file-icon-document';
-        } else if (['doc', 'docx', 'pdf', 'txt', 'odt', 'rtf', 'html', 'htm', 'xls', 'xlsx', 'ppt', 'pptx', 'odp', 'xmind'].includes(extension)) {
-            icon = 'file-lines';
-            colorClass = 'file-icon-document';
-        } else if (imageExts.includes(extension)) {
-            icon = 'file-image';
-            colorClass = 'file-icon-image';
-        } else if (audioExts.includes(extension)) {
-            icon = 'file-audio';
-            colorClass = 'file-icon-music';
-        } else if (codeExts.includes(extension)) {
-            icon = 'file-code';
-            colorClass = 'file-icon-code';
-        } else if (archiveExts.includes(extension)) {
-            icon = 'file-zipper';
-            colorClass = 'file-icon-archive';
-        }
-        return { html: xyIcon(icon), colorClass };
-    }
     function toggleFailedContainer() {
         if (failedContainer.style.display === 'none') {
             failedContainer.style.display = 'block';
@@ -877,10 +936,17 @@ async function parseContent() {
             failedItem.style.transform = 'translateX(20px)';
             setTimeout(() => {
                 failedItem.remove();
-                const resource = Object.values(course_resources).find(r => r.name === fileName);
                 updateFailedCount();
                 if (failedContainer.children.length === 1) {
                     noErrorsMessage.style.display = 'block';
+                }
+                const rows = document.querySelectorAll('#download_list .file-item');
+                for (const row of rows) {
+                    const link = row.querySelector('a.download-link');
+                    if (link && link.getAttribute('data-origin-name') === fileName) {
+                        link.click();
+                        return;
+                    }
                 }
             }, 300);
         };
@@ -894,6 +960,8 @@ async function parseContent() {
         }, 10);
     }
     noErrorsMessage.style.display = 'none';
+    hpFailedFileNotifier = addFailedFileNotification;
+    hpScheduleAutoProbe(groupId);
     handleXhrResponse();
 }
 const PREVIEW_MODAL_CLASS = 'xiaoya-preview-modal';
@@ -906,6 +974,8 @@ const PREVIEW_BASE_URL = 'https://vip.ow365.cn/?i=29353&ssl=1&draw=1';
 const SUPPORTED_DOCS = new Set(['pdf', 'txt', 'doc', 'docx', 'ppt', 'pptx', 'xls', 'xlsx', 'js', 'json', 'css', 'sql', 'xml', 'java', 'cs']);
 const SUPPORTED_IMAGES = new Set(['jpg', 'jpeg', 'png', 'gif', 'bmp', 'svg', 'webp', 'ico']);
 const SUPPORTED_AUDIO = new Set(['mp3', 'wav', 'ogg']);
+const SUPPORTED_VIDEO = new Set(['mp4', 'webm', 'm4v', 'mov', 'ogv', 'mkv']);
+const UNPLAYABLE_VIDEO = new Set(['wmv', 'avi', 'flv', 'rm', 'rmvb', 'mpg', 'mpeg', 'vob', 'divx', 'ts', '3gp', 'f4v', 'swf']);
 const SUPPORTED_ARCHIVES = new Set(['zip', 'rar', '7z']);
 const SUPPORTED_CODE = new Set(['cpp', 'h', 'py', 'go', 'rs', 'md', 'php', 'rb', 'swift', 'kt', 'c', 'sh', 'bat', 'yaml', 'yml', 'scss', 'less', 'ts']);
 const SUPPORTED_DOCS_FOR_INFO = new Set(['pdf', 'doc', 'docx', 'ppt', 'pptx', 'xls', 'xlsx']);
@@ -913,6 +983,7 @@ function isSupportedForPreview(extension) {
     return SUPPORTED_DOCS.has(extension) ||
         SUPPORTED_IMAGES.has(extension) ||
         SUPPORTED_AUDIO.has(extension) ||
+        SUPPORTED_VIDEO.has(extension) ||
         SUPPORTED_ARCHIVES.has(extension) ||
         SUPPORTED_CODE.has(extension);
 }
@@ -1057,7 +1128,7 @@ async function fetchAndDisplayCode(fileUrl, codeElement) {
         showNotification('加载代码文件失败', 'error');
     }
 }
-function createContentElement(extension, fileUrl, contentWrapper, previewModal) {
+function createContentElement(extension, fileUrl, contentWrapper, previewModal, asVideo) {
     let element;
     if (SUPPORTED_CODE.has(extension)) {
         element = document.createElement('pre');
@@ -1089,6 +1160,67 @@ function createContentElement(extension, fileUrl, contentWrapper, previewModal) 
         element.src = fileUrl;
         element.style.cssText = `width: 80%; max-width: 500px; box-shadow: 0 15px 30px rgba(0,0,0,0.15); border-radius: 30px;`;
         contentWrapper.appendChild(element);
+    } else if (UNPLAYABLE_VIDEO.has(extension)) {
+        contentWrapper.style.flexDirection = 'column';
+        const card = document.createElement('div');
+        card.style.cssText = `display: flex; flex-direction: column; align-items: center; gap: 12px; padding: 26px 30px; border-radius: 14px; background: #fbf8f2; border: 1px dashed #e3d1b3; color: #8a6a33; font-size: 13px; text-align: center; max-width: 520px;`;
+        card.innerHTML = `<span style="font-size: 34px; color: #b36a00;">${xyIcon('film')}</span>` +
+            `<span>该格式（.${extension}）无法在浏览器内直接播放，请下载后使用本地播放器。</span>`;
+        const actions = document.createElement('div');
+        actions.style.cssText = 'display: flex; gap: 10px; flex-wrap: wrap; justify-content: center;';
+        const downloadButton = document.createElement('a');
+        downloadButton.href = fileUrl;
+        downloadButton.target = '_blank';
+        downloadButton.rel = 'noopener';
+        downloadButton.textContent = '在新标签打开';
+        downloadButton.style.cssText = 'height: 34px; padding: 0 16px; display: inline-flex; align-items: center; border-radius: 9px; background: #e8890c; color: #fff; font-size: 12.5px; font-weight: 600; text-decoration: none;';
+        actions.appendChild(downloadButton);
+        if (isStreamUrl(fileUrl)) {
+            const copyButton = document.createElement('button');
+            copyButton.type = 'button';
+            copyButton.textContent = '复制链接';
+            copyButton.style.cssText = 'height: 34px; padding: 0 16px; border: 1px solid #e6d7bd; border-radius: 9px; background: #fff; color: #8a6a33; font-size: 12.5px; font-weight: 600; cursor: pointer;';
+            copyButton.addEventListener('click', async () => {
+                try {
+                    await navigator.clipboard.writeText(fileUrl);
+                    copyButton.textContent = '已复制';
+                    setTimeout(() => { copyButton.textContent = '复制链接'; }, 1500);
+                } catch (error) {
+                    showNotification('复制失败，请手动选中链接', 'warning');
+                }
+            });
+            actions.appendChild(copyButton);
+        }
+        card.appendChild(actions);
+        contentWrapper.appendChild(card);
+    } else if (asVideo || SUPPORTED_VIDEO.has(extension) || /\.m3u8(\?|$)/i.test(fileUrl)) {
+        contentWrapper.style.flexDirection = 'column';
+        element = document.createElement('video');
+        element.controls = true;
+        element.preload = 'metadata';
+        element.src = fileUrl;
+        element.style.cssText = `max-width: 100%; max-height: 100%; border-radius: 12px; background: #000; box-shadow: 0 15px 30px rgba(0,0,0,0.25);`;
+        contentWrapper.appendChild(element);
+        if (/\.m3u8(\?|$)/i.test(fileUrl)) {
+            const hint = document.createElement('div');
+            hint.style.cssText = `margin-top: 12px; display: flex; align-items: center; gap: 10px; padding: 8px 14px; border-radius: 10px; background: #fff6e6; border: 1px solid #f0d29a; color: #8a6a33; font-size: 12px;`;
+            hint.innerHTML = `<span>该视频为 M3U8 流，Chrome 可能无法直接播放；可复制链接使用播放器或下载工具。</span>`;
+            const copyButton = document.createElement('button');
+            copyButton.type = 'button';
+            copyButton.textContent = '复制链接';
+            copyButton.style.cssText = `flex-shrink: 0; height: 28px; padding: 0 12px; border: 1px solid #e6d7bd; border-radius: 8px; background: #fff; color: #8a6a33; font-size: 12px; font-weight: 600; cursor: pointer;`;
+            copyButton.addEventListener('click', async () => {
+                try {
+                    await navigator.clipboard.writeText(fileUrl);
+                    copyButton.textContent = '已复制';
+                    setTimeout(() => { copyButton.textContent = '复制链接'; }, 1500);
+                } catch (error) {
+                    showNotification('复制失败，请手动选中链接', 'warning');
+                }
+            });
+            hint.appendChild(copyButton);
+            contentWrapper.appendChild(hint);
+        }
     }
 }
 function setupInfoButton(modal, wrapper, iframe, fileUrl) {
@@ -1151,9 +1283,11 @@ function setupInfoButton(modal, wrapper, iframe, fileUrl) {
     };
     modal.appendChild(infoButton);
 }
-function previewFile(fileName, fileUrl) {
-    const extension = fileName.split('.').pop().toLowerCase();
-    if (!isSupportedForPreview(extension)) {
+function previewFile(fileName, fileUrl, options) {
+    const videoHint = !!(options && options.video);
+    const extension = getFileExtension(fileName) || guessExtensionFromUrl(fileUrl);
+    const asVideo = videoHint || isVideoFile('', fileName) || isStreamUrl(fileUrl);
+    if (!isSupportedForPreview(extension) && !asVideo) {
         showNotification('该类型文件不支持预览╯︿╰', 'warning');
         return;
     }
@@ -1163,7 +1297,7 @@ function previewFile(fileName, fileUrl) {
     }
     const { previewModal, contentWrapper, dragHandle } = createPreviewModalStructure(fileName);
     setupDragHandling(previewModal, dragHandle);
-    createContentElement(extension, fileUrl, contentWrapper, previewModal);
+    createContentElement(extension, fileUrl, contentWrapper, previewModal, asVideo);
     document.body.appendChild(previewModal);
     requestAnimationFrame(() => {
         previewModal.style.opacity = '1';
@@ -1942,6 +2076,8 @@ updateIndicator()
 updateDownloadsContainerVisibility();
 function courseDownload(file_url, file_name) {
     return new Promise((resolve, reject) => {
+        const videoGuess = isVideoFile('', file_name) || isStreamUrl(file_url) || /vod\./i.test(String(file_url));
+        file_name = ensureFileName(file_name, file_url, videoGuess);
         const useThirdPartyDownload = localStorage.getItem('useThirdPartyDownload') === 'true';
         const token = getCookie();
         const downloadsContainer = document.getElementById('downloadsContainer');
@@ -2599,7 +2735,8 @@ async function handleBulkDownload() {
             const link = container.querySelector('a.download-link');
             return {
                 quoteId: link.getAttribute('data-quote-id'),
-                name: link.getAttribute('data-origin-name')
+                name: link.getAttribute('data-origin-name'),
+                isVideo: link.getAttribute('data-video') === '1'
             };
         });
     if (totalDownloads === 0) {
@@ -2632,7 +2769,13 @@ async function processDownloadQueue(downloadQueue) {
     for (let file of downloadQueue) {
         try {
             console.log(`准备下载: ${file.name}`);
-            const fileUrl = await window.getDownloadUrl(file.quoteId);
+            const fileUrl = await window.getDownloadUrl(file.quoteId, { video: file.isVideo });
+            if (isStreamUrl(fileUrl)) {
+                handleStreamUrl(fileUrl, file.name);
+                completedDownloads++;
+                updateTotalProgress();
+                continue;
+            }
             courseDownload(fileUrl, file.name).then(() => {
                 console.log(`完成下载: ${file.name}`);
             }).catch(error => {
@@ -2643,6 +2786,8 @@ async function processDownloadQueue(downloadQueue) {
             }
         } catch (error) {
             console.error(`处理文件失败: ${file.name}`, error);
+            completedDownloads++;
+            updateTotalProgress();
         }
     }
 }
@@ -2756,10 +2901,11 @@ function applyFilters() {
     }
     var visibleItems = document.querySelectorAll("#download_list .file-item[style*='display: flex']");
     var download_list = document.getElementById("download_list");
-    var noResultsMessage = download_list.querySelector('p');
+    var noResultsMessage = download_list.querySelector('.xy-no-results');
     if (visibleItems.length === 0) {
         if (!noResultsMessage) {
             noResultsMessage = document.createElement('p');
+            noResultsMessage.className = 'xy-no-results';
             noResultsMessage.style.color = '#FFA500';
             noResultsMessage.style.textAlign = 'center';
             noResultsMessage.style.fontWeight = 'bold';
@@ -2853,7 +2999,6 @@ function createOrUpdateTreeViewButton(parent) {
             clearTreeSearch();
             return;
         }
-        forcedExpandedItems.clear();
         const treeItems = treeContainer.querySelectorAll('.item-content');
         matches = [];
         removeAllHighlights();
@@ -2864,8 +3009,6 @@ function createOrUpdateTreeViewButton(parent) {
             const span = nameSpan;
             if (textContent && textContent.toLowerCase().includes(searchTerm)) {
                 matches.push(span);
-                const parentElements = getParentElements(item.closest('li'));
-                parentElements.forEach(el => forcedExpandedItems.add(el));
                 expandParentFolders(item.closest('li'));
             }
         });
@@ -2876,17 +3019,6 @@ function createOrUpdateTreeViewButton(parent) {
             highlightCurrentMatch();
             scrollToMatch(currentMatchIndex);
         }
-    }
-    function getParentElements(element) {
-        const parents = [];
-        let current = element;
-        while (current && current !== treeContainer) {
-            if (current.tagName === 'LI') {
-                parents.push(current);
-            }
-            current = current.parentElement;
-        }
-        return parents;
     }
     function navigateMatches(direction) {
         if (matches.length === 0) return;
@@ -2960,7 +3092,6 @@ function createOrUpdateTreeViewButton(parent) {
         if (searchInfo) {
             searchInfo.textContent = '';
         }
-        forcedExpandedItems.clear();
         removeAllHighlights();
         matches = [];
         currentMatchIndex = -1;
@@ -3326,6 +3457,7 @@ async function createTreeHTML() {
             path: pathIds.join('/'),
             pathIds,
             checkbox,
+            videoHint: fileInfo.getAttribute('data-video') === '1',
             sort_position: resourceSortMap[resourceId] || 0
         });
     });
@@ -3419,7 +3551,7 @@ function buildTreeHTML(node, level = 0) {
             const name = treeEscapeHtml(resource.name);
             const path = treeEscapeHtml(resource.path);
             const checked = resource.checkbox.checked ? 'checked' : '';
-            const fileIcon = getFileIcon(resource.name);
+            const fileIcon = getFileIcon(resource.name, resource.videoHint);
             html += `
                 <li class="tree-file" data-path="${path}">
                     <div class="item-content" role="treeitem" aria-level="${level + 1}" tabindex="0" title="${name}">
@@ -3463,33 +3595,49 @@ function batchUpdate(checkbox) {
     });
     updateParentCheckboxes(checkbox);
 }
-function getFileIcon(filename) {
-    const extension = filename.split('.').pop().toLowerCase();
+function getFileIconInfo(filename, videoHint) {
+    const extension = getFileExtension(filename);
     const imageExts = ['jpg', 'jpeg', 'png', 'gif', 'bmp', 'tiff', 'svg', 'webp', 'tif'];
     const audioExts = ['mp3', 'wav', 'ogg', 'flac', 'aac', 'm4a', 'wma', 'aiff', 'ape', 'midi'];
     const codeExts = ['py', 'cpp', 'java', 'js', 'ts', 'cs', 'php', 'rb', 'go', 'swift', 'kt', 'c', 'h', 'sh', 'bat', 'json', 'xml', 'yaml', 'yml', 'sql', 'css', 'scss', 'less'];
     const archiveExts = ['zip', 'rar', '7z', 'gz', 'bz2', 'tar'];
     let icon = 'link';
+    let colorClass = 'file-icon-default';
     if (extension === 'pdf') {
         icon = 'file-pdf';
+        colorClass = 'file-icon-document';
     } else if (extension === 'doc' || extension === 'docx') {
         icon = 'file-word';
+        colorClass = 'file-icon-document';
     } else if (extension === 'xls' || extension === 'xlsx') {
         icon = 'file-excel';
+        colorClass = 'file-icon-document';
     } else if (extension === 'ppt' || extension === 'pptx') {
         icon = 'file-powerpoint';
+        colorClass = 'file-icon-document';
     } else if (['txt', 'odt', 'rtf', 'html', 'htm', 'odp', 'xmind'].includes(extension)) {
         icon = 'file-lines';
+        colorClass = 'file-icon-document';
     } else if (imageExts.includes(extension)) {
         icon = 'file-image';
+        colorClass = 'file-icon-image';
     } else if (audioExts.includes(extension)) {
         icon = 'file-audio';
+        colorClass = 'file-icon-music';
+    } else if (isVideoFile('', filename) || videoHint) {
+        icon = 'file-video';
+        colorClass = 'file-icon-code';
     } else if (codeExts.includes(extension)) {
         icon = 'file-code';
+        colorClass = 'file-icon-code';
     } else if (archiveExts.includes(extension)) {
         icon = 'file-zipper';
+        colorClass = 'file-icon-archive';
     }
-    return xyIcon(icon);
+    return { html: xyIcon(icon), colorClass };
+}
+function getFileIcon(filename, videoHint) {
+    return getFileIconInfo(filename, videoHint).html;
 }
 function addTreeViewStyles() {
     if (document.getElementById('tree-view-styles')) return;
@@ -4283,15 +4431,87 @@ function add_download_button() {
     document.head.appendChild(downloadIconStyle);
     document.body.appendChild(downloadListContainer);
 }
+function hpDecodeJwtPayload(jwt) {
+    try {
+        const part = String(jwt || '').split('.')[1];
+        if (!part) return null;
+        let text = part.replace(/-/g, '+').replace(/_/g, '/');
+        while (text.length % 4) text += '=';
+        return atob(text);
+    } catch (e) {
+        return null;
+    }
+}
+function hpAccessTokenHint() {
+    try {
+        const raw = localStorage.getItem('XY_GLOBAL_CONFIG');
+        if (!raw) return null;
+        const cfg = JSON.parse(raw);
+        const payload = hpDecodeJwtPayload(cfg && cfg.xy_ai_token);
+        if (!payload || payload.length > 128) return null;
+        return /^[A-Za-z0-9._-]+$/.test(payload) ? payload : null;
+    } catch (e) {
+        return null;
+    }
+}
+function hpAllCookies(keyword = 'prd-access-token') {
+    const values = [];
+    for (const cookie of document.cookie.split('; ')) {
+        const index = cookie.indexOf('=');
+        if (index < 0) continue;
+        if (!cookie.slice(0, index).includes(keyword)) continue;
+        let value = cookie.slice(index + 1);
+        try {
+            value = decodeURIComponent(value);
+        } catch (e) {  }
+        if (value && !values.includes(value)) values.push(value);
+    }
+    return values;
+}
 function getCookie(keyword = 'prd-access-token') {
-    const cookies = document.cookie.split('; ');
-    for (const cookie of cookies) {
-        const [name, value] = cookie.split('=');
-        if (name.includes(keyword)) {
-            return value;
+    const values = hpAllCookies(keyword);
+    if (!values.length) return null;
+    const hint = hpAccessTokenHint();
+    if (hint && values.includes(hint)) return hint;
+    return values[0];
+}
+const hpTokenCache = { value: null, at: 0 };
+const HP_TOKEN_TTL = 10 * 60 * 1000;
+async function hpValidateToken(token) {
+    if (!token) return false;
+    const controller = typeof AbortController !== 'undefined' ? new AbortController() : null;
+    const timer = controller ? setTimeout(() => controller.abort(), 6000) : null;
+    try {
+        const response = await fetch(`https://${hostname}/api/jx-iresource/group/student/groups?time_flag=1`, {
+            headers: { 'Authorization': `Bearer ${token}`, 'Accept': 'application/json' },
+            ...(controller ? { signal: controller.signal } : {})
+        });
+        return response.status !== 401;
+    } catch (e) {
+        return false;
+    } finally {
+        if (timer) clearTimeout(timer);
+    }
+}
+async function hpAuthToken(force) {
+    const now = Date.now();
+    if (!force && hpTokenCache.value && now - hpTokenCache.at < HP_TOKEN_TTL) {
+        return hpTokenCache.value;
+    }
+    const candidates = hpAllCookies();
+    const hint = hpAccessTokenHint();
+    if (hint && !candidates.includes(hint)) candidates.push(hint);
+    for (const candidate of candidates) {
+        if (await hpValidateToken(candidate)) {
+            hpTokenCache.value = candidate;
+            hpTokenCache.at = Date.now();
+            return candidate;
         }
     }
-    return null;
+    const fallback = candidates[0] || getCookie();
+    hpTokenCache.value = fallback;
+    hpTokenCache.at = Date.now();
+    return fallback;
 }
 function showDownloadHistory() {
     if (historyPopup) {
@@ -4602,6 +4822,10 @@ function createRedownloadButton(item) {
         redownloadButton.style.backgroundColor = '#4CAF50';
     };
     redownloadButton.onclick = () => {
+        if (isStreamUrl(item.url)) {
+            handleStreamUrl(item.url, item.filename);
+            return;
+        }
         courseDownload(item.url, item.filename);
     };
     return redownloadButton;
@@ -4711,7 +4935,6 @@ function initializeControlPanel() {
     const downloadInterfaceCheckbox = document.createElement('input');
     const downloadButtonCheckbox = document.createElement('input');
     const progressBarCheckbox = document.createElement('input');
-    const videoCheckbox = document.createElement('input');
     const tipsDisplay = document.createElement('div');
     const showCourseNameText = document.createElement('div');
     controlPanel.style.display = 'none';
@@ -5155,7 +5378,7 @@ function initializeControlPanel() {
     function saveCheckboxState(checkbox, index) {
         localStorage.setItem(`xy-checkbox-${index}`, checkbox.checked);
     }
-    [downloadInterfaceCheckbox, downloadButtonCheckbox, progressBarCheckbox, videoCheckbox].forEach((checkbox, index) => {
+    [downloadInterfaceCheckbox, downloadButtonCheckbox, progressBarCheckbox].forEach((checkbox, index) => {
         checkbox.type = 'checkbox';
         initializeCheckboxState(checkbox, index);
         checkbox.id = `checkbox-${index}`;
@@ -5168,7 +5391,7 @@ function initializeControlPanel() {
         label.appendChild(checkbox);
         label.appendChild(slider);
         const labelText = document.createElement('span');
-        labelText.textContent = ['当前页课件卡片', '课程附件与导出', '下载进度', '视频源检测'][index];
+        labelText.textContent = ['当前页课件卡片', '课程附件与导出', '下载进度'][index];
         labelText.style.color = '#fcbb34';
         labelText.style.marginRight = '15px';
         labelText.style.fontWeight = '600';
@@ -6028,7 +6251,15 @@ function initializeControlPanel() {
                     })
                 );
                 updateProgress("正在准备ZIP文件...", 20);
+                const streamLines = [];
                 const addFilePromises = filesWithUrls.map(file => {
+                    if (isStreamUrl(file.url)) {
+                        streamLines.push(`${file.filename}\t${file.url}`);
+                        processedFiles++;
+                        const progress = 20 + (processedFiles / totalFiles) * 60;
+                        updateProgress(`正在添加文件 (${processedFiles}/${totalFiles})...`, progress);
+                        return Promise.resolve();
+                    }
                     return fetch(file.url)
                         .then(response => response.blob())
                         .then(blob => {
@@ -6044,6 +6275,9 @@ function initializeControlPanel() {
                 });
                 const courseName = await getCourseName();
                 await Promise.all(addFilePromises);
+                if (streamLines.length > 0) {
+                    zip.file('流媒体链接.txt', `名称\tM3U8 地址\n${streamLines.join('\n')}\n`);
+                }
                 updateProgress("正在生成ZIP文件...", 80);
                 const content = await zip.generateAsync({ type: "blob" });
                 updateProgress("ZIP文件已生成，准备下载...", 90);
@@ -6502,12 +6736,8 @@ function initializeControlPanel() {
     function updateVisibility() {
         const quickSection = document.getElementById('xy-files-quick-section');
         const progressSection = document.getElementById('xy-progress-section');
-        const videoSection = document.getElementById('xy-video-section');
         if (quickSection) {
             quickSection.style.display = downloadInterfaceCheckbox.checked ? '' : 'none';
-        }
-        if (videoSection) {
-            videoSection.style.display = videoCheckbox.checked ? '' : 'none';
         }
         if (progressSection) {
             const isVisible = progressBarCheckbox.checked;
@@ -6574,7 +6804,6 @@ if (window.top === window.self) {
         initWorkspace();
         add_download_button();
         loadDownloadHistory();
-        initVideoAssistant();
         initCourseCapture();
         addDownloadsContainer();
         watchGroupIdChange();
@@ -6694,8 +6923,7 @@ function handleXhrResponse() {
             isDownloading = false;
             return;
         }
-        for (const resourceId in course_resources) {
-            const resource = course_resources[resourceId];
+        for (const resource of course_resources) {
             if (String(resource.id) === String(id) &&
                 (!resource.group_id || String(resource.group_id) === String(groupId))) {
                 quoteId = resource.quote_id;
@@ -6705,25 +6933,9 @@ function handleXhrResponse() {
             }
         }
         if (quoteId) {
-            if (isVideoFile(resourceMimetype, resourceName)) {
-                createInitialPreviewLink();
-                showNotification('当前资源为视频，请通过视频组件下载。', 'info');
-                isDownloading = false;
-                return;
-            }
-            const url = 'https://' + hostname + '/api/jx-oresource/cloud/file_url/' + quoteId;
-            const token = getCookie();
-            fetch(url, {
-                headers: {
-                    'Authorization': `Bearer ${token}`
-                }
-            })
-                .then(response => response.json())
-                .then(data => {
-                    let downloadUrl = data.data.url;
-                    if (data.data.is_encryption) {
-                        downloadUrl = decryptFileUrl(downloadUrl);
-                    }
+            const isVideo = isVideoFile(resourceMimetype, resourceName);
+            window.getDownloadUrl(quoteId, { video: isVideo })
+                .then(downloadUrl => {
                     updatePreviewLink(downloadUrl, resourceName || content);
                 })
                 .catch(error => {
@@ -7047,6 +7259,12 @@ function addPreviewLinkEventListeners(previewLink) {
         updateTotalProgress();
         event.preventDefault();
         event.stopPropagation();
+        if (isStreamUrl(previewLink.href)) {
+            handleStreamUrl(previewLink.href, previewLink.textContent.trim());
+            completedDownloads++;
+            updateTotalProgress();
+            return;
+        }
         courseDownload(previewLink.href, previewLink.textContent.trim());
     });
 }
@@ -7535,852 +7753,6 @@ function activateEasterEgg() {
     }
     isEasterEggActivated = true;
 }
-function initVideoAssistant() {
-    const token = getCookie();
-    const container = document.createElement('div');
-    container.id = 'tm-video-assistant';
-    container.style.display = 'none';
-    container.innerHTML = `
-        <div id="tm-assistant-content">
-            <div id="tm-header">
-                <button id="tm-download-guide-button" class="tm-button">
-                    <span class="tm-button-icon">${xyIcon('film')}</span>
-                    视频下载指南
-                </button>
-            </div>
-            <div id="tm-video-title-container" class="tm-info-container">
-                <div class="tm-info-label">视频标题:</div>
-                <div id="tm-video-title" class="tm-info-content">等待获取视频标题...</div>
-            </div>
-            <div id="tm-video-src-container" class="tm-info-container">
-                <div class="tm-info-label">视频链接:</div>
-                <div id="tm-video-src" class="tm-info-content">等待检测视频源...</div>
-            </div>
-            <div class="tm-button-row">
-                <button id="tm-copy-src" class="tm-button">
-                    <span class="tm-button-icon">${xyIcon('copy')}</span>
-                    <strong>复制链接</strong>
-                </button>
-                <button id="tm-open-src" class="tm-button">
-                    <span class="tm-button-icon">${xyIcon('arrow-up-right-from-square')}</span>
-                    <strong>打开链接</strong>
-                </button>
-            </div>
-            <div id="tm-m3u8-container" class="tm-info-container">
-                <div class="tm-info-label">M3U8链接:</div>
-                <div id="tm-m3u8-src" class="tm-info-content">等待获取M3U8链接...</div>
-            </div>
-            <div class="tm-button-row">
-                <button id="tm-copy-m3u8" class="tm-button">
-                    <span class="tm-button-icon">${xyIcon('copy')}</span>
-                        <strong>复制M3U8</strong>
-                </button>
-                <button id="tm-download-m3u8" class="tm-button">
-                    <span class="tm-button-icon">${xyIcon('download')}</span>
-                        <strong>下载M3U8</strong>
-                </button>
-            </div>
-            <p id="tm-status"></p>
-        </div>
-    `;
-    document.body.appendChild(container);
-    const style = document.createElement('style');
-    style.textContent = `
-        #tm-assistant-content {
-            padding: 20px;
-            flex-direction: column;
-            align-items: flex-start;
-            width: 100%;
-            box-sizing: border-box;
-        }
-        .tm-info-container {
-            width: 100%;
-            margin: 10px 0;
-            padding: 10px;
-            border-radius: 5px;
-            transition: all 0.3s ease;
-            box-sizing: border-box;
-            overflow: hidden;
-            display: flex;
-            flex-direction: column;
-        }
-        #tm-video-title-container {
-            background: rgba(255, 255, 255, 0.3);
-            border-left: 4px solid #6495ff;
-        }
-        #tm-video-src-container {
-            background: rgba(255, 255, 255, 0.2);
-            border-left: 4px solid #ff2201;
-        }
-        .tm-info-label {
-            font-size: 12px;
-            font-weight: bold;
-            margin-bottom: 5px;
-            color: #555;
-        }
-        .tm-info-content {
-            font-size: 14px;
-            font-weight: bold;
-            word-break: break-all;
-            white-space: pre-wrap;
-            flex-grow: 1;
-            max-height: 80px;
-            overflow-y: auto;
-        }
-        .tm-info-content::-webkit-scrollbar {
-            width: 6px;
-        }
-        .tm-info-content::-webkit-scrollbar-track {
-            background: rgba(255, 255, 255, 0.1);
-        }
-        .tm-info-content::-webkit-scrollbar-thumb {
-            background: rgba(0, 0, 0, 0.2);
-            border-radius: 3px;
-        }
-        .tm-button-row {
-            display: flex;
-            justify-content: space-between;
-            width: 100%;
-        }
-        .tm-button {
-            background: rgba(255, 140, 0, 0.8);
-            border: none;
-            color: white;
-            padding: 8px 15px;
-            border-radius: 25px;
-            cursor: pointer;
-            font-size: 14px;
-            transition: all 0.3s ease;
-            width: 48%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-        }
-        .tm-button:hover {
-            background: rgba(255, 215, 0, 0.9);
-            transform: translateY(-2px);
-            box-shadow: 0 4px 8px rgba(0,0,0,0.15);
-        }
-        .tm-button-icon {
-            margin-right: 5px;
-            font-size: 16px;
-        }
-        #tm-status {
-            font-size: 12px;
-            margin-top: 10px;
-            font-style: italic;
-            width: 100%;
-            text-align: center;
-            color: #555;
-        }
-        #tm-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            width: 100%;
-            margin-bottom: 15px;
-        }
-        #tm-download-guide-button {
-            position: absolute;
-            top: 10px;
-            right: 10px;
-            background: #4CAF50;
-            border: none;
-            color: white;
-            padding: 5px 10px;
-            border-radius: 15px;
-            cursor: pointer;
-            font-size: 12px;
-            font-weight: bold;
-            transition: all 0.3s ease;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
-            z-index: 1;
-        }
-        #tm-download-guide-button:hover {
-            background: #45a049;
-            transform: translateY(-2px);
-            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
-        }
-        #tm-download-guide-button .tm-button-icon {
-            margin-right: 4px;
-            font-size: 14px;
-        }
-        #tm-m3u8-container {
-            background: rgba(255, 255, 255, 0.25);
-            border-left: 4px solid #9c27b0;
-            padding: 10px;
-            border-radius: 5px;
-            transition: all 0.3s ease;
-            box-sizing: border-box;
-        }
-    `;
-    document.head.appendChild(style);
-    let lastUrl = location.href;
-    let guideModal = null;
-    let guideReturnFocus = null;
-    let guideKeyHandler = null;
-    let guideBodyOverflow = null;
-    let guideSession = 0;
-    let statusHideTimer = null;
-    async function getVideoInfo(maxAttempts = 20, interval = 1000) {
-        for (let attempt = 0; attempt < maxAttempts; attempt++) {
-            const playerDivs = [
-                document.querySelector('div.prism-player'),
-                document.querySelector('div.video-player'),
-                document.querySelector('.video-container video'),
-                ...document.querySelectorAll('div[class*="player"]')
-            ].filter(Boolean);
-            for (const playerDiv of playerDivs) {
-                const videoElement = playerDiv.querySelector('video') || playerDiv;
-                if (videoElement && videoElement.src) {
-                    const newSrc = videoElement.src;
-                    const content = document.title.split('|')[0].trim();
-                    const oldSrc = document.getElementById('tm-video-src').textContent;
-                    if (newSrc !== oldSrc) {
-                        document.getElementById('tm-video-src').textContent = newSrc;
-                        document.getElementById('tm-video-title').textContent = content;
-                        document.getElementById('tm-m3u8-container').style.display = 'block';
-                        if (newSrc.startsWith('blob:')) {
-                            document.getElementById('tm-video-src').textContent = '流式视频不可直接打开，请使用下方M3U8链接';
-                        } else {
-                            document.getElementById('tm-video-src').style.color = '';
-                        }
-                        getM3U8Link();
-                        return { src: newSrc, title: content };
-                    }
-                }
-            }
-            if (attempt < maxAttempts - 1) {
-                await new Promise(resolve => setTimeout(resolve, interval));
-            }
-        }
-        document.getElementById('tm-video-title').textContent = '未找到视频标题';
-        document.getElementById('tm-video-src').textContent = '未找到视频源';
-        document.getElementById('tm-m3u8-src').textContent = '未找到M3U8链接';
-        return null;
-    }
-    async function getM3U8Link() {
-        try {
-            document.getElementById('tm-m3u8-src').textContent = '正在获取M3U8链接...';
-            const videoId = await extractVideoId();
-            if (!videoId) {
-                document.getElementById('tm-m3u8-src').textContent = '无法获取视频ID';
-                return;
-            }
-            const authUrl = `https://${location.hostname}/api/jx-oresource/vod/video/play_auth/${videoId}`;
-            const authResponse = await fetch(authUrl, {
-                headers: {
-                    "accept": "*/*",
-                    "content-type": "application/json; charset=utf-8",
-                    'Authorization': `Bearer ${token}`,
-                    "x-language": "zh-CN",
-                }
-            });
-            const authData = await authResponse.json();
-            if (!authData.success) {
-                document.getElementById('tm-m3u8-src').textContent = '获取授权失败';
-                return;
-            }
-            const privateVod = authData.data.private_vod;
-            if (privateVod && privateVod.length > 0 && privateVod[0].private_url) {
-                const m3u8Url = privateVod[0].private_url;
-                document.getElementById('tm-m3u8-src').textContent = m3u8Url;
-                showStatus('已获取到M3U8链接');
-                return m3u8Url;
-            } else {
-                document.getElementById('tm-m3u8-src').textContent = '未找到M3U8链接';
-            }
-        } catch (error) {
-            console.error('获取M3U8链接失败:', error);
-            document.getElementById('tm-m3u8-src').textContent = '获取M3U8链接失败';
-        }
-    }
-    async function extractVideoId() {
-        try {
-            const urlMatch = location.href.match(/resource\/.*?\/(\d+)/);
-            if (!urlMatch) return null;
-            const resourceId = urlMatch[1];
-            const resourceUrl = `https://${location.hostname}/api/jx-iresource/resource/queryResource?node_id=${resourceId}`;
-            const response = await fetch(resourceUrl, {
-                headers: {
-                    "accept": "*/*",
-                    "content-type": "application/json; charset=utf-8",
-                    'Authorization': `Bearer ${token}`,
-                    "x-language": "zh-CN",
-                }
-            });
-            const resourceData = await response.json();
-            if (resourceData.success && resourceData.data.resource && resourceData.data.resource.video_id) {
-                return resourceData.data.resource.video_id;
-            }
-            return null;
-        } catch (error) {
-            console.error('提取视频ID失败:', error);
-            return null;
-        }
-    }
-    function checkUrlAndExecute() {
-        if (lastUrl !== location.href) {
-            lastUrl = location.href;
-            closeGuide();
-            getVideoInfo();
-        }
-    }
-    document.getElementById('tm-copy-src').addEventListener('click', function (e) {
-        e.stopPropagation();
-        const src = document.getElementById('tm-video-src').textContent;
-        if (src && src !== '等待检测视频源...' && src !== '未找到视频源') {
-            navigator.clipboard.writeText(src).then(() => {
-                showStatus('链接已复制！');
-            }).catch(err => {
-                console.error('复制失败:', err);
-                showStatus('复制失败，请重试');
-            });
-        } else {
-            showStatus('暂无可复制的链接');
-        }
-    });
-    document.getElementById('tm-open-src').addEventListener('click', function (e) {
-        e.stopPropagation();
-        const src = document.getElementById('tm-video-src').textContent;
-        if (src && src !== '等待检测视频源...' && src !== '未找到视频源') {
-            window.open(src, '_blank');
-            showStatus('已打开（小心音量爆炸哦~）');
-        } else {
-            showStatus('暂无可打开的链接');
-        }
-    });
-    document.getElementById('tm-copy-m3u8').addEventListener('click', function (e) {
-        e.stopPropagation();
-        const m3u8Src = document.getElementById('tm-m3u8-src').textContent;
-        if (m3u8Src && m3u8Src !== '等待获取M3U8链接...' && m3u8Src !== '未找到M3U8链接' && m3u8Src !== '正在获取M3U8链接...') {
-            navigator.clipboard.writeText(m3u8Src).then(() => {
-                showStatus('M3U8链接已复制！');
-            }).catch(err => {
-                console.error('复制失败:', err);
-                showStatus('复制失败，请重试');
-            });
-        } else {
-            showStatus('暂无可复制的M3U8链接');
-        }
-    });
-    document.getElementById('tm-download-m3u8').addEventListener('click', function (e) {
-        e.stopPropagation();
-        const m3u8Src = document.getElementById('tm-m3u8-src').textContent;
-        if (m3u8Src && m3u8Src !== '等待获取M3U8链接...' && m3u8Src !== '未找到M3U8链接' && m3u8Src !== '正在获取M3U8链接...') {
-            const downloadUrl = `https://tools.thatwind.com/tool/m3u8downloader#${encodeURIComponent(m3u8Src)}`;
-            window.open(downloadUrl, '_blank');
-            showStatus('已跳转到M3U8下载器');
-        } else {
-            showStatus('暂无可下载的M3U8链接');
-        }
-    });
-    function addGuideButtonListener() {
-        const guideButton = document.getElementById('tm-download-guide-button');
-        if (guideButton) {
-            guideButton.addEventListener('click', function (e) {
-                e.stopPropagation();
-                showDownloadGuide();
-            });
-        }
-    }
-    if (document.readyState === 'loading') {
-        document.addEventListener('DOMContentLoaded', addGuideButtonListener);
-    } else {
-        addGuideButtonListener();
-    }
-    function ensureGuideStyles() {
-        if (document.getElementById('tm-guide-styles')) return;
-        const style = document.createElement('style');
-        style.id = 'tm-guide-styles';
-        style.textContent = `
-            #tm-guide-modal {
-                position: fixed;
-                inset: 0;
-                z-index: 2147483600;
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                padding: 20px;
-                background: rgba(43, 31, 17, .34);
-                -webkit-backdrop-filter: blur(4px);
-                backdrop-filter: blur(4px);
-                opacity: 0;
-                transition: opacity .2s ease;
-                color: #4b3722;
-                font-family: 'Microsoft YaHei', 'Segoe UI', Tahoma, sans-serif;
-            }
-            #tm-guide-modal *,
-            #tm-guide-modal *::before,
-            #tm-guide-modal *::after {
-                box-sizing: border-box;
-            }
-            #tm-guide-modal.tm-guide-visible {
-                opacity: 1;
-            }
-            #tm-guide-modal .tm-guide-dialog {
-                width: min(540px, 100%);
-                max-height: min(86vh, 720px);
-                display: flex;
-                flex-direction: column;
-                overflow: hidden;
-                border: 1px solid #e9ddc9;
-                border-radius: 18px;
-                background: #fffdf8;
-                box-shadow: 0 28px 72px rgba(62, 42, 12, .28), 0 4px 16px rgba(62, 42, 12, .08);
-                opacity: 0;
-                transform: translateY(12px) scale(.97);
-                transition: opacity .2s ease, transform .22s cubic-bezier(.2, .7, .3, 1);
-                outline: none;
-            }
-            #tm-guide-modal.tm-guide-visible .tm-guide-dialog {
-                opacity: 1;
-                transform: none;
-            }
-            #tm-guide-modal .tm-guide-head {
-                position: relative;
-                flex: 0 0 auto;
-                display: flex;
-                align-items: flex-start;
-                gap: 13px;
-                padding: 22px 52px 17px 22px;
-                border-bottom: 1px solid #f1e5d2;
-                background: #fffaf1;
-            }
-            #tm-guide-modal .tm-guide-head-icon {
-                flex: 0 0 auto;
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                width: 42px;
-                height: 42px;
-                border: 1px solid #f4dfbd;
-                border-radius: 13px;
-                background: #fdf0da;
-                color: #d97a00;
-                font-size: 19px;
-            }
-            #tm-guide-modal .tm-guide-title-group {
-                min-width: 0;
-            }
-            #tm-guide-modal .tm-guide-title-group h2 {
-                margin: 0;
-                color: #3f2f1c;
-                font-size: 19px;
-                font-weight: 700;
-                line-height: 1.35;
-            }
-            #tm-guide-modal .tm-guide-title-group p {
-                margin: 6px 0 0;
-                color: #8c7a62;
-                font-size: 12.5px;
-                line-height: 1.65;
-            }
-            #tm-guide-modal .tm-guide-close {
-                position: absolute;
-                top: 14px;
-                right: 14px;
-                width: 30px;
-                height: 30px;
-                padding: 0;
-                border: none;
-                border-radius: 9px;
-                background: transparent;
-                color: #9b8a72;
-                font-family: inherit;
-                font-size: 14px;
-                cursor: pointer;
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                transition: background .16s ease, color .16s ease;
-            }
-            #tm-guide-modal .tm-guide-close:hover {
-                background: #f7eddd;
-                color: #8a5a12;
-            }
-            #tm-guide-modal .tm-guide-body {
-                flex: 1 1 auto;
-                min-height: 0;
-                padding: 4px 22px 6px;
-                overflow-y: auto;
-                overscroll-behavior: contain;
-                scrollbar-width: thin;
-                scrollbar-color: #e4d1b3 transparent;
-            }
-            #tm-guide-modal .tm-guide-body::-webkit-scrollbar {
-                width: 6px;
-            }
-            #tm-guide-modal .tm-guide-body::-webkit-scrollbar-thumb {
-                border-radius: 999px;
-                background: #e4d1b3;
-            }
-            #tm-guide-modal .tm-guide-steps {
-                margin: 0;
-                padding: 0;
-                list-style: none;
-            }
-            #tm-guide-modal .tm-guide-step {
-                display: grid;
-                grid-template-columns: 22px 34px minmax(0, 1fr);
-                align-items: start;
-                gap: 11px;
-                padding: 12px 0;
-                border-bottom: 1px dashed #f0e4d1;
-            }
-            #tm-guide-modal .tm-guide-step:last-child {
-                padding-bottom: 8px;
-                border-bottom: none;
-            }
-            #tm-guide-modal .tm-guide-num {
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                width: 22px;
-                height: 22px;
-                margin-top: 6px;
-                border-radius: 50%;
-                background: #fdf0da;
-                color: #b86f06;
-                font-size: 11.5px;
-                font-weight: 800;
-                line-height: 1;
-            }
-            #tm-guide-modal .tm-guide-step-icon {
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                width: 34px;
-                height: 34px;
-                border: 1px solid #f1e5d2;
-                border-radius: 10px;
-                background: #fbf5ea;
-                color: #c98a2e;
-                font-size: 15px;
-            }
-            #tm-guide-modal .tm-guide-step p {
-                margin: 0;
-                padding-top: 1px;
-                color: #5b462e;
-                font-size: 13px;
-                line-height: 1.72;
-                word-break: break-word;
-                text-wrap: pretty;
-            }
-            #tm-guide-modal mark.tm-guide-k {
-                padding: 0 3px;
-                border-radius: 4px;
-                background: #fff1d9;
-                color: #a86200;
-                font-weight: 700;
-                white-space: nowrap;
-            }
-            #tm-guide-modal .tm-guide-foot {
-                flex: 0 0 auto;
-                display: flex;
-                justify-content: space-between;
-                align-items: center;
-                gap: 10px;
-                padding: 14px 22px 17px;
-                border-top: 1px solid #f3e8d6;
-                background: #fffcf6;
-            }
-            #tm-guide-modal .tm-guide-foot-hint {
-                display: inline-flex;
-                align-items: center;
-                gap: 6px;
-                color: #a1907a;
-                font-size: 11px;
-                font-weight: 500;
-            }
-            #tm-guide-modal .tm-guide-foot-hint .xy-icon {
-                color: #b5a28a;
-                font-size: 11px;
-            }
-            #tm-guide-modal .tm-guide-confirm {
-                display: inline-flex;
-                align-items: center;
-                justify-content: center;
-                gap: 7px;
-                height: 36px;
-                padding: 0 18px;
-                border: none;
-                border-radius: 9px;
-                background: #e8890c;
-                color: #fff;
-                font-family: inherit;
-                font-size: 12.5px;
-                font-weight: 700;
-                cursor: pointer;
-                transition: background .16s ease, box-shadow .16s ease;
-            }
-            #tm-guide-modal .tm-guide-confirm:hover {
-                background: #d97a00;
-                box-shadow: 0 4px 10px rgba(217, 122, 0, .2);
-            }
-            #tm-guide-modal .tm-guide-confirm .xy-icon {
-                font-size: 11px;
-            }
-            #tm-guide-modal .tm-guide-close:focus-visible,
-            #tm-guide-modal .tm-guide-confirm:focus-visible {
-                outline: 2px solid #e8b86b;
-                outline-offset: 2px;
-            }
-            @keyframes tm-guide-step-in {
-                from { opacity: 0; transform: translateY(6px); }
-                to { opacity: 1; transform: none; }
-            }
-            #tm-guide-modal.tm-guide-visible .tm-guide-step {
-                animation: tm-guide-step-in .3s cubic-bezier(.2, .7, .3, 1) both;
-                animation-delay: calc(40ms + var(--tm-guide-i, 0) * 38ms);
-            }
-            @media (max-width: 560px) {
-                #tm-guide-modal {
-                    padding: 12px;
-                }
-                #tm-guide-modal .tm-guide-dialog {
-                    max-height: calc(100vh - 24px);
-                    border-radius: 16px;
-                }
-                #tm-guide-modal .tm-guide-head {
-                    gap: 10px;
-                    padding: 18px 46px 14px 16px;
-                }
-                #tm-guide-modal .tm-guide-head-icon {
-                    width: 38px;
-                    height: 38px;
-                    border-radius: 11px;
-                    font-size: 17px;
-                }
-                #tm-guide-modal .tm-guide-title-group h2 {
-                    font-size: 17px;
-                }
-                #tm-guide-modal .tm-guide-title-group p {
-                    margin-top: 4px;
-                    font-size: 12px;
-                }
-                #tm-guide-modal .tm-guide-body {
-                    padding: 2px 16px 4px;
-                }
-                #tm-guide-modal .tm-guide-step {
-                    grid-template-columns: 20px 30px minmax(0, 1fr);
-                    gap: 9px;
-                    padding: 10px 0;
-                }
-                #tm-guide-modal .tm-guide-num {
-                    width: 20px;
-                    height: 20px;
-                    margin-top: 5px;
-                    font-size: 11px;
-                }
-                #tm-guide-modal .tm-guide-step-icon {
-                    width: 30px;
-                    height: 30px;
-                    border-radius: 9px;
-                    font-size: 13px;
-                }
-                #tm-guide-modal .tm-guide-step p {
-                    font-size: 12.5px;
-                    line-height: 1.68;
-                }
-                #tm-guide-modal .tm-guide-foot {
-                    padding: 12px 16px 14px;
-                }
-                #tm-guide-modal .tm-guide-foot-hint {
-                    display: none;
-                }
-                #tm-guide-modal .tm-guide-confirm {
-                    width: 100%;
-                }
-            }
-            @media (prefers-reduced-motion: reduce) {
-                #tm-guide-modal,
-                #tm-guide-modal .tm-guide-dialog {
-                    transition: none;
-                }
-                #tm-guide-modal.tm-guide-visible .tm-guide-step {
-                    animation: none;
-                }
-            }
-        `;
-        (document.head || document.documentElement).appendChild(style);
-    }
-    function lockGuideScroll() {
-        if (guideBodyOverflow !== null) return;
-        guideBodyOverflow = {
-            overflow: document.body.style.overflow,
-            overflowX: document.body.style.overflowX,
-            overflowY: document.body.style.overflowY
-        };
-        document.body.style.overflow = 'hidden';
-    }
-    function unlockGuideScroll() {
-        if (guideBodyOverflow === null) return;
-        const saved = guideBodyOverflow;
-        guideBodyOverflow = null;
-        document.body.style.overflow = saved.overflow;
-        document.body.style.overflowX = saved.overflowX;
-        document.body.style.overflowY = saved.overflowY;
-    }
-    function showDownloadGuide() {
-        if (guideModal) {
-            closeGuide();
-            return;
-        }
-        const staleModal = document.getElementById('tm-guide-modal');
-        if (staleModal) staleModal.remove();
-        ensureGuideStyles();
-        guideSession += 1;
-        const guideButton = document.getElementById('tm-download-guide-button');
-        const activeElement = document.activeElement;
-        guideReturnFocus = activeElement instanceof HTMLElement && activeElement !== document.body
-            ? activeElement
-            : guideButton;
-        const highlightKeywords = (text, keywords) => {
-            if (!keywords.length) return text;
-            return text.replace(
-                new RegExp(`(${keywords.join('|')})`, 'g'),
-                '<mark class="tm-guide-k">$1</mark>'
-            );
-        };
-        const steps = [
-            {
-                icon: 'arrow-up-right-from-square',
-                text: '打开视频链接。',
-                keywords: ['打开']
-            },
-            {
-                icon: 'circle-play',
-                text: '在新标签页中找到播放器。',
-                keywords: ['新标签页']
-            },
-            {
-                icon: 'ellipsis-vertical',
-                text: '点击播放器右下角的“三点”图标。',
-                keywords: ['三点']
-            },
-            {
-                icon: 'download',
-                text: '在菜单中选择“下载”选项。',
-                keywords: ['下载']
-            },
-            {
-                icon: 'arrow-pointer',
-                text: '如果没有“下载”选项，可右键点击视频，<br>选择“将视频另存为…”。',
-                keywords: ['下载', '右键', '另存为']
-            },
-            {
-                icon: 'file-video',
-                text: '对于流式视频，可使用 M3U8 下载按钮跳转到专业下载工具。',
-                keywords: ['M3U8']
-            }
-        ];
-        guideModal = document.createElement('div');
-        guideModal.id = 'tm-guide-modal';
-        guideModal.innerHTML = `
-            <div class="tm-guide-dialog" role="dialog" aria-modal="true" aria-labelledby="tm-guide-title" aria-describedby="tm-guide-desc" tabindex="-1">
-                <div class="tm-guide-head">
-                    <span class="tm-guide-head-icon">${xyIcon('download')}</span>
-                    <div class="tm-guide-title-group">
-                        <h2 id="tm-guide-title">如何下载视频</h2>
-                        <p id="tm-guide-desc">按步骤操作即可保存课程视频；流媒体请使用 M3U8 下载工具。</p>
-                    </div>
-                    <button type="button" class="tm-guide-close" aria-label="关闭下载指南">${xyIcon('xmark')}</button>
-                </div>
-                <div class="tm-guide-body">
-                    <ol class="tm-guide-steps">
-                        ${steps.map((step, index) => `
-                            <li class="tm-guide-step" style="--tm-guide-i:${index}">
-                                <span class="tm-guide-num" aria-hidden="true">${index + 1}</span>
-                                <span class="tm-guide-step-icon" aria-hidden="true">${xyIcon(step.icon)}</span>
-                                <p>${highlightKeywords(step.text, step.keywords)}</p>
-                            </li>
-                        `).join('')}
-                    </ol>
-                </div>
-                <div class="tm-guide-foot">
-                    <span class="tm-guide-foot-hint">${xyIcon('keyboard')}<span>按 Esc 关闭</span></span>
-                    <button type="button" class="tm-guide-confirm">${xyIcon('check')}<span>我知道了</span></button>
-                </div>
-            </div>
-        `;
-        document.body.appendChild(guideModal);
-        lockGuideScroll();
-        const dialog = guideModal.querySelector('.tm-guide-dialog');
-        const closeButton = guideModal.querySelector('.tm-guide-close');
-        const confirmButton = guideModal.querySelector('.tm-guide-confirm');
-        closeButton.addEventListener('click', closeGuide);
-        confirmButton.addEventListener('click', closeGuide);
-        guideModal.addEventListener('click', (event) => {
-            if (event.target === guideModal) closeGuide();
-        });
-        guideKeyHandler = (event) => {
-            if (!guideModal) return;
-            if (event.key === 'Escape') {
-                event.preventDefault();
-                event.stopPropagation();
-                closeGuide();
-                return;
-            }
-            if (event.key !== 'Tab') return;
-            const focusables = Array.from(dialog.querySelectorAll('button:not([disabled]), [href], input:not([disabled]), select:not([disabled]), textarea:not([disabled]), [tabindex]:not([tabindex="-1"])'))
-                .filter((element) => element.offsetParent !== null);
-            if (!focusables.length) return;
-            const first = focusables[0];
-            const last = focusables[focusables.length - 1];
-            if (event.shiftKey && (document.activeElement === first || document.activeElement === dialog)) {
-                event.preventDefault();
-                last.focus();
-            } else if (!event.shiftKey && document.activeElement === last) {
-                event.preventDefault();
-                first.focus();
-            }
-        };
-        document.addEventListener('keydown', guideKeyHandler, true);
-        dialog.focus({ preventScroll: true });
-        void guideModal.offsetWidth;
-        guideModal.classList.add('tm-guide-visible');
-    }
-    function closeGuide() {
-        if (!guideModal) return;
-        const modal = guideModal;
-        const session = guideSession;
-        const returnFocus = guideReturnFocus;
-        guideModal = null;
-        guideReturnFocus = null;
-        if (guideKeyHandler) {
-            document.removeEventListener('keydown', guideKeyHandler, true);
-            guideKeyHandler = null;
-        }
-        modal.classList.remove('tm-guide-visible');
-        const reduceMotion = typeof window.matchMedia === 'function'
-            && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-        setTimeout(() => {
-            if (session !== guideSession) return;
-            modal.remove();
-            unlockGuideScroll();
-            if (returnFocus && returnFocus.isConnected && typeof returnFocus.focus === 'function') {
-                returnFocus.focus({ preventScroll: true });
-            }
-        }, reduceMotion ? 0 : 220);
-    }
-    function showStatus(message) {
-        const statusElement = document.getElementById('tm-status');
-        statusElement.textContent = message;
-        statusElement.style.opacity = '1';
-        clearTimeout(statusHideTimer);
-        statusHideTimer = setTimeout(() => {
-            statusElement.style.opacity = '0';
-        }, 5000);
-    }
-    getVideoInfo();
-    detectInterval = setInterval(checkUrlAndExecute, 1000);
-    window.addEventListener('popstate', checkUrlAndExecute);
-}
 const hpFolderNameCache = new Map();
 const hpFolderNameMissCache = new Set();
 function hpBig(value) {
@@ -8394,28 +7766,37 @@ function hpBig(value) {
 function hpSleep(ms) {
     return new Promise(resolve => setTimeout(resolve, ms));
 }
-async function hpApi(path) {
-    const token = getCookie();
-    const controller = typeof AbortController !== 'undefined' ? new AbortController() : null;
-    const timer = controller ? setTimeout(() => controller.abort(), 8000) : null;
-    try {
-        const response = await fetch(`https://${hostname}${path}`, {
-            headers: {
-                'Authorization': `Bearer ${token}`,
-                'Content-Type': 'application/json; charset=utf-8'
-            },
-            ...(controller ? { signal: controller.signal } : {})
-        });
-        let json = null;
+async function hpApi(path, init) {
+    const extra = init || {};
+    const send = async (token) => {
+        const controller = typeof AbortController !== 'undefined' ? new AbortController() : null;
+        const timer = controller ? setTimeout(() => controller.abort(), 8000) : null;
         try {
-            json = await response.json();
-        } catch (e) {
-            json = null;
+            const response = await fetch(`https://${hostname}${path}`, {
+                method: extra.method || 'GET',
+                ...(extra.body ? { body: extra.body } : {}),
+                headers: Object.assign({
+                    'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application/json; charset=utf-8'
+                }, extra.headers || {}),
+                ...(controller ? { signal: controller.signal } : {})
+            });
+            let json = null;
+            try {
+                json = await response.json();
+            } catch (e) {
+                json = null;
+            }
+            return { status: response.status, json };
+        } finally {
+            if (timer) clearTimeout(timer);
         }
-        return { status: response.status, json };
-    } finally {
-        if (timer) clearTimeout(timer);
-    }
+    };
+    const token = await hpAuthToken();
+    const result = await send(token);
+    if (result.status !== 401) return result;
+    const retryToken = await hpAuthToken(true);
+    return retryToken && retryToken !== token ? send(retryToken) : result;
 }
 async function hpFetchVisibleResources(groupId) {
     const paths = [
@@ -8432,6 +7813,27 @@ async function hpFetchVisibleResources(groupId) {
             console.warn('[隐藏资源] 列表接口失败:', path, e);
         }
     }
+    let headers = {};
+    try {
+        const siteId = await hpFetchGroupSiteId(groupId);
+        if (siteId) {
+            const accessToken = await hpFetchRoleAccessToken(siteId, 4);
+            if (accessToken) headers = { 'X-Course-Access': accessToken };
+        }
+    } catch (e) {
+        headers = {};
+    }
+    if (!headers['X-Course-Access']) return null;
+    for (const path of paths) {
+        try {
+            const { json } = await hpApi(path, { headers });
+            if (json && json.success && Array.isArray(json.data)) {
+                return json.data;
+            }
+        } catch (e) {
+            console.warn('[隐藏资源] 列表接口重试失败:', path, e);
+        }
+    }
     return null;
 }
 async function hpQueryNode(nodeId) {
@@ -8443,6 +7845,45 @@ async function hpQueryNode(nodeId) {
     } catch (e) {
         return { ok: false, reason: 'network' };
     }
+}
+async function hpFetchGroupSiteId(groupId) {
+    const { json } = await hpApi('/api/jx-iresource/statistics/group/visit', {
+        method: 'POST',
+        body: JSON.stringify({ group_id: groupId, role_type: 'normal' })
+    });
+    return json && json.success && json.data ? json.data.site_id : null;
+}
+async function hpFetchRoleAccessToken(siteId, roleType) {
+    const { json } = await hpApi(
+        `/api/jx-iresource/group/access/authorization?site_id=${siteId}&role_type=${roleType}`
+    );
+    return json && json.success && json.data ? json.data.access_group_token : null;
+}
+async function hpFetchPrivilegedResources(groupId, visibleCount) {
+    const siteId = await hpFetchGroupSiteId(groupId);
+    if (!siteId) return null;
+    let best = null;
+    for (const roleType of [1, 2, 3]) {
+        const accessToken = await hpFetchRoleAccessToken(siteId, roleType);
+        if (!accessToken) continue;
+        let list = null;
+        for (const path of [
+            `/api/jx-iresource/resource/queryCourseResources/v2?group_id=${groupId}`,
+            `/api/jx-iresource/resource/queryCourseResources?group_id=${groupId}`
+        ]) {
+            const { json } = await hpApi(path, { headers: { 'X-Course-Access': accessToken } });
+            if (json && json.success && Array.isArray(json.data)) {
+                list = json.data;
+                break;
+            }
+        }
+        if (!list) continue;
+        if (!best || list.length > best.length) best = list;
+        const target = typeof visibleCount === 'number' ? visibleCount : 0;
+        const hasHidden = list.some(node => Number(node.public) === 1);
+        if (hasHidden || list.length > target) break;
+    }
+    return best;
 }
 function hpNormalizeNode(node) {
     const resource = node.resource || {};
@@ -8493,49 +7934,76 @@ function hpBuildCandidates(visibleIds, options) {
         .map(hpBig)
         .filter(Boolean)
         .sort((a, b) => (a < b ? -1 : a > b ? 1 : 0));
-    const gaps = [];
-    for (let i = 1; i < numbers.length; i++) {
-        const from = numbers[i - 1];
-        const to = numbers[i];
-        const size = Number(to - from - 1n);
-        if (size <= 0) continue;
-        if (size > options.maxGap) continue;
-        gaps.push({ from, to, size });
-    }
-    const reserve = Math.max(0, options.edge * 2);
-    const budget = Math.max(0, options.maxProbes - reserve);
     const picked = [];
-    const seen = new Set();
+    const seen = new Set(numbers.map(value => value.toString()));
+    const limit = Math.max(0, Number(options.maxProbes) || 0);
     const push = (value) => {
-        if (picked.length >= budget) return false;
+        if (picked.length >= limit) return false;
+        if (value <= 0n) return true;
         const key = value.toString();
         if (seen.has(key)) return true;
         seen.add(key);
         picked.push(key);
         return true;
     };
+    if (!numbers.length || limit === 0) return picked;
+    const gaps = [];
+    for (let i = 1; i < numbers.length; i++) {
+        const span = numbers[i] - numbers[i - 1] - 1n;
+        if (span > 0n) gaps.push({ from: numbers[i - 1], to: numbers[i], span });
+    }
+    const dense = BigInt(Math.max(1, Number(options.dense) || 32));
     let progressed = true;
-    for (let offset = 1; progressed && picked.length < budget; offset++) {
+    for (let offset = 1n; progressed && picked.length < limit; offset++) {
         progressed = false;
         for (const gap of gaps) {
-            if (offset > gap.size) continue;
+            if (offset > dense || offset > gap.span) continue;
             progressed = true;
-            const left = gap.from + BigInt(offset);
-            const right = gap.to - BigInt(offset);
-            if (!push(left)) return picked;
-            if (right > left) push(right);
-            if (picked.length >= budget) return picked;
+            if (!push(gap.from + offset)) return picked;
+            if (!push(gap.to - offset)) return picked;
         }
     }
-    if (options.edge > 0 && numbers.length) {
-        const first = numbers[0];
-        const last = numbers[numbers.length - 1];
-        for (let k = 1; k <= options.edge; k++) {
-            picked.push((first - BigInt(k)).toString());
-            picked.push((last + BigInt(k)).toString());
+    let step = dense * 2n;
+    let growing = true;
+    while (growing && picked.length < limit) {
+        growing = false;
+        for (const gap of gaps) {
+            if (step >= gap.span) continue;
+            const left = gap.from + step;
+            const right = gap.to - step;
+            if (left >= right) continue;
+            growing = true;
+            if (!push(left)) return picked;
+            if (!push(right)) return picked;
         }
+        step *= 2n;
+    }
+    const edgeSteps = Math.max(1, Number(options.edge) || 24);
+    const first = numbers[0];
+    const last = numbers[numbers.length - 1];
+    let out = 1n;
+    for (let i = 0; i < edgeSteps && picked.length < limit; i++) {
+        if (first - out > 0n) push(first - out);
+        push(last + out);
+        out *= 2n;
     }
     return picked;
+}
+async function hpFetchDurationResources(groupId) {
+    try {
+        const { json } = await hpApi(`/api/jx-stat/ads/duration/resource/all?group_id=${groupId}`);
+        if (!json || !json.success || !Array.isArray(json.data)) return [];
+        return json.data
+            .filter(entry => entry && entry.resource_id)
+            .map(entry => ({
+                id: String(entry.resource_id),
+                name: String(entry.name || ''),
+                parent_id: entry.parent_id ? String(entry.parent_id) : null,
+                path: entry.path || null
+            }));
+    } catch (e) {
+        return [];
+    }
 }
 async function probeHiddenResources(groupId, options, hooks) {
     const opts = Object.assign({}, HP_PROBE_DEFAULTS, options || {});
@@ -8543,11 +8011,79 @@ async function probeHiddenResources(groupId, options, hooks) {
     const shouldStop = (hooks && hooks.shouldStop) || function () { return false; };
     const visible = Array.isArray(opts.visible) ? opts.visible : await hpFetchVisibleResources(groupId);
     if (!visible) throw new Error('无法获取课程资源列表，请确认当前在课程页面');
+    const roleOnly = opts.roleOnly === true;
+    const privileged = await hpFetchPrivilegedResources(groupId, visible.length).catch(() => null);
+    if (privileged && privileged.length >= visible.length) {
+        const folders = {};
+        const items = privileged
+            .filter(node => Number(node.public) === 1 && !HP_SKIP_TYPES.has(Number(node.type)))
+            .map(node => hpNormalizeNode(node))
+            .filter(item => item.quote_id)
+            .sort((a, b) => {
+                const x = hpBig(a.id);
+                const y = hpBig(b.id);
+                if (x === null || y === null) return 0;
+                return x < y ? -1 : x > y ? 1 : 0;
+            });
+        privileged.forEach(node => {
+            if (Number(node.type) !== 1) return;
+            const folderName = String(node.name || '').trim();
+            if (folderName && !/^\d+$/.test(folderName)) {
+                hpFolderNameCache.set(String(node.id), folderName);
+                folders[String(node.id)] = folderName;
+            }
+        });
+        onProgress({ done: 1, total: 1, found: items.length, finished: true });
+        return {
+            items,
+            probed: 1,
+            total: 1,
+            skippedTasks: 0,
+            stopped: false,
+            mode: 'role',
+            folders
+        };
+    }
+    if (roleOnly) {
+        return {
+            items: [],
+            probed: 1,
+            total: 1,
+            skippedTasks: 0,
+            stopped: false,
+            truncated: false,
+            supplemented: 0,
+            anchors: visible.length,
+            mode: 'role-miss',
+            folders: {}
+        };
+    }
     const visibleIds = new Set(visible.map(item => String(item.id)));
-    const candidates = hpBuildCandidates([...visibleIds], opts);
+    const supplements = await hpFetchDurationResources(groupId).catch(() => []);
+    const extraIds = [...new Set(supplements.map(entry => entry.id))]
+        .filter(id => id && !visibleIds.has(id));
     const found = new Map();
+    const supplementQueue = extraIds.slice(0, 60);
+    const supplementWorkers = Math.max(1, Math.min(6, Number(opts.concurrency) || 4));
+    let supplementCursor = 0;
+    const drainSupplements = async () => {
+        while (supplementCursor < supplementQueue.length) {
+            const id = supplementQueue[supplementCursor++];
+            const extra = await hpQueryNode(id).catch(() => ({ ok: false }));
+            if (!extra.ok || !extra.data) continue;
+            const node = hpNormalizeNode(extra.data);
+            if (!node.quote_id) continue;
+            found.set(node.id, node);
+        }
+    };
+    await Promise.all(Array.from({ length: supplementWorkers }, () => drainSupplements()));
+    const supplemented = found.size;
+    const anchorIds = new Set([...visibleIds, ...found.keys()]);
+    const candidates = hpBuildCandidates([...anchorIds], opts);
+    const maxProbes = Math.max(1, Number(opts.maxProbes) || 0);
+    const truncated = candidates.length >= maxProbes;
     const folderNames = new Map();
-    const deadline = Date.now() + Math.max(5000, Number(opts.timeBudgetMs) || 60000);
+    const deadline = Date.now() + Math.max(5000, Number(opts.timeBudgetMs) || 90000);
     let skippedTasks = 0;
     let cursor = 0;
     let done = 0;
@@ -8555,10 +8091,6 @@ async function probeHiddenResources(groupId, options, hooks) {
     const worker = async () => {
         while (cursor < candidates.length) {
             if (stopped || shouldStop() || Date.now() > deadline) {
-                stopped = true;
-                return;
-            }
-            if (document.visibilityState === 'hidden') {
                 stopped = true;
                 return;
             }
@@ -8575,7 +8107,7 @@ async function probeHiddenResources(groupId, options, hooks) {
                         folderNames.set(String(node.id), folderName);
                     }
                 }
-                if (sameGroup && node.quote_id && Number(node.type) !== 1) {
+                if (sameGroup && node.quote_id && !HP_SKIP_TYPES.has(Number(node.type))) {
                     found.set(String(node.id), hpNormalizeNode(node));
                 }
             } else if (result.code === 3003446) {
@@ -8604,53 +8136,49 @@ async function probeHiddenResources(groupId, options, hooks) {
         total: candidates.length,
         skippedTasks,
         stopped,
+        truncated,
+        supplemented,
+        anchors: anchorIds.size,
+        mode: 'probe',
         folders: Object.fromEntries(folderNames)
     };
 }
 async function hpResolveDownloadUrl(item) {
-    const token = getCookie();
     const quoteId = item.quote_id;
     if (!quoteId) throw new Error('该节点没有可用的资源 ID');
-    const tryFetchUrl = async (path) => {
-        try {
-            const response = await fetch(`https://${hostname}${path}`, {
-                headers: { 'Authorization': `Bearer ${token}` }
-            });
-            const json = await response.json();
-            if (json && json.success && json.data && json.data.download_url) {
-                return json.data.download_url;
-            }
-        } catch (e) {
-        }
-        return null;
-    };
-    const isVideo = item.type === 9 || !!item.video_id;
-    if (isVideo) {
-        const url = await tryFetchUrl(`/api/jx-oresource/vod/video/${quoteId}`);
-        if (url) return url;
-    }
-    const fileUrl = await tryFetchUrl(`/api/jx-oresource/cloud/file_down/${quoteId}/v2`);
-    if (fileUrl) return fileUrl;
-    if (!isVideo) {
-        const url = await tryFetchUrl(`/api/jx-oresource/vod/video/${quoteId}`);
-        if (url) return url;
-    }
-    return await window.getDownloadUrl(quoteId);
+    const isVideo = isVideoNode(item);
+    const direct = await hpTrySignedUrl(quoteId, isVideo);
+    if (direct) return direct;
+    return await window.getDownloadUrl(quoteId, { video: isVideo });
 }
-const HP_SKIP_TYPES = new Set([7, 8, 11]);
+const HP_SKIP_TYPES = new Set([3, 7, 8, 11]);
 const HP_PROBE_DEFAULTS = {
-    maxGap: 4096,
-    edge: 12,
-    maxProbes: 480,
-    concurrency: 3,
-    delayMs: 90,
-    timeBudgetMs: 40000
+    dense: 32,
+    edge: 24,
+    maxProbes: 1200,
+    concurrency: 4,
+    delayMs: 60,
+    timeBudgetMs: 90000
 };
-const HP_CACHE_KEY_PREFIX = 'xyHiddenProbeCache:v2:';
+const HP_CACHE_KEY_PREFIX = 'xyHiddenProbeCache:v3:';
 const HP_CACHE_TTL = 12 * 60 * 60 * 1000;
+const HP_LEGACY_CACHE_PREFIXES = ['xyHiddenProbeCache:v1:', 'xyHiddenProbeCache:v2:'];
 const hpProbing = new Set();
 const hpScannedGroups = new Set();
-let hpDownloadFallbackReady = false;
+function hpPurgeLegacyCache() {
+    try {
+        const doomed = [];
+        for (let i = 0; i < localStorage.length; i++) {
+            const key = localStorage.key(i);
+            if (key && HP_LEGACY_CACHE_PREFIXES.some(prefix => key.startsWith(prefix))) {
+                doomed.push(key);
+            }
+        }
+        doomed.forEach(key => localStorage.removeItem(key));
+    } catch (e) {
+    }
+}
+hpPurgeLegacyCache();
 function hpVisibleSignature(resources) {
     const ids = (resources || []).map(resource => String(resource.id)).sort();
     let hash = 2166136261;
@@ -8693,28 +8221,26 @@ function hpSavePersistentCache(groupId, signature, items, folders) {
     }
 }
 function hpInstallDownloadFallback() {
-    if (hpDownloadFallbackReady) return;
     if (typeof window.getDownloadUrl !== 'function') return;
     const original = window.getDownloadUrl;
-    if (original.__hpWrapped) {
-        hpDownloadFallbackReady = true;
-        return;
-    }
-    const wrapped = async function (quoteId) {
+    if (original.__hpWrapped) return;
+    const wrapped = async function (quoteId, options) {
         try {
-            return await original(quoteId);
+            return await original(quoteId, options);
         } catch (error) {
-            const signed = await hpTrySignedUrl(quoteId, false);
+            const wantVideo = !!(options && options.video);
+            const signed = await hpTrySignedUrl(quoteId, wantVideo);
             if (signed) return signed;
+            const other = await hpTrySignedUrl(quoteId, !wantVideo);
+            if (other) return other;
             throw error;
         }
     };
     wrapped.__hpWrapped = true;
     window.getDownloadUrl = wrapped;
-    hpDownloadFallbackReady = true;
 }
 async function hpTrySignedUrl(quoteId, isVideo) {
-    const token = getCookie();
+    const token = await hpAuthToken();
     const attempt = async (path) => {
         try {
             const response = await fetch(`https://${hostname}${path}`, {
@@ -8741,16 +8267,15 @@ async function hpTrySignedUrl(quoteId, isVideo) {
 }
 function hpFormatDate(value) {
     if (!value) return '';
-    try {
-        return new Date(value).toLocaleDateString();
-    } catch (e) {
-        return '';
-    }
+    const date = new Date(value);
+    if (isNaN(date.getTime())) return '';
+    return date.toLocaleDateString();
 }
 const HP_EYE_ICON = xyIcon('eye');
 const HP_DOWNLOAD_ICON = xyIcon('download');
 function hpBuildListRow(item) {
     const name = item.name;
+    const video = isVideoNode(item);
     const created = hpFormatDate(item.created_at);
     const updated = hpFormatDate(item.updated_at);
     const path = item.path || (item.parent_id && String(item.parent_id) !== '0'
@@ -8768,9 +8293,10 @@ function hpBuildListRow(item) {
         updateTreeCheckbox(this);
         syncTreeWithDownloadList();
     });
+    const iconInfo = getFileIconInfo(name, video);
     const icon = document.createElement('span');
-    icon.className = 'file-icon';
-    icon.innerHTML = getFileIcon(name);
+    icon.className = `file-icon ${iconInfo.colorClass}`;
+    icon.innerHTML = iconInfo.html;
     const info = document.createElement('div');
     info.className = 'file-info';
     const fileName = document.createElement('div');
@@ -8785,6 +8311,13 @@ function hpBuildListRow(item) {
     hiddenBadge.title = '由隐藏资源探测补全';
     hiddenBadge.innerHTML = `${xyIcon('eye-slash')}<span>隐藏</span>`;
     nameRow.appendChild(hiddenBadge);
+    if (video) {
+        const videoBadge = document.createElement('span');
+        videoBadge.className = 'file-video-badge';
+        videoBadge.title = '视频资源，通过点播接口获取地址';
+        videoBadge.innerHTML = `${xyIcon('film')}<span>视频</span>`;
+        nameRow.appendChild(videoBadge);
+    }
     const details = document.createElement('div');
     details.className = 'file-details';
     if (created && updated && created !== updated) {
@@ -8818,7 +8351,7 @@ function hpBuildListRow(item) {
         try {
             const url = await hpResolveDownloadUrl(item);
             if (!url) throw new Error('未能获取预览地址');
-            previewFile(name, url);
+            previewFile(name, url, { video });
         } catch (error) {
             console.warn('[隐藏资源] 预览失败:', name, error);
             showNotification(`预览失败：${name}`, 'error');
@@ -8831,6 +8364,7 @@ function hpBuildListRow(item) {
     downloadLink.href = '#';
     downloadLink.target = '_blank';
     downloadLink.title = `下载 ${name}`;
+    downloadLink.draggable = true;
     downloadLink.setAttribute('data-created-at', item.created_at || '');
     downloadLink.setAttribute('data-updated-at', item.updated_at || '');
     downloadLink.setAttribute('data-origin-name', name);
@@ -8838,6 +8372,7 @@ function hpBuildListRow(item) {
     downloadLink.setAttribute('data-path', path);
     downloadLink.setAttribute('data-parent-id', item.parent_id || '');
     downloadLink.setAttribute('data-quote-id', item.quote_id || '');
+    downloadLink.setAttribute('data-video', video ? '1' : '0');
     const downloadIcon = document.createElement('span');
     downloadIcon.className = 'download-icon';
     downloadIcon.innerHTML = HP_DOWNLOAD_ICON;
@@ -8852,11 +8387,17 @@ function hpBuildListRow(item) {
             updateTotalProgress();
             const url = await hpResolveDownloadUrl(item);
             if (!url) throw new Error('未能获取下载地址');
-            courseDownload(url, name);
+            if (isStreamUrl(url)) {
+                handleStreamUrl(url, name);
+                completedDownloads++;
+                updateTotalProgress();
+            } else {
+                courseDownload(url, name);
+            }
         } catch (error) {
             console.warn('[隐藏资源] 下载失败:', name, error);
-            if (typeof addFailedFileNotification === 'function') {
-                addFailedFileNotification(name);
+            if (typeof hpFailedFileNotifier === 'function') {
+                hpFailedFileNotifier(name);
             }
             completedDownloads++;
             updateTotalProgress();
@@ -8887,7 +8428,6 @@ function hpApplyItems(gid, items) {
     for (const item of items) {
         if (existing.has(item.id)) continue;
         if (HP_SKIP_TYPES.has(item.type)) continue;
-        if (isVideoFile(item.mimetype, item.name)) continue;
         const row = hpBuildListRow(item);
         if (!row) continue;
         fragment.appendChild(row);
@@ -8921,30 +8461,37 @@ async function hpInjectHiddenItems(groupId, options) {
         return {
             added: 0,
             found: result.items.length,
-            skippedTask: 0,
-            skippedVideo: 0,
             probed: result.probed,
             stopped: true,
             groupChanged: true
         };
     }
-    if (!result.stopped && signature) {
+    if (!result.stopped && !result.truncated && signature) {
         hpSavePersistentCache(gid, signature, result.items, result.folders);
     }
     const added = hpApplyItems(gid, result.items);
-    const skippedTask = result.items.filter(item => HP_SKIP_TYPES.has(item.type)).length;
-    const skippedVideo = result.items.filter(item => !HP_SKIP_TYPES.has(item.type) && isVideoFile(item.mimetype, item.name)).length;
+    hpHideProbingHint();
+    if (added === 0 && getGroupIdFromUrl() === gid) {
+        const list = document.getElementById('download_list');
+        if (list && !list.querySelector('.file-item')) {
+            try { applyFilters(); } catch (e) { }
+        }
+    }
+    const includedVideo = result.items.filter(item => isVideoFile(item.mimetype, item.name)).length;
     console.log(
-        `[隐藏资源] 课程 ${gid}：探测 ${result.probed} 个候选，命中 ${result.items.length} 项，补全 ${added} 项` +
-        (skippedTask ? `，跳过任务类 ${skippedTask} 项` : '') +
-        (skippedVideo ? `，跳过视频 ${skippedVideo} 项` : '')
+        `[隐藏资源] 课程 ${gid}（${result.mode === 'role' ? '直读' : `枚举 ${result.probed} 个候选`}）：` +
+        `命中 ${result.items.length} 项，补全 ${added} 项` +
+        (result.supplemented ? `，统计补充 ${result.supplemented} 项` : '') +
+        (result.mode === 'probe' && result.anchors === 0 ? '，无可用锚点' : '') +
+        (result.truncated ? '，探测预算已用尽' : '') +
+        (includedVideo ? `，含视频 ${includedVideo} 项` : '')
     );
     return {
         added,
         found: result.items.length,
-        skippedTask,
-        skippedVideo,
+        includedVideo,
         probed: result.probed,
+        mode: result.mode,
         stopped: result.stopped
     };
 }
@@ -8976,10 +8523,9 @@ function hpSetHiddenProbeButtonState(state, label) {
 }
 function createOrUpdateHiddenProbeButton(parent) {
     const gid = getGroupIdFromUrl();
-    const hasResources = !!gid && currentResourcesGroupId === gid &&
-        Array.isArray(course_resources) && course_resources.length > 0;
+    const hasCourse = !!gid && currentResourcesGroupId === gid && Array.isArray(course_resources);
     let button = document.getElementById('hiddenProbeButton');
-    if (!hasResources) {
+    if (!hasCourse) {
         if (button) button.remove();
         return;
     }
@@ -9000,7 +8546,7 @@ async function hpRunManualProbe() {
         return;
     }
     if (hpProbing.has(gid)) return;
-    if (currentResourcesGroupId !== gid || !Array.isArray(course_resources) || !course_resources.length) {
+    if (currentResourcesGroupId !== gid || !Array.isArray(course_resources)) {
         showNotification('课件列表还未加载完成，请稍后再试', 'warning');
         return;
     }
@@ -9062,6 +8608,70 @@ async function hpRunManualProbe() {
         if (list) createOrUpdateHiddenProbeButton(list);
     }
 }
+const hpAutoProbed = new Set();
+function hpShowProbingHint() {
+    const list = document.getElementById('download_list');
+    if (!list) return;
+    if (list.querySelector('.file-item')) return;
+    if (list.querySelector('.hp-probing-hint')) return;
+    const hint = document.createElement('p');
+    hint.className = 'hp-probing-hint';
+    hint.style.cssText = 'color:#FFA500;text-align:center;font-weight:bold;padding:10px 0;';
+    hint.textContent = '学生端暂无可见资源，正在尝试探测隐藏资源…';
+    list.appendChild(hint);
+}
+function hpHideProbingHint() {
+    const hint = document.querySelector('#download_list .hp-probing-hint');
+    if (hint) hint.remove();
+}
+function hpScheduleAutoProbe(gid) {
+    if (!gid) return;
+    if (hpProbing.has(gid)) return;
+    setTimeout(async () => {
+        if (getGroupIdFromUrl() !== gid) return;
+        if (hpProbing.has(gid)) return;
+        const visible = Array.isArray(course_resources) ? course_resources : [];
+        const isEmptyCourse = hpCountRenderable(visible) === 0;
+        const signature = hpVisibleSignature(visible);
+        const cached = hpLoadPersistentCache(gid, signature);
+        if (cached && Array.isArray(cached.items) && cached.items.length) {
+            const added = hpApplyItems(gid, cached.items);
+            if (added > 0) {
+                hpScannedGroups.add(gid);
+                console.log(`[隐藏资源] 课程 ${gid}：从缓存补全 ${added} 项`);
+            }
+            return;
+        }
+        if (hpAutoProbed.has(gid)) return;
+        hpAutoProbed.add(gid);
+        hpProbing.add(gid);
+        if (isEmptyCourse) hpShowProbingHint();
+        try {
+            const result = await hpInjectHiddenItems(gid, {
+                visible,
+                signature,
+                roleOnly: !isEmptyCourse
+            });
+            if (getGroupIdFromUrl() !== gid) return;
+            if (result.added > 0) {
+                hpScannedGroups.add(gid);
+                console.log(`[隐藏资源] 课程 ${gid}：静默补全 ${result.added} 项`);
+            }
+        } catch (error) {
+            console.warn('[隐藏资源] 自动补全失败:', error);
+        } finally {
+            hpProbing.delete(gid);
+            hpHideProbingHint();
+            const list = document.getElementById('download_list');
+            if (list) {
+                createOrUpdateHiddenProbeButton(list);
+                if (!list.querySelector('.file-item')) {
+                    try { applyFilters(); } catch (e) { }
+                }
+            }
+        }
+    }, 1200);
+}
 const XY_HOST_IDS = {
     course: 'xy-course-host',
     filesQuick: 'xy-files-quick-host',
@@ -9071,7 +8681,6 @@ const XY_HOST_IDS = {
     export: 'xy-export-host',
     progress: 'xy-progress-host',
     download: 'xy-download-host',
-    video: 'xy-video-host',
     teacher: 'xy-teacher-host',
     user: 'xy-user-host',
     debug: 'xy-debug-host',
@@ -9466,31 +9075,6 @@ function xyInjectWorkspaceStyles() {
             border-radius: 12px !important;
             box-shadow: none !important;
         }
-        #xy-video-host #tm-video-assistant {
-            position: static !important;
-            top: auto !important;
-            right: auto !important;
-            width: 100% !important;
-            height: auto !important;
-            max-height: none !important;
-            overflow: visible !important;
-            border-radius: 0 !important;
-            background: transparent !important;
-            box-shadow: none !important;
-            cursor: default !important;
-            animation: none !important;
-        }
-        #xy-video-host .tm-info-container,
-        #xy-video-host #tm-m3u8-container {
-            background: #fff !important;
-            border: 1px solid #f1e0c1 !important;
-            border-left: 4px solid #ffb347 !important;
-        }
-        #xy-video-host #tm-assistant-content {
-            display: flex !important;
-            opacity: 1 !important;
-            padding: 0 !important;
-        }
         #xy-teacher-host #teacherInfoContainer,
         #xy-user-host #userSearchContainer {
             position: static !important;
@@ -9806,7 +9390,7 @@ function xyInjectWorkspaceStyles() {
         #xy-files-quick-host #downloadInterface a:hover .xy-quick-link-icon {
             background: #f8f0e2;
         }
-        #xy-files-quick-host #downloadInterface a::after {
+        #xy-files-quick-host #downloadInterface a[href]::after {
             content: '当前页';
             flex-shrink: 0;
             margin-left: auto;
@@ -10103,6 +9687,23 @@ function xyInjectWorkspaceStyles() {
             line-height: 1.5;
         }
         #download_list .file-item .file-hidden-badge .xy-icon {
+            font-size: 9px;
+        }
+        #download_list .file-item .file-video-badge {
+            flex-shrink: 0;
+            display: inline-flex;
+            align-items: center;
+            gap: 3px;
+            padding: 1px 6px;
+            border: 1px solid #d7c9e8;
+            border-radius: 999px;
+            background: #f3edfa;
+            color: #6b4c9a;
+            font-size: 9.5px;
+            font-weight: 700;
+            line-height: 1.5;
+        }
+        #download_list .file-item .file-video-badge .xy-icon {
             font-size: 9px;
         }
         #download_list .file-item .file-details {
@@ -10438,95 +10039,6 @@ function xyInjectWorkspaceStyles() {
             border: 1px solid #f0cfc6 !important;
             background: #fff5f2 !important;
             color: #c0523c !important;
-        }
-        #xy-video-section {
-            position: relative;
-        }
-        #xy-video-host #tm-video-assistant {
-            border-radius: 12px !important;
-            transform: none !important;
-        }
-        #xy-video-host #tm-header {
-            position: absolute !important;
-            top: 12px !important;
-            right: 14px !important;
-            width: auto !important;
-            height: auto !important;
-            margin: 0 !important;
-            padding: 0 !important;
-            justify-content: flex-end !important;
-            z-index: 2;
-        }
-        #xy-video-host #tm-download-guide-button {
-            position: static !important;
-            flex: 0 0 auto !important;
-            width: auto !important;
-            height: 30px !important;
-            margin: 0 !important;
-            padding: 0 10px !important;
-            border: 1px solid #e6d7bd !important;
-            border-radius: 9px !important;
-            background: #fff !important;
-            color: #8a6a33 !important;
-            font-size: 11.5px !important;
-            font-weight: 600 !important;
-            box-shadow: none !important;
-        }
-        #xy-video-host #tm-download-guide-button:hover {
-            background: #fff !important;
-            box-shadow: none !important;
-            filter: none !important;
-            transform: none !important;
-        }
-        #xy-video-host .tm-info-container {
-            margin: 0 0 8px !important;
-            padding: 9px 12px !important;
-            border: 1px solid #eee2cc !important;
-            border-left: 3px solid #e8b86b !important;
-            border-radius: 9px !important;
-            background: #fbf8f2 !important;
-        }
-        #xy-video-host .tm-info-label {
-            margin-bottom: 3px !important;
-            color: #9a8972 !important;
-            font-size: 11px !important;
-            font-weight: 600 !important;
-        }
-        #xy-video-host .tm-info-content {
-            max-height: 64px !important;
-            color: #5b462e !important;
-            font-size: 12px !important;
-            font-weight: 500 !important;
-        }
-        #xy-video-host .tm-button-row {
-            gap: 8px !important;
-            justify-content: flex-start !important;
-            margin: 0 0 8px !important;
-        }
-        #xy-video-host .tm-button {
-            flex: 1;
-            width: auto !important;
-            height: 34px !important;
-            padding: 0 10px !important;
-            border: 1px solid #e6d7bd !important;
-            border-radius: 9px !important;
-            background: #fff !important;
-            color: #8a6a33 !important;
-            font-size: 12px !important;
-            box-shadow: none !important;
-        }
-        #xy-video-host .tm-button:hover {
-            background: #fbf5ea !important;
-            transform: none !important;
-        }
-        #xy-video-host .tm-button-icon {
-            margin-right: 4px !important;
-            font-size: 13px !important;
-        }
-        #xy-video-host #tm-status {
-            margin-top: 6px !important;
-            color: #9a8972 !important;
-            font-size: 11px !important;
         }
         #xy-display-host > div,
         #xy-display-host [data-category="display"] > div {
@@ -11024,10 +10536,6 @@ function adoptLegacyPanels() {
     }
     xySyncQuickSection();
     xyMoveNode(xyEl('downloadsWrapperContainer'), xyHost('progress'));
-    const videoAssistant = xyEl('tm-video-assistant');
-    if (xyMoveNode(videoAssistant, xyHost('video'))) {
-        videoAssistant.style.display = '';
-    }
     const tree = xyEl('treeContainer');
     if (tree && xyHost('tree')) {
         xyMoveNode(tree, xyHost('tree'));
@@ -11176,12 +10684,6 @@ function initWorkspace() {
                             <span class="xy-hint">标记已读或清空站内消息</span>
                         </div>
                         <div id="xy-messages-host"></div>
-                    </section>
-                    <section class="xy-card" id="xy-video-section">
-                        <div class="xy-card-head">
-                            <h3>视频源检测</h3>
-                        </div>
-                        <div id="xy-video-host"></div>
                     </section>
                     <section class="xy-card" id="xy-teacher-section" hidden>
                         <div class="xy-card-head">
